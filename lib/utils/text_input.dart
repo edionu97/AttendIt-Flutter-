@@ -1,9 +1,12 @@
-
 import 'package:flutter/material.dart';
 
 class TextInput extends StatelessWidget {
-
-  TextInput({this.controller, this.name, this.iconData});
+  TextInput(
+      {this.controller,
+      this.name,
+      this.iconData,
+      this.isHidden = false,
+      this.action = TextInputAction.next});
 
   @override
   Widget build(BuildContext context) {
@@ -11,6 +14,8 @@ class TextInput extends StatelessWidget {
       height: 50,
       padding: EdgeInsets.only(top: 4, left: 16, right: 16, bottom: 4),
       child: TextFormField(
+        textInputAction: action,
+        obscureText: isHidden,
         decoration: InputDecoration(
           hintText: this.name,
           icon: Icon(
@@ -31,4 +36,6 @@ class TextInput extends StatelessWidget {
   final TextEditingController controller;
   final String name;
   final IconData iconData;
+  final bool isHidden;
+  final TextInputAction action;
 }

@@ -43,6 +43,7 @@ class _RegisterFormState extends State<RegisterForm> {
                   child: TextInput(
                       name: "Enter password",
                       iconData: Icons.vpn_key,
+                      isHidden: true,
                       controller: widget.controllerPassword))
               : null,
           widget.controllerConfirmPassword != null
@@ -50,6 +51,7 @@ class _RegisterFormState extends State<RegisterForm> {
                   child: TextInput(
                       name: "Confirm password",
                       iconData: Icons.vpn_key,
+                      isHidden: true,
                       controller: widget.controllerConfirmPassword))
               : null,
         ].where((element) => element != null).toList(),
