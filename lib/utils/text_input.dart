@@ -6,7 +6,9 @@ class TextInput extends StatelessWidget {
       this.name,
       this.iconData,
       this.isHidden = false,
-      this.action = TextInputAction.next});
+      this.action = TextInputAction.next,
+      this.focusNode,
+      this.fieldSubmitted});
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +18,8 @@ class TextInput extends StatelessWidget {
       child: TextFormField(
         textInputAction: action,
         obscureText: isHidden,
+        focusNode: focusNode,
+        onFieldSubmitted: (v) => fieldSubmitted != null ? fieldSubmitted() : (){},
         decoration: InputDecoration(
           hintText: this.name,
           icon: Icon(
@@ -38,4 +42,6 @@ class TextInput extends StatelessWidget {
   final IconData iconData;
   final bool isHidden;
   final TextInputAction action;
+  final FocusNode focusNode;
+  final Function fieldSubmitted;
 }

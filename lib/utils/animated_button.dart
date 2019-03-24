@@ -60,7 +60,13 @@ class _AnimatedButtonState extends State<AnimatedButton>
   }
 
   void _buttonLoginPressed() {
+
     _playAnimation();
+
+    if(widget.action == null){
+      return;
+    }
+
     widget.action();
   }
 
