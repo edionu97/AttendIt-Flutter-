@@ -47,6 +47,7 @@ class RegisterScreen extends StatelessWidget {
   void _signInPressed(BuildContext context){
     Navigator.pop(context);
   }
+
   final TextEditingController controllerUsername = new TextEditingController();
   final TextEditingController controllerPassword = new TextEditingController();
   final TextEditingController controllerConfirmPassword =

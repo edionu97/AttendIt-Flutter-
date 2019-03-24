@@ -25,7 +25,7 @@ class _AnimatedButtonState extends State<AnimatedButton>
       begin: 380,
       end: 70.0,
     ).animate(CurvedAnimation(
-        parent: _animationController, curve: Interval(0.0, 0.250)));
+        parent: _animationController, curve: Interval(0.0, 0.200)));
 
     _buttonSqueezeAnimation.addListener(() => setState(() {}));
   }

@@ -1,5 +1,6 @@
 import 'package:attend_it/register_screen/component.dart';
 import 'package:attend_it/utils/animated_button.dart';
+import 'package:attend_it/utils/animation.dart';
 import 'package:attend_it/utils/form.dart';
 import 'package:attend_it/utils/upper_element.dart';
 import 'package:flutter/material.dart';
@@ -44,10 +45,7 @@ class LoginScreen extends StatelessWidget {
   }
 
   void _registerPressed(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => RegisterScreen()),
-    );
+    Navigator.of(context).push(SecondPageRoute());
   }
 
   final TextEditingController controllerUsername = new TextEditingController();
