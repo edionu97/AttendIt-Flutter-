@@ -1,4 +1,3 @@
-import 'package:attend_it/register_screen/component.dart';
 import 'package:attend_it/utils/animated_button.dart';
 import 'package:attend_it/utils/animation.dart';
 import 'package:attend_it/utils/form.dart';

@@ -5,8 +5,7 @@ class RegisterForm extends StatefulWidget {
   RegisterForm(
       {this.controllerUsername,
       this.controllerPassword,
-      this.controllerConfirmPassword}){
-  }
+      this.controllerConfirmPassword});
 
   @override
   State<StatefulWidget> createState() {
