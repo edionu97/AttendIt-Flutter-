@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AnimatedButton extends StatefulWidget {
-  AnimatedButton({this.name= "", @required this.action});
+  AnimatedButton({this.name = "", @required this.action});
 
   @override
   State<StatefulWidget> createState() {
@@ -32,29 +32,31 @@ class _AnimatedButtonState extends State<AnimatedButton>
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-        onTap: () {
-          _buttonLoginPressed();
-        },
-        child: Container(
-            width: _buttonSqueezeAnimation.value.toDouble(),
-            height: 50,
-            alignment: FractionalOffset.center,
-            decoration: BoxDecoration(
-                color: Colors.orange[700],
-                borderRadius: BorderRadius.all(const Radius.circular(30.0))),
-            child: _buttonSqueezeAnimation.value.toDouble() > 75
-                ? Text(
-                    widget.name,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.w300,
-                      letterSpacing: 0.3,
-                    ))
-                : CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                  )));
+    return Material(
+        color: Colors.white,
+        child: InkWell(
+            onTap: () {
+              _buttonLoginPressed();
+            },
+            child: Container(
+                width: _buttonSqueezeAnimation.value.toDouble(),
+                height: 50,
+                alignment: FractionalOffset.center,
+                decoration: BoxDecoration(
+                    color: Colors.orange[700],
+                    borderRadius:
+                        BorderRadius.all(const Radius.circular(30.0))),
+                child: _buttonSqueezeAnimation.value.toDouble() > 75
+                    ? Text(widget.name,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w300,
+                          letterSpacing: 0.3,
+                        ))
+                    : CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      ))));
   }
 
   void _buttonLoginPressed() {

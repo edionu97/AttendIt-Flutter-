@@ -32,22 +32,25 @@ class _RegisterFormState extends State<RegisterForm> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           widget.controllerUsername != null
-              ? TextInput(
-                  name: "Username",
-                  iconData: Icons.person_outline,
-                  controller: widget.controllerUsername)
+              ? Material(
+                  child: TextInput(
+                      name: "Username",
+                      iconData: Icons.person_outline,
+                      controller: widget.controllerUsername))
               : null,
           widget.controllerPassword != null
-              ? TextInput(
-                  name: "Enter password",
-                  iconData: Icons.vpn_key,
-                  controller: widget.controllerPassword)
+              ? Material(
+                  child: TextInput(
+                      name: "Enter password",
+                      iconData: Icons.vpn_key,
+                      controller: widget.controllerPassword))
               : null,
           widget.controllerConfirmPassword != null
-              ? TextInput(
-                  name: "Confirm password",
-                  iconData: Icons.vpn_key,
-                  controller: widget.controllerConfirmPassword)
+              ? Material(
+                  child: TextInput(
+                      name: "Confirm password",
+                      iconData: Icons.vpn_key,
+                      controller: widget.controllerConfirmPassword))
               : null,
         ].where((element) => element != null).toList(),
       ),
