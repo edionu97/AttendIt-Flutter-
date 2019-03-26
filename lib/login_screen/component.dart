@@ -10,40 +10,43 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-            child: Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        UpperElement(name: 'Login', path: 'assets/login.png'),
-        RegisterForm(
-          controllerPassword: controllerPassword,
-          controllerUsername: controllerUsername,
-        ),
-        Align(
-            alignment: Alignment.bottomCenter,
-            child: GestureDetector(
-                onTap: () => _registerPressed(context),
-                child: Text.rich(
-                  TextSpan(
-                    text: 'Not Having An Account? ',
-                    style: TextStyle(fontSize: 17),
-                    children: [
-                      TextSpan(
-                          text: 'Register',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.deepOrangeAccent,
-                              fontSize: 17)),
-                    ],
-                  ),
-                ))),
-        Padding(
-          child: AnimatedButton(
-              name: "Sign In", action: () => _loginPressed(context)),
-          padding: EdgeInsets.only(bottom: 25),
-        )
-      ],
-    )));
+        body: SingleChildScrollView(
+            child: Container(
+                height: MediaQuery.of(context).size.height,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    UpperElement(name: 'Login', path: 'assets/login.png'),
+                    RegisterForm(
+                      controllerPassword: controllerPassword,
+                      controllerUsername: controllerUsername,
+                    ),
+                    Align(
+                        alignment: Alignment.bottomCenter,
+                        child: GestureDetector(
+                            onTap: () => _registerPressed(context),
+                            child: Text.rich(
+                              TextSpan(
+                                text: 'Not Having An Account? ',
+                                style: TextStyle(fontSize: 17),
+                                children: [
+                                  TextSpan(
+                                      text: 'Register',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.deepOrangeAccent,
+                                          fontSize: 17)),
+                                ],
+                              ),
+                            ))),
+                    Padding(
+                      child: AnimatedButton(
+                          name: "Sign In",
+                          action: () => _loginPressed(context)),
+                      padding: EdgeInsets.only(bottom: 25),
+                    )
+                  ],
+                ))));
   }
 
   void _registerPressed(BuildContext context) {
