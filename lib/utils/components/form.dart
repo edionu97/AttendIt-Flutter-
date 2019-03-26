@@ -16,10 +16,6 @@ class RegisterForm extends StatefulWidget {
   final TextEditingController controllerUsername;
   final TextEditingController controllerPassword;
   final TextEditingController controllerConfirmPassword;
-
-  final FocusNode focusNodeUsername = new FocusNode();
-  final FocusNode focusNodePassword = new FocusNode();
-  final FocusNode focusNodeConfirm = new FocusNode();
   final GlobalKey<FormState> formKey;
 }
 
@@ -45,7 +41,7 @@ class _RegisterFormState extends State<RegisterForm> {
                           name: "Username",
                           iconData: Icons.person_outline,
                           controller: widget.controllerUsername,
-                          focusNode: widget.focusNodeUsername,
+                          focusNode: focusNodeUsername,
                           validator: (value) {
                             String val = value.toString();
                             if (val.isEmpty) {
@@ -53,9 +49,9 @@ class _RegisterFormState extends State<RegisterForm> {
                             }
                           },
                           fieldSubmitted: () {
-                            //widget.focusNodeUsername.unfocus();
+                            focusNodeUsername.unfocus();
                             FocusScope.of(context)
-                                .requestFocus(widget.focusNodePassword);
+                                .requestFocus(focusNodePassword);
                           }))
                   : null,
               widget.controllerPassword != null
@@ -71,11 +67,11 @@ class _RegisterFormState extends State<RegisterForm> {
                             }
                           },
                           controller: widget.controllerPassword,
-                          focusNode: widget.focusNodePassword,
+                          focusNode: focusNodePassword,
                           fieldSubmitted: () {
-                            //widget.focusNodePassword.unfocus();
+                            focusNodePassword.unfocus();
                             FocusScope.of(context)
-                                .requestFocus(widget.focusNodeConfirm);
+                                .requestFocus(focusNodeConfirm);
                           }))
                   : null,
               widget.controllerConfirmPassword != null
@@ -95,13 +91,17 @@ class _RegisterFormState extends State<RegisterForm> {
                           },
                           controller: widget.controllerConfirmPassword,
                           action: TextInputAction.next,
-                          focusNode: widget.focusNodeConfirm,
+                          focusNode: focusNodeConfirm,
                           fieldSubmitted: (){
-                            widget.focusNodeConfirm.unfocus();
+                            focusNodeConfirm.unfocus();
                           },))
                   : null,
             ].where((element) => element != null).toList(),
           ),
         ));
   }
+
+  final FocusNode focusNodeUsername = new FocusNode();
+  final FocusNode focusNodePassword = new FocusNode();
+  final FocusNode focusNodeConfirm = new FocusNode();
 }

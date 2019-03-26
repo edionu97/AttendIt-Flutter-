@@ -8,7 +8,15 @@ import 'package:attend_it/utils/gui/gui.dart';
 import 'package:attend_it/utils/components/upper_element.dart';
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget{
+  @override
+  State<StatefulWidget> createState() {
+    return new _LoginScreen();
+  }
+}
+
+class _LoginScreen extends State<LoginScreen> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,6 +72,13 @@ class LoginScreen extends StatelessWidget {
       final String message = e.toString().split(":")[1];
       GUI.openDialog(context: context, message: message);
     }
+  }
+
+  @override
+  void dispose(){
+    super.dispose();
+    controllerUsername.dispose();
+    controllerPassword.dispose();
   }
 
   final TextEditingController controllerUsername = new TextEditingController();

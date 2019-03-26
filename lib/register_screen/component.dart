@@ -5,7 +5,14 @@ import 'package:attend_it/utils/gui/gui.dart';
 import 'package:attend_it/utils/components/upper_element.dart';
 import 'package:flutter/material.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget{
+  @override
+  State<StatefulWidget> createState() {
+    return new _RegisterScreen();
+  }
+}
+
+class _RegisterScreen extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
@@ -70,11 +77,20 @@ class RegisterScreen extends StatelessWidget {
     }
   }
 
-  static final TextEditingController controllerUsername = new TextEditingController();
-  static final TextEditingController controllerPassword = new TextEditingController();
-  static final TextEditingController controllerConfirmPassword =
-      new TextEditingController();
+  @override
+  void dispose(){
+    super.dispose();
+    controllerPassword.dispose();
+    controllerConfirmPassword.dispose();
+    controllerUsername.dispose();
+  }
 
-  static final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+  final TextEditingController controllerPassword = new TextEditingController();
+  final TextEditingController controllerConfirmPassword =
+      new TextEditingController();
+  final TextEditingController controllerUsername = new TextEditingController();
+
+  final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+
   final LoginService _loginService = new LoginService();
 }
