@@ -53,7 +53,7 @@ class _RegisterFormState extends State<RegisterForm> {
                             }
                           },
                           fieldSubmitted: () {
-                            widget.focusNodeUsername.unfocus();
+                            //widget.focusNodeUsername.unfocus();
                             FocusScope.of(context)
                                 .requestFocus(widget.focusNodePassword);
                           }))
@@ -73,7 +73,7 @@ class _RegisterFormState extends State<RegisterForm> {
                           controller: widget.controllerPassword,
                           focusNode: widget.focusNodePassword,
                           fieldSubmitted: () {
-                            widget.focusNodePassword.unfocus();
+                            //widget.focusNodePassword.unfocus();
                             FocusScope.of(context)
                                 .requestFocus(widget.focusNodeConfirm);
                           }))
@@ -94,8 +94,11 @@ class _RegisterFormState extends State<RegisterForm> {
                             }
                           },
                           controller: widget.controllerConfirmPassword,
-                          action: TextInputAction.done,
-                          focusNode: widget.focusNodeConfirm))
+                          action: TextInputAction.next,
+                          focusNode: widget.focusNodeConfirm,
+                          fieldSubmitted: (){
+                            widget.focusNodeConfirm.unfocus();
+                          },))
                   : null,
             ].where((element) => element != null).toList(),
           ),

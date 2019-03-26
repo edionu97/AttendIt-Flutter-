@@ -6,6 +6,7 @@ import 'package:attend_it/utils/components/upper_element.dart';
 import 'package:flutter/material.dart';
 
 class RegisterScreen extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -69,9 +70,9 @@ class RegisterScreen extends StatelessWidget {
     }
   }
 
-  final TextEditingController controllerUsername = new TextEditingController();
-  final TextEditingController controllerPassword = new TextEditingController();
-  final TextEditingController controllerConfirmPassword =
+  static final TextEditingController controllerUsername = new TextEditingController();
+  static final TextEditingController controllerPassword = new TextEditingController();
+  static final TextEditingController controllerConfirmPassword =
       new TextEditingController();
 
   static final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
