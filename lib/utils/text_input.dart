@@ -8,7 +8,8 @@ class TextInput extends StatelessWidget {
       this.isHidden = false,
       this.action = TextInputAction.next,
       this.focusNode,
-      this.fieldSubmitted});
+      this.fieldSubmitted,
+      this.validator});
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +17,11 @@ class TextInput extends StatelessWidget {
       height: 50,
       padding: EdgeInsets.only(top: 4, left: 16, right: 16, bottom: 4),
       child: TextFormField(
+        validator: (value) {
+          if(validator != null){
+            return validator(value);
+          }
+        },
         textInputAction: action,
         obscureText: isHidden,
         focusNode: focusNode,
@@ -44,4 +50,5 @@ class TextInput extends StatelessWidget {
   final TextInputAction action;
   final FocusNode focusNode;
   final Function fieldSubmitted;
+  final Function validator;
 }

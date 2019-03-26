@@ -19,13 +19,13 @@ class _AnimatedButtonState extends State<AnimatedButton>
     super.initState();
 
     _animationController = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 3000));
+        vsync: this, duration: Duration(milliseconds: 1500));
 
     _buttonSqueezeAnimation = Tween(
       begin: 380,
       end: 70.0,
     ).animate(CurvedAnimation(
-        parent: _animationController, curve: Interval(0.0, 0.200)));
+        parent: _animationController, curve: Interval(0.0, 0.150)));
 
     _buttonSqueezeAnimation.addListener(() => setState(() {}));
   }
@@ -60,20 +60,17 @@ class _AnimatedButtonState extends State<AnimatedButton>
   }
 
   void _buttonLoginPressed() {
-
     _playAnimation();
-
-    if(widget.action == null){
-      return;
-    }
-
-    widget.action();
   }
 
   Future<Null> _playAnimation() async {
     try {
       await _animationController.forward();
       await _animationController.reverse();
+      if(widget.action == null){
+        return;
+      }
+      widget.action();
     } on TickerCanceled catch (e) {
       print("Play animation " + e.toString());
     }

@@ -1,6 +1,8 @@
+import 'package:attend_it/service/login_service.dart';
 import 'package:attend_it/utils/animated_button.dart';
 import 'package:attend_it/utils/animation.dart';
 import 'package:attend_it/utils/form.dart';
+import 'package:attend_it/utils/gui/gui.dart';
 import 'package:attend_it/utils/upper_element.dart';
 import 'package:flutter/material.dart';
 
@@ -36,7 +38,8 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ))),
         Padding(
-          child: AnimatedButton(name: "Sign In", action: null),
+          child: AnimatedButton(
+              name: "Sign In", action: () => _loginPressed(context)),
           padding: EdgeInsets.only(bottom: 25),
         )
       ],
@@ -47,6 +50,17 @@ class LoginScreen extends StatelessWidget {
     Navigator.of(context).push(SecondPageRoute());
   }
 
+  void _loginPressed(BuildContext context) async {
+    try {
+      await _loginService.login(
+          controllerUsername.text, controllerPassword.text);
+    } on Exception catch (e) {
+      final String message = e.toString().split(":")[1];
+      GUI.openDialog(context: context, message: message);
+    }
+  }
+
   final TextEditingController controllerUsername = new TextEditingController();
   final TextEditingController controllerPassword = new TextEditingController();
+  final LoginService _loginService = new LoginService();
 }
