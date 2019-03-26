@@ -1,4 +1,4 @@
-import 'package:attend_it/utils/decoration_form.dart';
+import 'package:attend_it/utils/components/decoration_form.dart';
 import 'package:flutter/material.dart';
 
 class UpperElement extends StatelessWidget {

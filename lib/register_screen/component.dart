@@ -1,8 +1,8 @@
 import 'package:attend_it/service/login_service.dart';
-import 'package:attend_it/utils/form.dart';
-import 'package:attend_it/utils/animated_button.dart';
+import 'package:attend_it/utils/components/form.dart';
+import 'package:attend_it/utils/components/animated_button.dart';
 import 'package:attend_it/utils/gui/gui.dart';
-import 'package:attend_it/utils/upper_element.dart';
+import 'package:attend_it/utils/components/upper_element.dart';
 import 'package:flutter/material.dart';
 
 class RegisterScreen extends StatelessWidget {

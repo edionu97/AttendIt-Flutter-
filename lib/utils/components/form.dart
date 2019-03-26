@@ -1,4 +1,4 @@
-import 'package:attend_it/utils/text_input.dart';
+import 'package:attend_it/utils/components/text_input.dart';
 import 'package:flutter/material.dart';
 
 class RegisterForm extends StatefulWidget {

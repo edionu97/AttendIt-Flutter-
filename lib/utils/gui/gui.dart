@@ -1,5 +1,5 @@
 
-import 'package:attend_it/utils/decoration_form.dart';
+import 'package:attend_it/utils/components/decoration_form.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
