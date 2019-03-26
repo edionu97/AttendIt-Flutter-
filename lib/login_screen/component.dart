@@ -1,3 +1,5 @@
+import 'package:attend_it/home_screen/home_screen.dart';
+import 'package:attend_it/register_screen/component.dart';
 import 'package:attend_it/service/login_service.dart';
 import 'package:attend_it/utils/components/animated_button.dart';
 import 'package:attend_it/utils/components/animation.dart';
@@ -50,13 +52,14 @@ class LoginScreen extends StatelessWidget {
   }
 
   void _registerPressed(BuildContext context) {
-    Navigator.of(context).push(SecondPageRoute());
+    Navigator.of(context).push(SecondPageRoute(toPage: () => RegisterScreen()));
   }
 
   void _loginPressed(BuildContext context) async {
     try {
       await _loginService.login(
           controllerUsername.text, controllerPassword.text);
+      Navigator.of(context).push(SecondPageRoute(toPage: () => HomeScreen()));
     } on Exception catch (e) {
       final String message = e.toString().split(":")[1];
       GUI.openDialog(context: context, message: message);

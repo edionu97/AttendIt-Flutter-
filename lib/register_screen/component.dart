@@ -74,6 +74,6 @@ class RegisterScreen extends StatelessWidget {
   final TextEditingController controllerConfirmPassword =
       new TextEditingController();
 
-  final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+  static final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final LoginService _loginService = new LoginService();
 }

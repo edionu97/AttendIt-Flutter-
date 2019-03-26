@@ -2,8 +2,8 @@ import 'package:attend_it/register_screen/component.dart';
 import 'package:flutter/cupertino.dart';
 
 class SecondPageRoute extends CupertinoPageRoute {
-  SecondPageRoute()
-      : super(builder: (BuildContext context) => RegisterScreen());
+  SecondPageRoute({@required this.toPage})
+      : super(builder: (BuildContext context) => toPage());
 
   @override
   Widget buildPage(BuildContext context, Animation<double> animation,
@@ -14,8 +14,10 @@ class SecondPageRoute extends CupertinoPageRoute {
           child: ScaleTransition(
             scale: animation,
             alignment: Alignment.center,
-            child: RegisterScreen(),
+            child: toPage(),
           )
     );
   }
+
+  final Function toPage;
 }
