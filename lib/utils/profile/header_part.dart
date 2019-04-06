@@ -1,0 +1,45 @@
+
+
+import 'package:attend_it/utils/components/decoration_form.dart';
+import 'package:attend_it/utils/profile/round_image.dart';
+import 'package:flutter/material.dart';
+
+class Header extends StatelessWidget {
+
+  Header({this.onPress, this.image, @required this.height, @required this.width});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        height: height,
+        width: width,
+        decoration:
+            this.image == null ? Decorator.getSimpleDecoration() : Decorator.getImageDecoration(image),
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                height: 150,
+                width: 150,
+                alignment: Alignment.center,
+                decoration: Decorator.getDefaultImageDecoration(),
+                  child: InkWell(
+                      child: AssetRoundImage(imageName:"photo-camera.png"),
+                      onTap: (){
+                        if(this.onPress == null){
+                          return;
+                        }
+                        this.onPress();
+                      },
+                  )
+                )
+
+            ],
+        ),
+    );
+  }
+
+  final Function onPress;
+  final Image image;
+  final double height, width;
+}

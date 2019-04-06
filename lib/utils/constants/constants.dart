@@ -1,7 +1,7 @@
 class Constants{
 
   // ignore: non_constant_identifier_names
-  static String SERVER_ADDRESS="http://172.16.10.100:8080";
+  static String SERVER_ADDRESS="http://192.168.43.155:8080";
 
   // ignore: non_constant_identifier_names
   static String LOGIN_API="/auth/login";
