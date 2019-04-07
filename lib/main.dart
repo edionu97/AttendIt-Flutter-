@@ -17,7 +17,7 @@ class AppScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Profile()//LoginScreen()
+        body: Profile(username: "edi",)//LoginScreen()
     );
   }
 }

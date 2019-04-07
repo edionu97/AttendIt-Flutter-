@@ -18,8 +18,8 @@ class Header extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
-                height: 150,
-                width: 150,
+                height: 140,
+                width: 140,
                 alignment: Alignment.center,
                 decoration: this.image == null ? Decorator.getDefaultImageDecoration() : Decorator.getImageDecoration(image),
                   child: InkWell(
