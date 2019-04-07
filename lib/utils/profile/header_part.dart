@@ -13,8 +13,7 @@ class Header extends StatelessWidget {
     return Container(
         height: height,
         width: width,
-        decoration:
-            this.image == null ? Decorator.getSimpleDecoration() : Decorator.getImageDecoration(image),
+        decoration: Decorator.getAllRoundedCornersDecoration(),
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -22,7 +21,7 @@ class Header extends StatelessWidget {
                 height: 150,
                 width: 150,
                 alignment: Alignment.center,
-                decoration: Decorator.getDefaultImageDecoration(),
+                decoration: this.image == null ? Decorator.getDefaultImageDecoration() : Decorator.getImageDecoration(image),
                   child: InkWell(
                       child: AssetRoundImage(imageName:"photo-camera.png"),
                       onTap: (){
