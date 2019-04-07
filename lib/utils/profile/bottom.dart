@@ -69,6 +69,12 @@ class _Bottom extends State<Bottom> {
                   padding: EdgeInsets.symmetric(horizontal: filedPadding),
                   child: TextFormField(
                     controller: widget.newPassword,
+                    validator: (val){
+                      if(val.isEmpty && widget.password.text.isNotEmpty){
+                        return "You must enter a value";
+                      }
+                      return null;
+                    },
                     obscureText: true,
                     decoration: new InputDecoration(
                         labelText: "New password",
