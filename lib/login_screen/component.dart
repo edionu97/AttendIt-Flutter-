@@ -1,4 +1,5 @@
 import 'package:attend_it/home_screen/home_screen.dart';
+import 'package:attend_it/profile_screen/component.dart';
 import 'package:attend_it/register_screen/component.dart';
 import 'package:attend_it/service/login_service.dart';
 import 'package:attend_it/utils/components/animated_button.dart';
@@ -44,7 +45,7 @@ class _LoginScreen extends State<LoginScreen> {
                                       text: 'Register',
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          color: Colors.deepOrangeAccent,
+                                          color: Colors.blueGrey[700],
                                           fontSize: 17)),
                                 ],
                               ),
@@ -67,7 +68,7 @@ class _LoginScreen extends State<LoginScreen> {
     try {
       await _loginService.login(
           controllerUsername.text, controllerPassword.text);
-      Navigator.of(context).push(SecondPageRoute(toPage: () => HomeScreen()));
+      Navigator.of(context).push(SecondPageRoute(toPage: () => Profile(username:  controllerUsername.text,)));
     } on Exception catch (e) {
       final String message = e.toString().split(":")[1];
       GUI.openDialog(context: context, message: message);

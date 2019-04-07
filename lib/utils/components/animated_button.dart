@@ -43,7 +43,7 @@ class _AnimatedButtonState extends State<AnimatedButton>
                 height: 50,
                 alignment: FractionalOffset.center,
                 decoration: BoxDecoration(
-                    color: Colors.orange[700],
+                    color: Colors.blueGrey[500],
                     borderRadius:
                         BorderRadius.all(const Radius.circular(30.0))),
                 child: _buttonSqueezeAnimation.value.toDouble() > 75

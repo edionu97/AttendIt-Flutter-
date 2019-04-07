@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:attend_it/service/profile_service.dart';
 import 'package:attend_it/utils/gui/gui.dart';
 import 'package:attend_it/utils/profile/bottom.dart';
@@ -14,16 +15,6 @@ class Profile extends StatefulWidget {
   }
 
   final String username;
-
-  final TextEditingController firstName = new TextEditingController();
-  final TextEditingController lastName = new TextEditingController();
-  final TextEditingController email = new TextEditingController();
-  final TextEditingController phoneNumber = new TextEditingController();
-  final TextEditingController newPassword = new TextEditingController();
-  final TextEditingController password = new TextEditingController();
-
-  final GlobalKey<FormState> formKey = new GlobalKey<FormState>(),
-      secondFormKey = new GlobalKey<FormState>();
 }
 
 class _Profile extends State<Profile> {
@@ -49,6 +40,7 @@ class _Profile extends State<Profile> {
                   height: headerHeight,
                   width: MediaQuery.of(context).size.width,
                   onPress: () => this._choosePictureClicked(context),
+                  image: image,
                 )),
             Align(
               alignment: Alignment.topCenter,
@@ -56,11 +48,11 @@ class _Profile extends State<Profile> {
                 startAt: startMiddle,
                 height: middleHeight,
                 width: middleWidth,
-                firstName: widget.firstName,
-                lastName: widget.lastName,
-                phoneNumber: widget.phoneNumber,
-                email: widget.email,
-                formKey: widget.formKey,
+                firstName: firstName,
+                lastName: lastName,
+                phoneNumber: phoneNumber,
+                email: email,
+                formKey: formKey,
               ),
             ),
             Align(
@@ -68,9 +60,9 @@ class _Profile extends State<Profile> {
               child: Bottom(
                 height: middleHeight - 120,
                 width: middleWidth,
-                password: widget.password,
-                newPassword: widget.newPassword,
-                formState: widget.secondFormKey,
+                password: password,
+                newPassword: newPassword,
+                formState: secondFormKey,
               ),
             ),
             Align(
@@ -114,51 +106,75 @@ class _Profile extends State<Profile> {
     this._getInfo(context);
   }
 
-  void _choosePictureClicked(final BuildContext context) {}
+  Future<void> _choosePictureClicked(final BuildContext context) async {
+    GUI.choosePictureLocation(
+        context: context,
+        afterOpen: (File img) async {
+
+          if (img == null) {
+            return;
+          }
+
+          setState(() {
+            image = new Image.file(img);
+            imageFile = img;
+          });
+        });
+  }
 
   Future<void> _editPressed(BuildContext context) async {
-    bool firstFormValidation = widget.formKey.currentState.validate();
-    bool secondFormValidation = widget.secondFormKey.currentState.validate();
+
+    bool firstFormValidation = formKey.currentState.validate();
+    bool secondFormValidation = secondFormKey.currentState.validate();
 
     if (!firstFormValidation || !secondFormValidation) {
       return;
     }
 
-    final String username = widget.username;
-    final String email = widget.email.text;
-    final String firstName = widget.firstName.text;
-    final String lastName = widget.lastName.text;
-    final String phone = widget.phoneNumber.text;
-
     // change profile info
     try {
       await this
           ._service
-          .createUpdateProfile(username, email, firstName, lastName, phone);
+          .createUpdateProfile(widget.username, email.text, firstName.text, lastName.text, phoneNumber.text);
       Future.delayed(
-          Duration.zero,
-          () => GUI.openDialog(
-              context: context, message: "Profile updated successfully", title: "Success"),);
+        Duration.zero,
+        () => GUI.openDialog(
+            context: context,
+            message: "Profile updated successfully",
+            title: "Success"),
+      );
     } on Exception catch (e) {
       Future.delayed(Duration.zero,
           () => GUI.openDialog(context: context, message: e.toString()));
     }
 
+    //upload picture
+    if (image != null && imageFile != null) {
+      try {
+        await _service.uploadImage(widget.username, imageFile);
+      }on Exception catch(e){
+        Future.delayed(Duration.zero,
+                () => GUI.openDialog(context: context, message: e.toString()));
+      }
+    }
 
-    if(widget.password.text.isEmpty){
+    if (password.text.isEmpty) {
       return;
     }
 
     //change user password
-    try{
-      await this._service.changePassword(username, widget.password.text, widget.newPassword.text);
+    try {
+      await this._service.changePassword(
+          widget.username, password.text, newPassword.text);
       Future.delayed(
           Duration.zero,
-              () => GUI.openDialog(
-              context: context, message: "Password changed successfully", title: "Success"));
-    }on Exception catch(e){
+          () => GUI.openDialog(
+              context: context,
+              message: "Password changed successfully",
+              title: "Success"));
+    } on Exception catch (e) {
       Future.delayed(Duration.zero,
-              () => GUI.openDialog(context: context, message: e.toString()));
+          () => GUI.openDialog(context: context, message: e.toString()));
     }
   }
 
@@ -166,10 +182,11 @@ class _Profile extends State<Profile> {
     try {
       dynamic response = await _service.getProfile(widget.username);
       setState(() {
-        widget.firstName.text = response['first'];
-        widget.lastName.text = response['last'];
-        widget.email.text = response['email'];
-        widget.phoneNumber.text = response['phone'];
+        firstName.text = response['first'];
+        lastName.text = response['last'];
+        email.text = response['email'];
+        phoneNumber.text = response['phone'];
+        image = response["image"];
       });
     } on Exception catch (e) {
       Future.delayed(Duration.zero,
@@ -177,5 +194,19 @@ class _Profile extends State<Profile> {
     }
   }
 
-  ProfileService _service = new ProfileService();
+  final TextEditingController firstName = new TextEditingController();
+  final TextEditingController lastName = new TextEditingController();
+  final TextEditingController email = new TextEditingController();
+  final TextEditingController phoneNumber = new TextEditingController();
+  final TextEditingController newPassword = new TextEditingController();
+  final TextEditingController password = new TextEditingController();
+
+  final GlobalKey<FormState> formKey = new GlobalKey<FormState>(),
+      secondFormKey = new GlobalKey<FormState>();
+
+  final ProfileService _service = new ProfileService();
+
+  Image image;
+  File imageFile;
+
 }

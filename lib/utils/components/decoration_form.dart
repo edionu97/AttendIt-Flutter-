@@ -8,10 +8,10 @@ class Decorator {
         end: Alignment.bottomRight,
         stops: [0.1, 0.5, 0.7, 0.9],
         colors: [
-          Colors.orange[900],
-          Colors.orange[800],
-          Colors.orange[700],
-          Colors.orange[600],
+          Colors.blueGrey[700],
+          Colors.blueGrey[600],
+          Colors.blueGrey[500],
+          Colors.blueGrey[400],
         ],
       ),
       borderRadius:
@@ -60,7 +60,11 @@ class Decorator {
   static BoxDecoration getImageDecoration(final Image img){
       return BoxDecoration(
         shape: BoxShape.circle,
-        image: new DecorationImage(image: img.image)
+          border: Border.all(color: Colors.white),
+        image: new DecorationImage(
+          fit: BoxFit.fill,
+          image: img.image,
+        )
       );
   }
 

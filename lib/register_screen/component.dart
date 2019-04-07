@@ -43,7 +43,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                                       text: 'Sign In',
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          color: Colors.deepOrangeAccent,
+                                          color: Colors.blueGrey[700],
                                           fontSize: 17)),
                                 ],
                               ),
