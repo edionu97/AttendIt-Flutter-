@@ -68,7 +68,7 @@ class _LoginScreen extends State<LoginScreen> {
     try {
       await _loginService.login(
           controllerUsername.text, controllerPassword.text);
-      Navigator.of(context).push(SecondPageRoute(toPage: () => Profile(username:  controllerUsername.text,)));
+      Navigator.of(context).push(SecondPageRoute(toPage: () => HomeScreen(username:  controllerUsername.text,)));
     } on Exception catch (e) {
       final String message = e.toString().split(":")[1];
       GUI.openDialog(context: context, message: message);
