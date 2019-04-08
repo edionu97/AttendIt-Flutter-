@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 class NavigationDrawer extends StatefulWidget {
 
-  NavigationDrawer({this.onClose});
+  NavigationDrawer({this.selected=0, @required this.onClose, @required this.selectionHandler});
 
   @override
   State<StatefulWidget> createState() {
@@ -13,17 +13,23 @@ class NavigationDrawer extends StatefulWidget {
   }
 
   final Function onClose;
+  final Function selectionHandler;
+  final int selected;
 }
 
 class _NavigationDrawer extends State<NavigationDrawer>
     with SingleTickerProviderStateMixin {
   @override
   void initState() {
+
     super.initState();
+
     _animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 300));
     widthAnimation = Tween<double>(begin: openWidth, end: closedWidth)
         .animate(_animationController);
+
+    currentSelectedItem = widget.selected;
   }
 
   @override
@@ -45,7 +51,7 @@ class _NavigationDrawer extends State<NavigationDrawer>
     });
   }
 
-  Widget _getWidget(final BuildContext context, final Widget widget) {
+  Widget _getWidget(final BuildContext context, final Widget wid) {
     return Container(
         width: widthAnimation.value,
         decoration: Decorator.getSimpleDecoration(),
@@ -55,12 +61,21 @@ class _NavigationDrawer extends State<NavigationDrawer>
           Expanded(
             child: ListView.separated(
               itemBuilder: (context, counter) {
-                return CollapsingListTitle(
-                    title: navigationOptions[counter].title,
-                    icon: navigationOptions[counter].icon,
-                    animationController: _animationController,
-                    minWidth: openWidth,
-                    maxWidth: closedWidth,
+                return InkWell(
+                  onTap: (){
+                    setState(() {
+                      currentSelectedItem = counter;
+                    });
+                    widget.selectionHandler(counter);
+                  },
+                  child: CollapsingListTitle(
+                      title: navigationOptions[counter].title,
+                      icon: navigationOptions[counter].icon,
+                      animationController: _animationController,
+                      minWidth: openWidth,
+                      maxWidth: closedWidth,
+                      isSelected: currentSelectedItem == counter,
+                  ),
                 );
               },
               itemCount: navigationOptions.length,
@@ -88,6 +103,7 @@ class _NavigationDrawer extends State<NavigationDrawer>
 
   final double openWidth = 70;
   final double closedWidth = 150;
+  int currentSelectedItem;
   bool isCollapsed = false;
   AnimationController _animationController;
   Animation<double> widthAnimation;

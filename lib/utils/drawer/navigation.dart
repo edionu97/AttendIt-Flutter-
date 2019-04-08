@@ -12,4 +12,5 @@ List<NavigationModel> navigationOptions = [
   NavigationModel(title: "Home", icon: Icons.home),
   NavigationModel(title: "Video", icon: Icons.camera),
   NavigationModel(title: "Settings", icon: Icons.settings),
+  NavigationModel(title: "Logout", icon: Icons.power_settings_new),
 ];

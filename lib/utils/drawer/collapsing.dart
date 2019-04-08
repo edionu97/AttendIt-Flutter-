@@ -6,13 +6,15 @@ class CollapsingListTitle extends StatefulWidget {
       this.icon,
       this.animationController,
       this.minWidth = 70,
-      this.maxWidth = 250});
+      this.maxWidth = 250,
+      this.isSelected = false});
 
   @override
   _CollapsingListTitleState createState() => _CollapsingListTitleState();
 
   final String title;
   final IconData icon;
+  final bool isSelected;
   final double minWidth, maxWidth;
   final AnimationController animationController;
 }
@@ -43,7 +45,7 @@ class _CollapsingListTitleState extends State<CollapsingListTitle> {
         children: <Widget>[
           Icon(
             widget.icon,
-            color: iconColor,
+            color: !widget.isSelected ? iconColor : Colors.blue,
             size: iconSize,
           ),
           SizedBox(width: _sizedBoxAnimation.value),
@@ -51,7 +53,7 @@ class _CollapsingListTitleState extends State<CollapsingListTitle> {
               ? Text(widget.title,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      color: iconColor,
+                      color: !widget.isSelected ? iconColor : Colors.blue,
                       fontSize: 18,
                       fontFamily: "times new roman"))
               : Container()
