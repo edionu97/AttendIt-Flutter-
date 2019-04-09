@@ -1,5 +1,6 @@
 import 'package:attend_it/navigation_drawer/component.dart';
 import 'package:attend_it/profile_screen/component.dart';
+import 'package:attend_it/service/profile_service.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -53,6 +54,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ),
             )),
       ),
+      Container(),
       FadeTransition(
         opacity: widgetAnimation,
         child: ScaleTransition(
@@ -60,6 +62,19 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             alignment: Alignment.center,
             child: Profile(username: widget.username)),
       ),
+      FadeTransition(
+        opacity: widgetAnimation,
+        child: ScaleTransition(
+            scale: widgetAnimation,
+            alignment: Alignment.center,
+            child: Align(
+              alignment: Alignment.center,
+              child: Text(
+                "Attendence screen",
+                style: TextStyle(fontSize: 20),
+              ),
+            )),
+      )
     ];
 
     widgetController.forward();
@@ -88,45 +103,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               },
               child: widgets[_selectedItem]),
           _isDrawerVisible
-              ? Align(
-                  alignment: Alignment.topLeft,
-                  child: FadeTransition(
-                    opacity: drawerAnimation,
-                    child: NavigationDrawer(
-                        selected: _selectedItem,
-                        selectionHandler: (idx) => controllerDrawer
-                            .reverse()
-                            .then((f) => _selection(idx, context)),
-                        onClose: () => controllerDrawer.reverse().then((f) =>
-                            setState(
-                                () => _isDrawerVisible = !_isDrawerVisible))),
-                  ),
-                )
-              : Align(
-                  alignment: Alignment.topLeft,
-                  child: Container(
-                    margin: EdgeInsets.only(top: 35, left: 15),
-                    child: InkWell(
-                      onTap: () {
-                        setState(() {
-                          controllerDrawer.reset();
-                          controllerDrawer.forward();
-                          _isDrawerVisible = !_isDrawerVisible;
-                        });
-                      },
-                      child: Icon(
-                        Icons.menu,
-                        size: 35,
-                      ),
-                    ),
-                  ))
+              ? _getNavigationDrawer()
+              : _getNavigationDrawerButton()
         ],
       ),
     );
   }
 
   void _selection(final int index, final BuildContext context) {
-    if (index == widgets.length) {
+    if (index == 2) {
       Navigator.pop(context);
       return;
     }
@@ -140,12 +125,53 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     });
   }
 
+  Widget _getNavigationDrawerButton(){
+    return Align(
+        alignment: Alignment.topLeft,
+        child: Container(
+          margin: EdgeInsets.only(top: 35, left: 15),
+          child: InkWell(
+            onTap: () {
+              setState(() {
+                controllerDrawer.reset();
+                controllerDrawer.forward();
+                _isDrawerVisible = !_isDrawerVisible;
+              });
+            },
+            child: Icon(
+              Icons.menu,
+              size: 35,
+            ),
+          ),
+        ));
+  }
+
+  Widget _getNavigationDrawer(){
+    return Align(
+      alignment: Alignment.topLeft,
+      child: FadeTransition(
+        opacity: drawerAnimation,
+        child: NavigationDrawer(
+          username: widget.username,
+            selected: _selectedItem,
+            selectionHandler: (idx) => controllerDrawer
+                .reverse()
+                .then((f) => _selection(idx, context)),
+            onClose: () => controllerDrawer.reverse().then((f) =>
+                setState(
+                        () => _isDrawerVisible = !_isDrawerVisible))),
+      ),
+    );
+  }
+
   bool _isDrawerVisible = false;
-  int _selectedItem = 1;
+  int _selectedItem = 0;
   List<Widget> widgets;
 
   AnimationController widgetController;
   AnimationController controllerDrawer;
   Animation<double> widgetAnimation;
   Animation<double> drawerAnimation;
+
+  final ProfileService profileService = ProfileService();
 }

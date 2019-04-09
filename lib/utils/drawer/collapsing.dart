@@ -34,18 +34,18 @@ class _CollapsingListTitleState extends State<CollapsingListTitle> {
   @override
   Widget build(BuildContext context) {
 
-    final Color iconColor = Colors.white70;
-    final double iconSize = 38.0;
+    final Color iconColor = Colors.white;
+    final double iconSize = 30.0;
 
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 15),
+      margin: EdgeInsets.symmetric(horizontal: 20),
       width: _widthAnimation.value,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Icon(
             widget.icon,
-            color: !widget.isSelected ? iconColor : Colors.blue,
+            color: !widget.isSelected ? iconColor : Colors.black,
             size: iconSize,
           ),
           SizedBox(width: _sizedBoxAnimation.value),
@@ -53,7 +53,8 @@ class _CollapsingListTitleState extends State<CollapsingListTitle> {
               ? Text(widget.title,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      color: !widget.isSelected ? iconColor : Colors.blue,
+                      fontWeight: !widget.isSelected ? FontWeight.normal : FontWeight.bold,
+                      color: !widget.isSelected ? iconColor : Colors.black,
                       fontSize: 18,
                       fontFamily: "times new roman"))
               : Container()

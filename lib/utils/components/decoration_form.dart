@@ -82,7 +82,7 @@ class Decorator {
           end: Alignment.bottomCenter,
           stops: [0.2, .5, .8, .8],
           colors: [
-            Colors.blueGrey[800],
+            Colors.blueGrey[700],
             Colors.blueGrey[800],
             Colors.blueGrey[800],
             Colors.blueGrey[800],
