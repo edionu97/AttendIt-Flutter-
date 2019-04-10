@@ -5,10 +5,12 @@ import 'package:attend_it/profile_screen/component.dart';
 import 'package:attend_it/service/profile_service.dart';
 import 'package:attend_it/upload_video_screen/component.dart';
 import 'package:attend_it/utils/constants/constants.dart';
+import 'package:attend_it/utils/gui/gui.dart';
 import 'package:attend_it/utils/video_screen/component.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:path_provider/path_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({this.username});
@@ -225,12 +227,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   Future<void> _uploadLeftRight(
-      final int index, final BuildContext context) async {
+      final int index, final BuildContext cont) async {
     Navigator.of(context).pop();
+    
 
-    cameraController = CameraController(cameras[1], ResolutionPreset.medium);
+    cameraController = CameraController(cameras[0], ResolutionPreset.high);
     showDialog(
-        context: context,
+        context: cont,
         builder: (context) => Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
@@ -239,13 +242,30 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 controllerCamera: cameraController,
                 onFinish: () {
                   Navigator.of(context).pop();
-                  Future.delayed(Duration.zero, () => cameraController.dispose() );
+                  Future.delayed(
+                          Duration.zero, () => cameraController.dispose())
+                      .then((_) => _uploadFile(cont));
                 },
               ),
             ));
   }
 
   void _uploadUpDown(final int index, final BuildContext context) {}
+
+  Future<void> _uploadFile(final BuildContext context) async {
+    try {
+      await profileService.uploadLeftRightVideoRecord(widget.username);
+      GUI.openDialog(
+          context: context,
+          message: "Video successfully uploaded",
+          title: "Success");
+    } on Exception catch (e) {
+      GUI.openDialog(
+          context: context,
+          message: e.toString().split("")[1],
+          title: "Success");
+    }
+  }
 
   bool _isDrawerVisible = false;
   int _selectedItem = 0;

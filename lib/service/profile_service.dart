@@ -2,9 +2,11 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:attend_it/utils/constants/constants.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
+import 'package:path_provider/path_provider.dart';
 
 class ProfileService {
   ProfileService._();
@@ -21,9 +23,8 @@ class ProfileService {
         .timeout(const Duration(seconds: 5))
         .catchError((error) =>
             throw new Exception("Could not get any response from server"))
-        .then((Response resp) {
-
-          if(resp.body.isEmpty){
+        .then((http.Response resp) {
+          if (resp.body.isEmpty) {
             return json.decode("{}");
           }
 
@@ -33,7 +34,8 @@ class ProfileService {
             throw new Exception(result['msg']);
           }
 
-          result["image"] = Image.memory(base64.decode(result["image"].toString().split(",")[1]));
+          result["image"] = Image.memory(
+              base64.decode(result["image"].toString().split(",")[1]));
           return result;
         });
   }
@@ -53,7 +55,7 @@ class ProfileService {
         .timeout(const Duration(seconds: 5))
         .catchError((error) =>
             throw new Exception("Could not get any response from server"))
-        .then((Response resp) {
+        .then((http.Response resp) {
           if (resp.statusCode != 200) {
             throw new Exception(json.decode(resp.body)['msg']);
           }
@@ -70,7 +72,7 @@ class ProfileService {
         .timeout(const Duration(seconds: 5))
         .catchError((error) =>
             throw new Exception("Could not get any response from server"))
-        .then((Response resp) {
+        .then((http.Response resp) {
           if (resp.statusCode == 404) {
             throw new Exception(json.decode(resp.body)['msg']);
           }
@@ -92,11 +94,36 @@ class ProfileService {
         .timeout(const Duration(seconds: 5))
         .catchError((error) =>
             throw new Exception("Could not get any response from server"))
-        .then((Response resp) {
+        .then((http.Response resp) {
           if (resp.statusCode == 404) {
             throw new Exception(json.decode(resp.body)['msg']);
           }
         });
+  }
+
+  Future<dynamic> uploadLeftRightVideoRecord(final String username) async {
+
+    final Directory directory = await getTemporaryDirectory();
+    final File file = new File(directory.path + Constants.TMP_LEFT_RIGHT);
+
+    if (!file.existsSync()) {
+      throw new Exception("Tmp file not found!");
+    }
+
+    return Dio()
+        .post(Constants.SERVER_ADDRESS + Constants.UPLOAD_LEFT_RIGHT_API,
+            data: FormData.from({
+              "file":
+                  UploadFileInfo(file, Constants.TMP_LEFT_RIGHT.substring(1)),
+              "user": username
+            }))
+        .timeout(const Duration(seconds: 5))
+        .catchError((err) => throw new Exception("Cannot send file to server"))
+        .then((onValue) {
+      if (onValue.statusCode != 200) {
+        throw new Exception(onValue.statusCode);
+      }
+    });
   }
 
   static final ProfileService _instance = new ProfileService._();
