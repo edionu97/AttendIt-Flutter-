@@ -33,4 +33,9 @@ class Constants{
   // ignore: non_constant_identifier_names
   static String TILT_HEAD_UP_DOWN= "You should move your head from up to down and back slowly";
 
+  // ignore: non_constant_identifier_names
+  static String TMP_LEFT_RIGHT = "/tmp.mp4";
+
+  // ignore: non_constant_identifier_names
+  static String TMP_UP_DOWN =  "/up.mp4";
 }

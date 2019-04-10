@@ -23,6 +23,7 @@ dependencies:
   email_validator: '^1.0.0'
   image_picker: 0.5.0+3
   camera: ^0.4.3+2
+  path_provider:
 
 
   # The following adds the Cupertino Icons font to your application.
