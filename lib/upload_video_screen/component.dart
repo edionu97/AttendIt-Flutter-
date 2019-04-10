@@ -3,8 +3,15 @@ import 'package:attend_it/utils/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 class Video extends StatefulWidget {
+
+  Video({@required this.assertImage, @required this.onClickGotIt, @required this.text});
+
   @override
   _VideoState createState() => _VideoState();
+
+  final String assertImage;
+  final String text;
+  final Function onClickGotIt;
 }
 
 class _VideoState extends State<Video> with SingleTickerProviderStateMixin {
@@ -63,7 +70,7 @@ class _VideoState extends State<Video> with SingleTickerProviderStateMixin {
         border: Border.all(color: Colors.black),
         image: DecorationImage(
             fit:BoxFit.fill,
-            image: AssetImage("head_left_right.gif")
+            image: AssetImage(widget.assertImage)
         )
       ),
       width: 100,
@@ -79,7 +86,7 @@ class _VideoState extends State<Video> with SingleTickerProviderStateMixin {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
             Text(
-              Constants.TILT_HEAD_LEFT_RIGHT,
+              widget.text,
               overflow: TextOverflow.fade,
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -119,11 +126,16 @@ class _VideoState extends State<Video> with SingleTickerProviderStateMixin {
           ),
           Padding(
             padding: const EdgeInsets.only(right: 40),
-            child: Text(
-              "GOT IT",
-              style: TextStyle(
-                  color: Colors.blue,
-                  fontWeight: FontWeight.bold
+            child: InkWell(
+              onTap: (){
+                widget.onClickGotIt();
+              },
+              child: Text(
+                "GOT IT",
+                style: TextStyle(
+                    color: Colors.blue,
+                    fontWeight: FontWeight.bold
+                ),
               ),
             ),
           ),

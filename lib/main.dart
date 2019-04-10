@@ -16,7 +16,7 @@ class AppScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: HomeScreen(username: "edi",)
+        body: LoginScreen()
     );
   }
 }

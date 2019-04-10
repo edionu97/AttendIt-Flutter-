@@ -21,7 +21,8 @@ dependencies:
   flutter:
     sdk: flutter
   email_validator: '^1.0.0'
-  image_picker:
+  image_picker: 0.5.0+3
+  camera: ^0.4.3+2
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -52,6 +53,7 @@ flutter:
      - user.jpg
      - user.png
      - head_left_right.gif
+     - head_up_down.gif
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

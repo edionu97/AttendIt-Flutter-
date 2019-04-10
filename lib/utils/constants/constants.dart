@@ -30,4 +30,7 @@ class Constants{
   // ignore: non_constant_identifier_names
   static String TILT_HEAD_LEFT_RIGHT ="You should move your head from left to right and back slowly";
 
+  // ignore: non_constant_identifier_names
+  static String TILT_HEAD_UP_DOWN= "You should move your head from up to down and back slowly";
+
 }

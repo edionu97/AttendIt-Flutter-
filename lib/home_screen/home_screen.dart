@@ -2,6 +2,7 @@ import 'package:attend_it/navigation_drawer/component.dart';
 import 'package:attend_it/profile_screen/component.dart';
 import 'package:attend_it/service/profile_service.dart';
 import 'package:attend_it/upload_video_screen/component.dart';
+import 'package:attend_it/utils/constants/constants.dart';
 import 'package:attend_it/utils/gui/gui.dart';
 import 'package:flutter/material.dart';
 
@@ -130,7 +131,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     }
   }
 
-  void _showCameraDialog(final BuildContext context){
+  void _showCameraDialog(final BuildContext context, {int index= 0}){
+
+   final Widget widget = __getDialog(index, context);
 
     showDialog(
         context: context,
@@ -141,7 +144,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget> [
-                      Video(),
+                      widget,
                       Divider(height: 5,)
                   ]
               )
@@ -187,6 +190,44 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       ),
     );
   }
+
+  Widget __getDialog(final int index, final BuildContext context){
+
+    switch(index){
+      case 0:{
+        return Video(
+          assertImage: "head_left_right.gif",
+          onClickGotIt: (){
+            _uploadLeftRight(index, context);
+          },
+          text: Constants.TILT_HEAD_LEFT_RIGHT,
+        );
+      }
+      case 1:{
+        return Video(
+          assertImage: "head_up_down.gif",
+          onClickGotIt: (){
+            _uploadUpDown(index, context);
+          },
+          text: Constants.TILT_HEAD_UP_DOWN,
+        );
+      }
+    }
+
+    return null;
+  }
+
+
+  void _uploadLeftRight(final int index, final BuildContext context){
+    Navigator.of(context).pop();
+    _showCameraDialog(context, index:  index + 1);
+  }
+
+  void _uploadUpDown(final int  index, final BuildContext context){
+
+  }
+
+
 
   bool _isDrawerVisible = false;
   int _selectedItem = 0;
