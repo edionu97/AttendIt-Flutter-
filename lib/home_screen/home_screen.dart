@@ -81,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   @override
-  void dispose(){
+  void dispose() {
     super.dispose();
     widgetController.dispose();
     controllerDrawer.dispose();
@@ -125,7 +125,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     });
   }
 
-  Widget _getNavigationDrawerButton(){
+  Widget _getNavigationDrawerButton() {
     return Align(
         alignment: Alignment.topLeft,
         child: Container(
@@ -146,20 +146,19 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         ));
   }
 
-  Widget _getNavigationDrawer(){
+  Widget _getNavigationDrawer() {
     return Align(
       alignment: Alignment.topLeft,
       child: FadeTransition(
         opacity: drawerAnimation,
         child: NavigationDrawer(
-          username: widget.username,
+            username: widget.username,
             selected: _selectedItem,
             selectionHandler: (idx) => controllerDrawer
                 .reverse()
                 .then((f) => _selection(idx, context)),
-            onClose: () => controllerDrawer.reverse().then((f) =>
-                setState(
-                        () => _isDrawerVisible = !_isDrawerVisible))),
+            onClose: () => controllerDrawer.reverse().then(
+                (f) => setState(() => _isDrawerVisible = !_isDrawerVisible))),
       ),
     );
   }

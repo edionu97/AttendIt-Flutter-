@@ -146,19 +146,26 @@ class _NavigationDrawer extends State<NavigationDrawer>
   }
 
   void _getProfilePicture() async {
-    BoxDecoration decoration = Decorator.getDefaultImageDecoration();
-    try {
-      dynamic response = await profileService.getProfile(widget.username);
-      if(response["image"] != null){
-        decoration = Decorator.getImageDecoration(
-          response["image"]
-        );
-      }
-    } on Exception {}
 
     setState(() {
-      this.decoration = decoration;
+      this.decoration =  Decorator.getDefaultImageDecoration();
     });
+
+    try {
+      dynamic response = await profileService.getProfile(widget.username);
+
+      if(response["image"] == null) {
+        return;
+      }
+
+      setState(() {
+        this.decoration = Decorator.getImageDecoration(
+            response["image"]
+        );
+      });
+
+    } on Exception {}
+
   }
 
   final double openWidth = 70;
