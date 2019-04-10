@@ -1,6 +1,8 @@
 import 'package:attend_it/navigation_drawer/component.dart';
 import 'package:attend_it/profile_screen/component.dart';
 import 'package:attend_it/service/profile_service.dart';
+import 'package:attend_it/upload_video_screen/component.dart';
+import 'package:attend_it/utils/gui/gui.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -21,11 +23,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         vsync: this, duration: const Duration(milliseconds: 300));
 
     controllerDrawer = new AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 300));
+        vsync: this, duration: const Duration(milliseconds: 400));
 
     widgetAnimation = Tween<double>(begin: 0, end: 1).animate(widgetController);
 
-    drawerAnimation = Tween<double>(begin: 0, end: 1).animate(controllerDrawer);
+    drawerAnimation = Tween<Offset>(begin: Offset(-1, 0), end: Offset(0, 0)).animate(controllerDrawer);
 
     widgets = [
       FadeTransition(
@@ -41,19 +43,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ),
             )),
       ),
-      FadeTransition(
-        opacity: widgetAnimation,
-        child: ScaleTransition(
-            scale: widgetAnimation,
-            alignment: Alignment.center,
-            child: Align(
-              alignment: Alignment.center,
-              child: Text(
-                "Camera record",
-                style: TextStyle(fontSize: 20),
-              ),
-            )),
-      ),
+      Container(),
       Container(),
       FadeTransition(
         opacity: widgetAnimation,
@@ -111,18 +101,53 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   void _selection(final int index, final BuildContext context) {
-    if (index == 2) {
-      Navigator.pop(context);
-      return;
-    }
+    switch (index) {
+      case 1:
+        {
+          _showCameraDialog(context);
+          setState(() {
+            _isDrawerVisible = false;
+          });
+          break;
+        }
 
-    widgetController.reverse().then((f) {
-      widgetController.forward();
-      setState(() {
-        _isDrawerVisible = false;
-        _selectedItem = index;
-      });
-    });
+      case 2:
+        {
+          Navigator.pop(context);
+          break;
+        }
+
+      default:
+        {
+          widgetController.reverse().then((f) {
+            widgetController.forward();
+            setState(() {
+              _isDrawerVisible = false;
+              _selectedItem = index;
+            });
+          });
+        }
+    }
+  }
+
+  void _showCameraDialog(final BuildContext context){
+
+    showDialog(
+        context: context,
+        builder: (context){
+          return Container(
+            color: Colors.transparent,
+            // container to set color
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget> [
+                      Video(),
+                      Divider(height: 5,)
+                  ]
+              )
+          );
+        }
+    );
   }
 
   Widget _getNavigationDrawerButton() {
@@ -149,8 +174,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Widget _getNavigationDrawer() {
     return Align(
       alignment: Alignment.topLeft,
-      child: FadeTransition(
-        opacity: drawerAnimation,
+      child: SlideTransition(
+        position: drawerAnimation,
         child: NavigationDrawer(
             username: widget.username,
             selected: _selectedItem,
@@ -170,7 +195,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   AnimationController widgetController;
   AnimationController controllerDrawer;
   Animation<double> widgetAnimation;
-  Animation<double> drawerAnimation;
+  Animation<Offset> drawerAnimation;
 
   final ProfileService profileService = ProfileService();
 }

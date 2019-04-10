@@ -42,17 +42,17 @@ class Decorator {
           end: Alignment.bottomRight,
           stops: [0.1, 0.5, 0.7, 0.9],
           colors: [
-            Colors.white70,
-            Colors.white70,
-            Colors.white70,
-            Colors.white70,
+            Colors.white12,
+            Colors.white12,
+            Colors.white12,
+            Colors.white12,
           ],
         ),
         borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(80),
-            bottomRight: Radius.circular(15),
-            topLeft: Radius.circular(15),
-            topRight: Radius.circular(15)));
+            bottomLeft: Radius.circular(30),
+            bottomRight: Radius.circular(30),
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30)));
   }
 
   static BoxDecoration getImageDecoration(final Image img) {

@@ -27,5 +27,7 @@ class Constants{
   // ignore: non_constant_identifier_names
   static String UPLOAD_PICTURE_API = "/profile/upload-picture";
 
+  // ignore: non_constant_identifier_names
+  static String TILT_HEAD_LEFT_RIGHT ="You should move your head from left to right and back slowly";
 
 }
