@@ -258,7 +258,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       GUI.openDialog(
           context: context,
           message: "Video successfully uploaded",
-          title: "Success");
+          title: "Success",
+          iconData: Icons.check,
+          iconColor: Colors.green
+      );
     } on Exception catch (e) {
       GUI.openDialog(
           context: context,

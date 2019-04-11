@@ -22,7 +22,7 @@ class _DialogCustomState extends State<DialogCustom>
   void initState() {
     super.initState();
     _animationController = new AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 200));
+        vsync: this, duration: const Duration(milliseconds: 300));
 
     _animation =
         new Tween<double>(begin: 0, end: .9).animate(_animationController);
@@ -48,7 +48,7 @@ class _DialogCustomState extends State<DialogCustom>
     return FadeTransition(
       opacity: _animation,
       child: Material(
-        elevation: 10,
+        elevation: 80,
         borderRadius: BorderRadius.all(Radius.circular(30)),
         child: Container(
           width: MediaQuery.of(context).size.width,
@@ -77,7 +77,7 @@ class _DialogCustomState extends State<DialogCustom>
       ),
       child: Container(
         decoration: BoxDecoration(
-            border: Border(bottom: BorderSide(color: Colors.black, width: .2))),
+            border: Border(bottom: BorderSide(color: Colors.black, width: .05))),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
@@ -108,7 +108,7 @@ class _DialogCustomState extends State<DialogCustom>
       height: 80,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-          border: Border(bottom: BorderSide(color: Colors.black, width: .2))),
+          border: Border(bottom: BorderSide(color: Colors.black, width: .05))),
       child: Align(
         alignment: Alignment.centerLeft,
         child: Padding(

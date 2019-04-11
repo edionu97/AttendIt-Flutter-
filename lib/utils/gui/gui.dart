@@ -39,22 +39,9 @@ class GUI {
   static void openDialog(
       {@required BuildContext context,
       String message,
-      String title = "Error"}) {
-//    showCupertinoDialog(
-//        context: context,
-//        builder: (BuildContext builder) {
-//          return AlertDialog(
-//              title: new Text(title),
-//              content: new Text(message),
-//              actions: <Widget>[
-//                // usually buttons at the bottom of the dialog
-//                new FlatButton(
-//                    child: new Text("Close"),
-//                    onPressed: () {
-//                      Navigator.of(context).pop();
-//                    })
-//              ]);
-//        });
+      String title = "Error",
+      IconData iconData = Icons.error, Color iconColor = Colors.black
+      }) {
 
     showDialog(
         context: context,
@@ -68,6 +55,7 @@ class GUI {
                     DialogCustom(
                       message: message,
                       title: title,
+                      icon: Icon(iconData, color: iconColor,),
                     )
                   ]));
         });

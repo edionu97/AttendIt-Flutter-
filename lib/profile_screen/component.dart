@@ -141,7 +141,10 @@ class _Profile extends State<Profile> {
         () => GUI.openDialog(
             context: context,
             message: "Profile updated successfully",
-            title: "Success"),
+            title: "Success",
+            iconData: Icons.check,
+            iconColor: Colors.green
+        ),
       );
     } on Exception catch (e) {
       Future.delayed(Duration.zero,
@@ -171,7 +174,10 @@ class _Profile extends State<Profile> {
           () => GUI.openDialog(
               context: context,
               message: "Password changed successfully",
-              title: "Success"));
+              title: "Success",
+              iconColor: Colors.green,
+              iconData: Icons.check
+          ));
     } on Exception catch (e) {
       Future.delayed(Duration.zero,
           () => GUI.openDialog(context: context, message: e.toString()));
