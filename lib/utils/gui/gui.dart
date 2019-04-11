@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:attend_it/utils/components/decoration_form.dart';
 import 'package:attend_it/utils/constants/constants.dart';
+import 'package:attend_it/utils/gui/dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -39,20 +40,36 @@ class GUI {
       {@required BuildContext context,
       String message,
       String title = "Error"}) {
-    showCupertinoDialog(
+//    showCupertinoDialog(
+//        context: context,
+//        builder: (BuildContext builder) {
+//          return AlertDialog(
+//              title: new Text(title),
+//              content: new Text(message),
+//              actions: <Widget>[
+//                // usually buttons at the bottom of the dialog
+//                new FlatButton(
+//                    child: new Text("Close"),
+//                    onPressed: () {
+//                      Navigator.of(context).pop();
+//                    })
+//              ]);
+//        });
+
+    showDialog(
         context: context,
-        builder: (BuildContext builder) {
-          return AlertDialog(
-              title: new Text(title),
-              content: new Text(message),
-              actions: <Widget>[
-                // usually buttons at the bottom of the dialog
-                new FlatButton(
-                    child: new Text("Close"),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    })
-              ]);
+        builder: (context) {
+          return Container(
+              color: Colors.transparent,
+              // container to set color
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    DialogCustom(
+                      message: message,
+                      title: title,
+                    )
+                  ]));
         });
   }
 

@@ -229,7 +229,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Future<void> _uploadLeftRight(
       final int index, final BuildContext cont) async {
     Navigator.of(context).pop();
-    
+
 
     cameraController = CameraController(cameras[0], ResolutionPreset.high);
     showDialog(
