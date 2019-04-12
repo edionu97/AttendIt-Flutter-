@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:attend_it/navigation_drawer/component.dart';
 import 'package:attend_it/profile_screen/component.dart';
@@ -142,7 +143,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   void _showCameraDialog(final BuildContext cont, {int index = 0}) {
-
     showDialog(
         context: cont,
         builder: (context) {
@@ -199,9 +199,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   Widget __getDialog(final int index, final BuildContext context) {
-
-    final String assetImage = index == 0 ? "head_left_right.gif" : "head_up_down.gif";
-    final String text = index == 0 ? Constants.TILT_HEAD_LEFT_RIGHT : Constants.TILT_HEAD_UP_DOWN;
+    final String assetImage =
+        index == 0 ? "head_left_right.gif" : "head_up_down.gif";
+    final String text = index == 0
+        ? Constants.TILT_HEAD_LEFT_RIGHT
+        : Constants.TILT_HEAD_UP_DOWN;
 
     return Video(
       assertImage: assetImage,
@@ -214,7 +216,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   Future<void> _uploadFiles(final BuildContext context) async {
-
     try {
       await profileService.uploadVideoRecords(widget.username);
       GUI.openDialog(
@@ -222,8 +223,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           message: "Videos successfully uploaded",
           title: "Success",
           iconData: Icons.check,
-          iconColor: Colors.green
-      );
+          iconColor: Colors.green);
     } on Exception catch (e) {
       GUI.openDialog(
           context: context,
@@ -231,32 +231,43 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           title: "Success");
     }
 
-    new File((await getTemporaryDirectory()).path + Constants.TMP_LEFT_RIGHT).deleteSync();
-    new File((await getTemporaryDirectory()).path + Constants.TMP_UP_DOWN).deleteSync();
+    new File((await getTemporaryDirectory()).path + Constants.TMP_LEFT_RIGHT)
+        .deleteSync();
+    new File((await getTemporaryDirectory()).path + Constants.TMP_UP_DOWN)
+        .deleteSync();
   }
 
-  void __showCameraDialog(final int index, final BuildContext cont){
+  void __showCameraDialog(final int index, final BuildContext cont) {
+    final String tmpFileName =
+        index == 0 ? Constants.TMP_LEFT_RIGHT : Constants.TMP_UP_DOWN;
 
-    final String tmpFileName = index == 0 ? Constants.TMP_LEFT_RIGHT : Constants.TMP_UP_DOWN;
-
-    cameraController = CameraController(cameras[0], ResolutionPreset.high);
-    showDialog(
+    GUI.chooseCamera(
         context: cont,
-        builder: (context) => Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          color: Colors.transparent,
-          child: VideoScreen(
-            controllerCamera: cameraController,
-            tmpFileName: tmpFileName,
-            onFinish: () {
-              Navigator.of(cont).pop();
-              Future.delayed(
-                  Duration.zero, () => cameraController.dispose())
-                  .then((_) => index == 0 ? _showCameraDialog(cont, index:  1) : _uploadFiles(cont));
-            },
-          ),
-        ));
+        afterOpen: (final int camIdx) {
+
+          cameraController = CameraController(
+              cameras[min(camIdx, cameras.length)], ResolutionPreset.high);
+
+          showDialog(
+              context: cont,
+              builder: (context) => Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    color: Colors.transparent,
+                    child: VideoScreen(
+                      controllerCamera: cameraController,
+                      tmpFileName: tmpFileName,
+                      onFinish: () {
+                        Navigator.of(cont).pop();
+                        Future.delayed(
+                                Duration.zero, () => cameraController.dispose())
+                            .then((_) => index == 0
+                                ? _showCameraDialog(cont, index: 1)
+                                : _uploadFiles(cont));
+                      },
+                    ),
+                  ));
+        });
   }
 
   bool _isDrawerVisible = false;

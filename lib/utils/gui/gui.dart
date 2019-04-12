@@ -103,7 +103,6 @@ class GUI {
         context: context,
         builder: (BuildContext builder) {
           return Material(
-            borderRadius: const BorderRadius.all(const Radius.circular(30)),
             child: AlertDialog(
                 title: new Text("Question"),
                 content: new Text("Choose video camera"),
@@ -113,13 +112,13 @@ class GUI {
                       child: new Text("Frontal camera"),
                       onPressed: () async {
                         Navigator.of(context).pop();
-                        afterOpen();
+                        afterOpen(1);
                       }),
                   new FlatButton(
                       child: new Text("Back camera"),
                       onPressed: () async {
                         Navigator.of(context).pop();
-                        afterOpen();
+                        afterOpen(0);
                       })
                 ]),
           );
