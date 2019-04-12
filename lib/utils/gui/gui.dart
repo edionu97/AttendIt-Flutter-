@@ -40,9 +40,8 @@ class GUI {
       {@required BuildContext context,
       String message,
       String title = "Error",
-      IconData iconData = Icons.error, Color iconColor = Colors.black
-      }) {
-
+      IconData iconData = Icons.error,
+      Color iconColor = Colors.black}) {
     showDialog(
         context: context,
         builder: (context) {
@@ -55,7 +54,10 @@ class GUI {
                     DialogCustom(
                       message: message,
                       title: title,
-                      icon: Icon(iconData, color: iconColor,),
+                      icon: Icon(
+                        iconData,
+                        color: iconColor,
+                      ),
                     )
                   ]));
         });
@@ -94,4 +96,34 @@ class GUI {
               ]);
         });
   }
+
+  static void chooseCamera(
+      {@required BuildContext context, Function afterOpen}) {
+    showCupertinoDialog(
+        context: context,
+        builder: (BuildContext builder) {
+          return Material(
+            borderRadius: const BorderRadius.all(const Radius.circular(30)),
+            child: AlertDialog(
+                title: new Text("Question"),
+                content: new Text("Choose video camera"),
+                actions: <Widget>[
+                  // usually buttons at the bottom of the dialog
+                  new FlatButton(
+                      child: new Text("Frontal camera"),
+                      onPressed: () async {
+                        Navigator.of(context).pop();
+                        afterOpen();
+                      }),
+                  new FlatButton(
+                      child: new Text("Back camera"),
+                      onPressed: () async {
+                        Navigator.of(context).pop();
+                        afterOpen();
+                      })
+                ]),
+          );
+        });
+  }
+
 }

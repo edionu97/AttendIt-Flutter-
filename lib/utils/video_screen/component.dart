@@ -6,13 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
 class VideoScreen extends StatefulWidget {
-  VideoScreen({this.controllerCamera, this.onFinish});
+  VideoScreen({this.controllerCamera, this.onFinish, this.tmpFileName});
 
   @override
   _VideoScreenState createState() => _VideoScreenState();
 
   final CameraController controllerCamera;
   final Function onFinish;
+  final String tmpFileName;
 }
 
 class _VideoScreenState extends State<VideoScreen>
@@ -49,14 +50,8 @@ class _VideoScreenState extends State<VideoScreen>
       position: _animation,
       child: Material(
         child: Container(
-            width: MediaQuery
-                .of(context)
-                .size
-                .width,
-            height: MediaQuery
-                .of(context)
-                .size
-                .height,
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
             child: Stack(
               children: <Widget>[
                 Align(
@@ -88,7 +83,7 @@ class _VideoScreenState extends State<VideoScreen>
     await widget.controllerCamera.initialize();
 
     final Directory tmpDirectory = await getTemporaryDirectory();
-    final File tmpFile = new File(tmpDirectory.path + Constants.TMP_LEFT_RIGHT);
+    final File tmpFile = new File(tmpDirectory.path + widget.tmpFileName);
     if (tmpFile.existsSync()) {
       tmpFile.deleteSync();
     }

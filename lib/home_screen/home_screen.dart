@@ -141,11 +141,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     }
   }
 
-  void _showCameraDialog(final BuildContext context, {int index = 0}) {
-    final Widget widget = __getDialog(index, context);
+  void _showCameraDialog(final BuildContext cont, {int index = 0}) {
 
     showDialog(
-        context: context,
+        context: cont,
         builder: (context) {
           return Container(
               color: Colors.transparent,
@@ -153,7 +152,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
-                    widget,
+                    __getDialog(index, cont),
                     Divider(
                       height: 5,
                     )
@@ -200,64 +199,27 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   Widget __getDialog(final int index, final BuildContext context) {
-    switch (index) {
-      case 0:
-        {
-          return Video(
-            assertImage: "head_left_right.gif",
-            onClickGotIt: () {
-              _uploadLeftRight(index, context);
-            },
-            text: Constants.TILT_HEAD_LEFT_RIGHT,
-          );
-        }
-      case 1:
-        {
-          return Video(
-            assertImage: "head_up_down.gif",
-            onClickGotIt: () {
-              _uploadUpDown(index, context);
-            },
-            text: Constants.TILT_HEAD_UP_DOWN,
-          );
-        }
-    }
 
-    return null;
+    final String assetImage = index == 0 ? "head_left_right.gif" : "head_up_down.gif";
+    final String text = index == 0 ? Constants.TILT_HEAD_LEFT_RIGHT : Constants.TILT_HEAD_UP_DOWN;
+
+    return Video(
+      assertImage: assetImage,
+      onClickGotIt: () {
+        Navigator.of(context).pop();
+        __showCameraDialog(index, context);
+      },
+      text: text,
+    );
   }
 
-  Future<void> _uploadLeftRight(
-      final int index, final BuildContext cont) async {
-    Navigator.of(context).pop();
+  Future<void> _uploadFiles(final BuildContext context) async {
 
-
-    cameraController = CameraController(cameras[0], ResolutionPreset.high);
-    showDialog(
-        context: cont,
-        builder: (context) => Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              color: Colors.transparent,
-              child: VideoScreen(
-                controllerCamera: cameraController,
-                onFinish: () {
-                  Navigator.of(context).pop();
-                  Future.delayed(
-                          Duration.zero, () => cameraController.dispose())
-                      .then((_) => _uploadFile(cont));
-                },
-              ),
-            ));
-  }
-
-  void _uploadUpDown(final int index, final BuildContext context) {}
-
-  Future<void> _uploadFile(final BuildContext context) async {
     try {
-      await profileService.uploadLeftRightVideoRecord(widget.username);
+      await profileService.uploadVideoRecords(widget.username);
       GUI.openDialog(
           context: context,
-          message: "Video successfully uploaded",
+          message: "Videos successfully uploaded",
           title: "Success",
           iconData: Icons.check,
           iconColor: Colors.green
@@ -268,6 +230,33 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           message: e.toString().split("")[1],
           title: "Success");
     }
+
+    new File((await getTemporaryDirectory()).path + Constants.TMP_LEFT_RIGHT).deleteSync();
+    new File((await getTemporaryDirectory()).path + Constants.TMP_UP_DOWN).deleteSync();
+  }
+
+  void __showCameraDialog(final int index, final BuildContext cont){
+
+    final String tmpFileName = index == 0 ? Constants.TMP_LEFT_RIGHT : Constants.TMP_UP_DOWN;
+
+    cameraController = CameraController(cameras[0], ResolutionPreset.high);
+    showDialog(
+        context: cont,
+        builder: (context) => Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          color: Colors.transparent,
+          child: VideoScreen(
+            controllerCamera: cameraController,
+            tmpFileName: tmpFileName,
+            onFinish: () {
+              Navigator.of(cont).pop();
+              Future.delayed(
+                  Duration.zero, () => cameraController.dispose())
+                  .then((_) => index == 0 ? _showCameraDialog(cont, index:  1) : _uploadFiles(cont));
+            },
+          ),
+        ));
   }
 
   bool _isDrawerVisible = false;

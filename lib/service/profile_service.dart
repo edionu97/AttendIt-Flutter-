@@ -101,20 +101,26 @@ class ProfileService {
         });
   }
 
-  Future<dynamic> uploadLeftRightVideoRecord(final String username) async {
+  Future<dynamic> uploadVideoRecords(final String username) async {
 
     final Directory directory = await getTemporaryDirectory();
-    final File file = new File(directory.path + Constants.TMP_LEFT_RIGHT);
+    final File fileTmpLeftRight = new File(directory.path + Constants.TMP_LEFT_RIGHT);
+    final File fileTmpUpDown = new File(directory.path + Constants.TMP_UP_DOWN);
 
-    if (!file.existsSync()) {
-      throw new Exception("Tmp file not found!");
+    if (!fileTmpLeftRight.existsSync()) {
+      throw new Exception("Tmp file left-right not found!");
+    }
+
+    if(!fileTmpUpDown.existsSync()){
+      throw new Exception("Tmp file up-down not found!");
     }
 
     return Dio()
         .post(Constants.SERVER_ADDRESS + Constants.UPLOAD_LEFT_RIGHT_API,
             data: FormData.from({
-              "file":
-                  UploadFileInfo(file, Constants.TMP_LEFT_RIGHT.substring(1)),
+              "fileLeftRight":
+                  UploadFileInfo(fileTmpLeftRight, Constants.TMP_LEFT_RIGHT.substring(1)),
+              "fileUpDown": UploadFileInfo(fileTmpUpDown, Constants.TMP_UP_DOWN.substring(1)),
               "user": username
             }))
         .timeout(const Duration(seconds: 5))
