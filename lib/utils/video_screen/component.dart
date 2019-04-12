@@ -1,12 +1,12 @@
+import 'dart:async';
 import 'dart:io';
 
-import 'package:attend_it/utils/constants/constants.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
 class VideoScreen extends StatefulWidget {
-  VideoScreen({this.controllerCamera, this.onFinish, this.tmpFileName});
+  VideoScreen({this.controllerCamera, this.onFinish, this.tmpFileName, this.stopTime = 11 * 1000});
 
   @override
   _VideoScreenState createState() => _VideoScreenState();
@@ -14,6 +14,7 @@ class VideoScreen extends StatefulWidget {
   final CameraController controllerCamera;
   final Function onFinish;
   final String tmpFileName;
+  final int stopTime;
 }
 
 class _VideoScreenState extends State<VideoScreen>
@@ -61,14 +62,50 @@ class _VideoScreenState extends State<VideoScreen>
                       : Container(),
                 ),
                 Align(
-                  alignment: Alignment.bottomRight,
+                  alignment: Alignment.topCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Opacity(
+                      opacity: .5,
+                      child: Container(
+                        height: 30,
+                        width: 70,
+                        color: Colors.black,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              _timerClocks != null ? "00:${(_timerClocks.tick ~/ 10)}${_timerClocks.tick % 10}" : "00:00",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 17
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 10, right: 10),
-                    child: InkWell(
-                      onTap: () => _finishRecording(context),
-                      child: Icon(
-                        Icons.close,
-                        color: Colors.white,
+                    child: Material(
+                      elevation: 10,
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      color: Colors.transparent,
+                      child: InkWell(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        splashColor: Colors.lightGreen,
+                        onTap: () => _finishRecording(),
+                        child: Icon(
+                          Icons.check,
+                          color: Colors.green,
+                          size: 30,
+                        ),
                       ),
                     ),
                   ),
@@ -90,14 +127,34 @@ class _VideoScreenState extends State<VideoScreen>
 
     await widget.controllerCamera.startVideoRecording(tmpFile.path);
     _controller.forward();
+
+    _timer = Timer(Duration(milliseconds: widget.stopTime), (){
+      _finishRecording();
+    });
+
+    _timerClocks = Timer.periodic(const Duration(milliseconds: 1000), (timer){
+      setState(() {
+      });
+    });
     setState(() {});
   }
 
-  Future<void> _finishRecording(final BuildContext context) async {
+  Future<void> _finishRecording() async {
+
+    if(_timer.isActive){
+      _timer.cancel();
+    }
+
+    if(_timerClocks.isActive){
+      _timerClocks.cancel();
+    }
+
     widget.controllerCamera.stopVideoRecording();
     _controller.reverse().then((_) => widget.onFinish());
   }
 
   AnimationController _controller;
   Animation<Offset> _animation;
+  Timer _timer;
+  Timer _timerClocks;
 }
