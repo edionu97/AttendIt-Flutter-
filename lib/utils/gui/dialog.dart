@@ -77,7 +77,8 @@ class _DialogCustomState extends State<DialogCustom>
       ),
       child: Container(
         decoration: BoxDecoration(
-            border: Border(bottom: BorderSide(color: Colors.black, width: .05))),
+            border:
+                Border(bottom: BorderSide(color: Colors.black, width: .05))),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
@@ -126,21 +127,25 @@ class _DialogCustomState extends State<DialogCustom>
     return Container(
       height: 40,
       decoration: BoxDecoration(
-          borderRadius:
-              const BorderRadius.only(bottomRight: const Radius.circular(30)),
+        borderRadius:
+            const BorderRadius.only(bottomRight: const Radius.circular(30)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          FlatButton(
-              child: new Text(
-                "CLOSE",
-                style: TextStyle(color: Colors.blue, fontSize: 15),
-              ),
-              onPressed: () async {
-                await _animationController.reverse();
-                Navigator.of(context).pop();
-              })
+          Material(
+            child: InkWell(
+                borderRadius: const BorderRadius.all(const Radius.circular(15)),
+                child: new Text(
+                  "CLOSE",
+                  style: TextStyle(color: Colors.blue, fontSize: 15),
+                ),
+                onTap: () async {
+                  await _animationController.reverse();
+                  Navigator.of(context).pop();
+                }),
+          ),
+          SizedBox(width: 20,)
         ],
       ),
     );

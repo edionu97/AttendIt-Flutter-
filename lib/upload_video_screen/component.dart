@@ -106,35 +106,39 @@ class _VideoState extends State<Video> with SingleTickerProviderStateMixin {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          InkWell(
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            onTap: (){
-              _animationController.reverse().then((f)=> Navigator.of(context).pop());
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(right: 20),
-              child: Text(
-                "CANCEL",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Colors.redAccent,
-                    fontWeight: FontWeight.bold
+          Material(
+            child: InkWell(
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              onTap: (){
+                _animationController.reverse().then((f)=> Navigator.of(context).pop());
+              },
+              child: Container(
+                child: Text(
+                  "CANCEL",
+                  textAlign: TextAlign.right,
+                  style: TextStyle(
+                      color: Colors.redAccent,
+                      fontWeight: FontWeight.bold
+                  ),
                 ),
               ),
             ),
           ),
+          SizedBox(width: 12,),
           Padding(
             padding: const EdgeInsets.only(right: 40),
-            child: InkWell(
-              onTap: (){
-                widget.onClickGotIt();
-              },
-              child: Text(
-                "GOT IT",
-                style: TextStyle(
-                    color: Colors.blue,
-                    fontWeight: FontWeight.bold
+            child: Material(
+              child: InkWell(
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                onTap: (){
+                  widget.onClickGotIt();
+                },
+                child: Text(
+                  "GOT IT",
+                  style: TextStyle(
+                      color: Colors.blue,
+                      fontWeight: FontWeight.bold
+                  ),
                 ),
               ),
             ),
