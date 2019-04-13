@@ -55,8 +55,7 @@ class _CollapsingListTitleState extends State<CollapsingListTitle> {
                   style: TextStyle(
                       fontWeight: !widget.isSelected ? FontWeight.normal : FontWeight.bold,
                       color: !widget.isSelected ? iconColor : Colors.black,
-                      fontSize: 18,
-                      fontFamily: "times new roman"))
+                      fontSize: 18))
               : Container()
         ],
       ),
