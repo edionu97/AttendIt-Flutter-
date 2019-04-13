@@ -123,7 +123,7 @@ class ProfileService {
               "fileUpDown": UploadFileInfo(fileTmpUpDown, Constants.TMP_UP_DOWN.substring(1)),
               "user": username
             }))
-        .timeout(const Duration(seconds: 5))
+        .timeout(const Duration(seconds: 30))
         .catchError((err) => throw new Exception("Cannot send file to server"))
         .then((onValue) {
       if (onValue.statusCode != 200) {
