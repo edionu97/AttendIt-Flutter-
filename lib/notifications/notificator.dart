@@ -63,7 +63,6 @@ class Notificator {
     }, onDone: () {
       print("Connection closed for: ${this._username}");
 
-      print(this._onDone);
       if(this._onDone == null){
         return;
       }

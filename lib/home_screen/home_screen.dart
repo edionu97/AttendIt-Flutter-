@@ -170,7 +170,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   void _logoutAction(final BuildContext context) {
     Navigator.of(context).pop();
-    Notificator().setOnDone((_){});
+    Notificator().setOnDone((){});
     Notificator().close();
   }
 
