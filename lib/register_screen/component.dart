@@ -5,7 +5,7 @@ import 'package:attend_it/utils/gui/gui.dart';
 import 'package:attend_it/utils/components/upper_element.dart';
 import 'package:flutter/material.dart';
 
-class RegisterScreen extends StatefulWidget{
+class RegisterScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return new _RegisterScreen();
@@ -13,10 +13,9 @@ class RegisterScreen extends StatefulWidget{
 }
 
 class _RegisterScreen extends State<RegisterScreen> {
-
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
         body: SingleChildScrollView(
             child: Container(
                 height: MediaQuery.of(context).size.height,
@@ -69,8 +68,10 @@ class _RegisterScreen extends State<RegisterScreen> {
       }
       dynamic response = await _loginService.createAccount(
           controllerUsername.text, controllerPassword.text);
-      GUI.openDialog(
-          context: context, message: response["msg"], title: "Success");
+      GUI
+          .openDialog(
+              context: context, message: response["msg"], title: "Success")
+          .then((_) => Navigator.of(context).pop());
     } on Exception catch (e) {
       final String message = e.toString().split(":")[1];
       GUI.openDialog(context: context, message: message);
@@ -78,7 +79,7 @@ class _RegisterScreen extends State<RegisterScreen> {
   }
 
   @override
-  void dispose(){
+  void dispose() {
     super.dispose();
     controllerPassword.dispose();
     controllerConfirmPassword.dispose();
