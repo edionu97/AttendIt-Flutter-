@@ -36,13 +36,13 @@ class GUI {
         ));
   }
 
-  static void openDialog(
+  static Future<dynamic> openDialog(
       {@required BuildContext context,
       String message,
       String title = "Error",
       IconData iconData = Icons.error,
       Color iconColor = Colors.black}) {
-    showDialog(
+    return showDialog(
         context: context,
         builder: (context) {
           return Container(
@@ -51,12 +51,15 @@ class GUI {
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    DialogCustom(
-                      message: message,
-                      title: title,
-                      icon: Icon(
-                        iconData,
-                        color: iconColor,
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 5),
+                      child: DialogCustom(
+                        message: message,
+                        title: title,
+                        icon: Icon(
+                          iconData,
+                          color: iconColor,
+                        ),
                       ),
                     )
                   ]));

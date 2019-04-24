@@ -6,13 +6,13 @@ import 'package:attend_it/main.dart';
 import 'package:attend_it/navigation_drawer/component.dart';
 import 'package:attend_it/notifications/notificator.dart';
 import 'package:attend_it/profile_screen/component.dart';
+import 'package:attend_it/service/attendance_service.dart';
 import 'package:attend_it/service/profile_service.dart';
 import 'package:attend_it/upload_video_screen/component.dart';
 import 'package:attend_it/utils/components/animation.dart';
 import 'package:attend_it/utils/constants/constants.dart';
 import 'package:attend_it/utils/gui/gui.dart';
 import 'package:attend_it/utils/video_screen/component.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:path_provider/path_provider.dart';
@@ -123,30 +123,28 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   void _selection(final int index, final BuildContext context) {
     switch (index) {
       case 1:
-        {
-          _showCameraDialog(context);
-          setState(() {
-            _isDrawerVisible = false;
-          });
-          break;
-        }
+        _showCameraDialog(context);
+        setState(() {
+          _isDrawerVisible = false;
+        });
+        break;
 
       case 2:
-        {
-          _logoutAction(context);
-          break;
-        }
+        _logoutAction(context);
+        break;
+
+      case 4:
+        __displayAttendance(context, 4);
+        break;
 
       default:
-        {
-          widgetController.reverse().then((f) {
-            widgetController.forward();
-            setState(() {
-              _isDrawerVisible = false;
-              _selectedItem = index;
-            });
+        widgetController.reverse().then((f) {
+          widgetController.forward();
+          setState(() {
+            _isDrawerVisible = false;
+            _selectedItem = index;
           });
-        }
+        });
     }
   }
 
@@ -170,11 +168,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   void _logoutAction(final BuildContext context) {
     Navigator.of(context).pop();
-    Notificator().setOnDone((){});
+    Notificator().setOnDone(() {});
     Notificator().close();
   }
 
-  void _restartApp(){
+  void _restartApp() {
     Notificator().close();
     RestartWidget.restartApp(context);
   }
@@ -286,6 +284,33 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     ),
                   ));
         });
+  }
+
+  void __displayAttendance(final BuildContext context, final int index) async {
+    try {
+      await (new AttendanceService()).checkFaceRegistration(widget.username);
+
+      widgetController.reverse().then((f) {
+        widgetController.forward();
+        setState(() {
+          _isDrawerVisible = false;
+          _selectedItem = index;
+        });
+      });
+    } on Exception catch (e) {
+      if (!e.toString().contains("must upload your face")) {
+        GUI.openDialog(context: context, message: e.toString());
+        return;
+      }
+      GUI
+          .openDialog(
+              context: context,
+              message: "You must upload your face first",
+              title: "Warning",
+              iconData: Icons.warning,
+              iconColor: Colors.orange)
+          .then((_) => _selection(1, context));
+    }
   }
 
   bool _isDrawerVisible = false;
