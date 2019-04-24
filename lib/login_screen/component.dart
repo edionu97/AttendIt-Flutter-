@@ -1,5 +1,5 @@
 import 'package:attend_it/home_screen/home_screen.dart';
-import 'package:attend_it/profile_screen/component.dart';
+import 'package:attend_it/notifications/notificator.dart';
 import 'package:attend_it/register_screen/component.dart';
 import 'package:attend_it/service/login_service.dart';
 import 'package:attend_it/utils/components/animated_button.dart';
@@ -9,7 +9,7 @@ import 'package:attend_it/utils/gui/gui.dart';
 import 'package:attend_it/utils/components/upper_element.dart';
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatefulWidget{
+class LoginScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return new _LoginScreen();
@@ -17,7 +17,6 @@ class LoginScreen extends StatefulWidget{
 }
 
 class _LoginScreen extends State<LoginScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,7 +67,11 @@ class _LoginScreen extends State<LoginScreen> {
     try {
       await _loginService.login(
           controllerUsername.text, controllerPassword.text);
-      Navigator.of(context).push(SecondPageRoute(toPage: () => HomeScreen(username:  controllerUsername.text,)));
+      Navigator.of(context).push(SecondPageRoute(
+          toPage: () => HomeScreen(
+                username: controllerUsername.text
+              )));
+      new Notificator().setUsername(controllerUsername.text);
     } on Exception catch (e) {
       final String message = e.toString().split(":")[1];
       GUI.openDialog(context: context, message: message);
@@ -76,7 +79,7 @@ class _LoginScreen extends State<LoginScreen> {
   }
 
   @override
-  void dispose(){
+  void dispose() {
     super.dispose();
     controllerUsername.dispose();
     controllerPassword.dispose();

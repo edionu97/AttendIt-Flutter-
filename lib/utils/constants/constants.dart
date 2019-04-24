@@ -10,6 +10,9 @@ class Constants{
   static String SERVER_ADDRESS="http://172.16.10.101:8080";
 
   // ignore: non_constant_identifier_names
+  static String WEB_SOCKET = SERVER_ADDRESS.replaceAll("http", "ws") + "/topic";
+
+  // ignore: non_constant_identifier_names
   static String LOGIN_API="/auth/login";
 
   // ignore: non_constant_identifier_names

@@ -36,6 +36,8 @@ class _VideoScreenState extends State<VideoScreen>
   void dispose() {
     super.dispose();
     _controller.dispose();
+    _timer.cancel();
+    _timerClocks.cancel();
   }
 
   @override

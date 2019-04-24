@@ -1,10 +1,14 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:attend_it/login_screen/component.dart';
+import 'package:attend_it/main.dart';
 import 'package:attend_it/navigation_drawer/component.dart';
+import 'package:attend_it/notifications/notificator.dart';
 import 'package:attend_it/profile_screen/component.dart';
 import 'package:attend_it/service/profile_service.dart';
 import 'package:attend_it/upload_video_screen/component.dart';
+import 'package:attend_it/utils/components/animation.dart';
 import 'package:attend_it/utils/constants/constants.dart';
 import 'package:attend_it/utils/gui/gui.dart';
 import 'package:attend_it/utils/video_screen/component.dart';
@@ -78,6 +82,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
     _initializeCameras();
     widgetController.forward();
+    Notificator().setOnDone(() => _restartApp());
   }
 
   @override
@@ -85,7 +90,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     super.dispose();
     widgetController.dispose();
     controllerDrawer.dispose();
-    cameraController.dispose();
+
+    if (cameraController != null) {
+      cameraController.dispose();
+    }
   }
 
   @override
@@ -125,7 +133,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
       case 2:
         {
-          Navigator.pop(context);
+          _logoutAction(context);
           break;
         }
 
@@ -158,6 +166,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     )
                   ]));
         });
+  }
+
+  void _logoutAction(final BuildContext context) {
+    Navigator.of(context).pop();
+    Notificator().close();
+  }
+
+  void _restartApp(){
+    Notificator().close();
+    RestartWidget.restartApp(context);
   }
 
   Widget _getNavigationDrawerButton() {
@@ -244,7 +262,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     GUI.chooseCamera(
         context: cont,
         afterOpen: (final int camIdx) {
-
           cameraController = CameraController(
               cameras[min(camIdx, cameras.length)], ResolutionPreset.high);
 
