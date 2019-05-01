@@ -8,6 +8,7 @@ import 'package:attend_it/notifications/notificator.dart';
 import 'package:attend_it/profile_screen/component.dart';
 import 'package:attend_it/service/attendance_service.dart';
 import 'package:attend_it/service/profile_service.dart';
+import 'package:attend_it/student_attendance_screen/component.dart';
 import 'package:attend_it/upload_video_screen/component.dart';
 import 'package:attend_it/utils/components/animation.dart';
 import 'package:attend_it/utils/constants/constants.dart';
@@ -70,14 +71,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         child: ScaleTransition(
             scale: widgetAnimation,
             alignment: Alignment.center,
-            child: Align(
-              alignment: Alignment.center,
-              child: Text(
-                "Attendence screen",
-                style: TextStyle(fontSize: 20),
-              ),
-            )),
-      )
+            child: StudentAttendanceScreen(username: widget.username),
+      ))
     ];
 
     _initializeCameras();

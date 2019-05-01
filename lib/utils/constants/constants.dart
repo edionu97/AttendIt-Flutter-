@@ -7,7 +7,7 @@ class Constants{
   static double PROFILE_PICTURE_HEIGHT = 150;
 
   // ignore: non_constant_identifier_names
-  static String SERVER_ADDRESS="http://172.16.10.101:8080";
+  static String SERVER_ADDRESS="http://192.168.43.155:8080";
 
   // ignore: non_constant_identifier_names
   static String WEB_SOCKET = SERVER_ADDRESS.replaceAll("http", "ws") + "/topic";
