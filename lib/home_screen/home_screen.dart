@@ -188,6 +188,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             child: Icon(
               Icons.menu,
               size: 35,
+              color: _selectedItem != 4 ? Colors.black : Colors.white,
             ),
           ),
         ));

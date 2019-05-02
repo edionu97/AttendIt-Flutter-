@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:attend_it/service/models/course.dart';
 import 'package:attend_it/utils/constants/constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
@@ -26,6 +27,22 @@ class AttendanceService {
             throw new Exception("You must upload your face");
           }
         });
+  }
+
+  Future<List<Course>> getAllAvailableCourses() async {
+
+    final Response response = await http.get(
+        Constants.SERVER_ADDRESS + Constants.GET_ALL_AVAILABLE_COURSES,
+        headers: {"Content-Type": "application/json"});
+
+    final dynamic result = json.decode(response.body);
+
+    final List<Course> courses = [];
+    for (var element in result["courses"]) {
+      courses.add(Course.fromJSON(element));
+    }
+
+    return courses;
   }
 
   factory AttendanceService() {
