@@ -118,13 +118,22 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
     showDialog(
         context: cont,
         builder: (context) {
-          return Container(
-              color: Colors.transparent,
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Enroll(),
-                  ]));
+          return Material(
+            color: Colors.transparent,
+            child: InkWell(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              onTap: () => Navigator.of(context).pop(),
+              child: Container(
+                  color: Colors.transparent,
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        Enroll(course: course, username: widget.username,),
+                        Divider(height: 5,)
+                      ])),
+            ),
+          );
         });
 
   }

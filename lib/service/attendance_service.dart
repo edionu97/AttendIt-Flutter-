@@ -39,7 +39,7 @@ class AttendanceService {
 
     final List<Course> courses = [];
     for (var element in result["courses"]) {
-      courses.add(Course.fromJSON(element));
+      courses.add(Course.fromJson(element));
     }
 
     return courses;

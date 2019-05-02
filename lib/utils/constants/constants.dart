@@ -40,6 +40,15 @@ class Constants{
   static String GET_ALL_AVAILABLE_COURSES = "/attendance/courses";
 
   // ignore: non_constant_identifier_names
+  static String CHECK_STUDENT_ENROLLMENT = "/enrollment/check-enrollment";
+
+  // ignore: non_constant_identifier_names
+  static String ADD_STUDENT_ENROLLMENT = "/enrollment/add";
+
+  // ignore: non_constant_identifier_names
+  static String REMOVE_STUDENT_ENROLLMENT = "/enrollment/delete";
+
+  // ignore: non_constant_identifier_names
   static String TILT_HEAD_LEFT_RIGHT ="You should move your head from left to right and back slowly";
 
   // ignore: non_constant_identifier_names

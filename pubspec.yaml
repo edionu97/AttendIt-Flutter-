@@ -26,6 +26,7 @@ dependencies:
   path_provider:
   dio: ^2.1.2
   web_socket_channel: ^1.0.12
+  json_serializable: ^2.0.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -57,6 +58,8 @@ flutter:
      - head_left_right.gif
      - head_up_down.gif
      - course.jpg
+     - add.png
+     - remove.png
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

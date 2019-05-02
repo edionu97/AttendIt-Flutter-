@@ -26,6 +26,10 @@ class Notificator {
     this._observers.add(function);
   }
 
+  void removeObserver(final Function function){
+    this._observers.remove(function);
+  }
+
   /*
     Send data to all connected clients
    */

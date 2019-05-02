@@ -1,16 +1,26 @@
 import 'package:attend_it/service/models/user.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+@JsonSerializable()
 class Course {
   Course({this.name, this.type, this.user});
 
-  static Course fromJSON(dynamic json) {
+  factory Course.fromJson(final Map<String, dynamic> json) {
 
     if(json == null){
       return null;
     }
 
     return new Course(
-        name: json["name"], type: json["type"], user: User.fromJSON(json["user"]));
+        name: json["name"], type: json["type"], user: User.fromJson(json["user"]));
+  }
+
+  Map<String, dynamic> toJson(){
+      return {
+        "name": name,
+        "type": type,
+        "user": user.toJson()
+      };
   }
 
   final String name;

@@ -1,10 +1,12 @@
 import 'package:attend_it/service/models/profile.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+@JsonSerializable()
 class User {
 
   User({this.role, this.profile, this.username});
 
-  static User fromJSON(dynamic json){
+  factory User.fromJson(Map<String, dynamic> json){
 
     if(json == null){
       return null;
@@ -13,8 +15,16 @@ class User {
     return new User(
       role: json["role"],
       username: json["usern"],
-      profile: Profile.fromJSON(json["profile"])
+      profile: Profile.fromJson(json["profile"])
     );
+  }
+
+  Map<String, dynamic> toJson(){
+    return {
+      "role": role,
+      "usern": username,
+      "profile": profile.toJson()
+    };
   }
 
   final String role;
