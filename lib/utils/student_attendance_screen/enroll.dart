@@ -55,27 +55,35 @@ class _EnrollState extends State<Enroll> with SingleTickerProviderStateMixin {
   }
 
   Widget _getWidget(final BuildContext context, final Widget wid) {
-    return FadeTransition(
-      opacity: _animation1,
-      child: SlideTransition(
-        position: _animation2,
-        child: Opacity(
-          opacity: 0.94,
-          child: Material(
-            elevation: 5,
-            borderRadius: BorderRadius.all(Radius.circular(30)),
-            child: Container(
-              padding: EdgeInsets.symmetric(vertical: 1),
-              height: 200,
-              width: MediaQuery.of(context).size.width,
-              decoration: Decorator.getDialogDecoration(),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  _firstPart(context),
+    return GestureDetector(
+      onDoubleTap: () => {
+      _animationController.reverse().then((_) => Navigator.of(context).pop())
+    },
+      child: FadeTransition(
+        opacity: _animation1,
+        child: SlideTransition(
+          position: _animation2,
+          child: Opacity(
+            opacity: 0.94,
+            child: Material(
+              elevation: 5,
+              borderRadius: BorderRadius.all(Radius.circular(30)),
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 1),
+                height: 200,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width,
+                decoration: Decorator.getDialogDecoration(),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    _firstPart(context),
 //              _secondPart(context),
 //              _thirdPart(context)
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -88,7 +96,10 @@ class _EnrollState extends State<Enroll> with SingleTickerProviderStateMixin {
     return Align(
       alignment: Alignment.topLeft,
       child: Container(
-        width: MediaQuery.of(context).size.width,
+        width: MediaQuery
+            .of(context)
+            .size
+            .width,
         child: Column(
           children: <Widget>[
             Row(
@@ -121,7 +132,7 @@ class _EnrollState extends State<Enroll> with SingleTickerProviderStateMixin {
                     margin: EdgeInsets.only(left: 30, right: 10),
                     decoration: BoxDecoration(
                       borderRadius:
-                          BorderRadius.only(topRight: Radius.circular(30)),
+                      BorderRadius.only(topRight: Radius.circular(30)),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -135,14 +146,14 @@ class _EnrollState extends State<Enroll> with SingleTickerProviderStateMixin {
                           ),
                           widget.course.user.profile != null
                               ? _getLabelTextPair(
-                                  "Phone", widget.course.user.profile.phone)
+                              "Phone", widget.course.user.profile.phone)
                               : Container(),
                           Divider(
                             height: 5,
                           ),
                           widget.course.user.profile != null
                               ? _getLabelTextPair(
-                                  "Email", widget.course.user.profile.email)
+                              "Email", widget.course.user.profile.email)
                               : Container(),
                         ],
                       ),
@@ -172,7 +183,7 @@ class _EnrollState extends State<Enroll> with SingleTickerProviderStateMixin {
                       Container(
                         child: InkWell(
                           onTap:
-                              _isEnrolled ? () {} : () => this._enroll(context),
+                          _isEnrolled ? () {} : () => this._enroll(context),
                           child: Image(
                             image: AssetImage("add.png"),
                             color: _isEnrolled ? Colors.grey : Colors.green,
@@ -186,23 +197,23 @@ class _EnrollState extends State<Enroll> with SingleTickerProviderStateMixin {
                         child: _isEnrolled
                             ? Container()
                             : Container(
-                                width: 80,
-                                height: 40,
-                                child: TextFormField(
-                                  controller: _editingController,
-                                  validator: (val){
-                                    if(val.isEmpty || val == " "){
-                                      return "";
-                                    }
-                                  },
-                                  decoration: new InputDecoration(
-                                      labelText: "Enter group",
-                                      fillColor: Colors.white,
-                                      border: InputBorder.none),
-                                  keyboardType: TextInputType.text,
-                                  style: new TextStyle(
-                                      fontFamily: "Poppins", fontSize: 15),
-                                )),
+                            width: 80,
+                            height: 40,
+                            child: TextFormField(
+                              controller: _editingController,
+                              validator: (val) {
+                                if (val.isEmpty || val == " ") {
+                                  return "";
+                                }
+                              },
+                              decoration: new InputDecoration(
+                                  labelText: "Enter group",
+                                  fillColor: Colors.white,
+                                  border: InputBorder.none),
+                              keyboardType: TextInputType.text,
+                              style: new TextStyle(
+                                  fontFamily: "Poppins", fontSize: 15),
+                            )),
                       ),
                     ],
                   ),
@@ -279,17 +290,16 @@ class _EnrollState extends State<Enroll> with SingleTickerProviderStateMixin {
     return Text("${course.user.profile.first} ${course.user.profile.last}");
   }
 
-
   void _checkEnrollment() async {
     bool _isEnrolled = false;
     try {
       _isEnrolled =
-          await EnrollmentService().isEnrolled(widget.course, widget.username);
+      await EnrollmentService().isEnrolled(widget.course, widget.username);
     } on Exception catch (e) {
       print(e.toString());
     }
 
-    if(!this.mounted){
+    if (!this.mounted) {
       return;
     }
 
@@ -299,23 +309,23 @@ class _EnrollState extends State<Enroll> with SingleTickerProviderStateMixin {
   }
 
   void _enroll(final BuildContext context) async {
-
-    if(!_key.currentState.validate()){
+    if (!_key.currentState.validate()) {
       return;
     }
 
     _editingController.text = _editingController.text.trim();
     final String _text = _editingController.text;
 
-    try{
-      await EnrollmentService().enroll(username: widget.username, group: _text, course: widget.course);
+    try {
+      await EnrollmentService().enroll(
+          username: widget.username, group: _text, course: widget.course);
       Notificator().sendOnlyTo([
         widget.username,
         widget.course.user.username
       ], {
         "operation": "Enrolled",
       });
-    }on Exception catch(e){
+    } on Exception catch (e) {
       print(e.toString());
       GUI.openDialog(context: context, message: e.toString());
     }
@@ -340,7 +350,7 @@ class _EnrollState extends State<Enroll> with SingleTickerProviderStateMixin {
   void _notified(dynamic json) {
     final String operationType = json["operation"];
 
-    if(!this.mounted){
+    if (!this.mounted) {
       return;
     }
 
@@ -350,12 +360,13 @@ class _EnrollState extends State<Enroll> with SingleTickerProviderStateMixin {
           _isEnrolled = false;
         });
         break;
-      case "Enrolled" : {
-        setState(() {
-          _isEnrolled = true;
-        });
-        break;
-      }
+      case "Enrolled" :
+        {
+          setState(() {
+            _isEnrolled = true;
+          });
+          break;
+        }
     }
   }
 
@@ -364,6 +375,7 @@ class _EnrollState extends State<Enroll> with SingleTickerProviderStateMixin {
   Animation<Offset> _animation2;
   Animation<double> _animation1;
 
-  final TextEditingController _editingController = new TextEditingController(text: " ");
+  final TextEditingController _editingController = new TextEditingController(
+      text: " ");
   final GlobalKey<FormState> _key = new GlobalKey<FormState>();
 }

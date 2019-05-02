@@ -64,17 +64,19 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
   }
 
   Widget _buildList(final List<Course> courses) {
-    return ListView.separated(
-        separatorBuilder: (context, index) =>
-            Divider(color: Colors.grey, height: 5),
+    return ListView.builder(
+//        separatorBuilder: (context, index) =>
+//            Divider(color: Colors.grey, height: 5),
         itemCount: courses.length,
         itemBuilder: (context, index) =>
             _buildListItem(context, courses[index]));
   }
 
   Widget _buildListItem(final BuildContext context, final Course course) {
-    return Center(
+    return Card(
+      elevation: 5,
       child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 5),
         child: ListTile(
           contentPadding: EdgeInsets.all(2),
           trailing: Text(
@@ -123,7 +125,7 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
             child: InkWell(
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
-              onTap: () => Navigator.of(context).pop(),
+              //onTap: () => Navigator.of(context).pop(),
               child: Container(
                   color: Colors.transparent,
                   child: Column(
