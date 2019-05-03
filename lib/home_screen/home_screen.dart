@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:attend_it/attendance/component.dart';
 import 'package:attend_it/login_screen/component.dart';
 import 'package:attend_it/main.dart';
 import 'package:attend_it/navigation_drawer/component.dart';
@@ -71,8 +72,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         child: ScaleTransition(
             scale: widgetAnimation,
             alignment: Alignment.center,
-            child: StudentAttendanceScreen(username: widget.username),
-      ))
+            child: StudentAttendanceScreen(username: widget.username, function: () => this._selection(5, context),),
+      )),
+      FadeTransition(
+          opacity: widgetAnimation,
+          child: ScaleTransition(
+            scale: widgetAnimation,
+            alignment: Alignment.center,
+            child: Attendance(username: widget.username,),
+          ))
     ];
 
     _initializeCameras();

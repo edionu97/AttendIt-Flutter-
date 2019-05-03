@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:attend_it/service/profile_service.dart';
+import 'package:attend_it/utils/components/round_bottom_button.dart';
 import 'package:attend_it/utils/gui/gui.dart';
 import 'package:attend_it/utils/profile/bottom.dart';
 import 'package:attend_it/utils/profile/header_part.dart';
@@ -65,36 +66,13 @@ class _Profile extends State<Profile> {
                 formState: secondFormKey,
               ),
             ),
-            Align(
-                alignment: Alignment.bottomRight,
-                child: Container(
-                  decoration: new BoxDecoration(
-                      color: Colors.blueGrey[500],
-                      shape: BoxShape.circle,
-                      boxShadow: <BoxShadow>[
-                        new BoxShadow(
-                          color: Colors.blueGrey[400],
-                          blurRadius: 2,
-                        )
-                      ]),
-                  height: 65,
-                  width: 65,
-                  margin: EdgeInsets.only(bottom: 18, right: 12),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      InkWell(
-                          onTap: () {
-                            this._editPressed(context);
-                          },
-                          child: Icon(
-                            Icons.edit,
-                            color: Colors.white,
-                          )),
-                    ],
-                  ),
-                ))
-          ],
+            RoundBorderButton(
+              buttonIcon: Icons.edit,
+              iconColor: Colors.white,
+              splashColor: Colors.blueGrey[500],
+              onTap: () => this._editPressed(context),
+              buttonColor: Colors.blueGrey[400],
+            ),]
         ),
       ),
     ));
