@@ -60,6 +60,7 @@ flutter:
      - course.jpg
      - add.png
      - remove.png
+     - edit.bmp
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

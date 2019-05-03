@@ -196,7 +196,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             child: Icon(
               Icons.menu,
               size: 35,
-              color: _selectedItem != 4 ? Colors.black : Colors.white,
+              color: _getDrawerButtonColor(_selectedItem),
             ),
           ),
         ));
@@ -315,6 +315,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               iconColor: Colors.orange)
           .then((_) => _selection(1, context));
     }
+  }
+
+  Color _getDrawerButtonColor(final int _item){
+
+    switch(_item){
+      case 3:
+        return Colors.white70;
+      case 4:
+        return Colors.white;
+    }
+
+    return Colors.black;
   }
 
   bool _isDrawerVisible = false;
