@@ -1,17 +1,15 @@
 import 'dart:io';
 import 'dart:math';
 
-import 'package:attend_it/users/student/attendance/component.dart';
-import 'package:attend_it/users/common/login_screen/component.dart';
 import 'package:attend_it/main.dart';
 import 'package:attend_it/users/common/navigation_drawer/component.dart';
 import 'package:attend_it/users/common/notifications/notificator.dart';
 import 'package:attend_it/users/common/profile_screen/component.dart';
+import 'package:attend_it/users/student/enrolled_student_attendance/component.dart';
 import 'package:attend_it/users/student/service/attendance_service.dart';
 import 'package:attend_it/users/student/service/profile_service.dart';
 import 'package:attend_it/users/student/upload_video_screen/component.dart';
 import 'package:attend_it/users/student/student_attendance_screen/component.dart';
-import 'package:attend_it/utils/components/animation.dart';
 import 'package:attend_it/utils/constants/constants.dart';
 import 'package:attend_it/utils/gui/gui.dart';
 import 'package:attend_it/utils/video_screen/component.dart';
@@ -52,10 +50,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             alignment: Alignment.center,
             child: Align(
               alignment: Alignment.center,
-              child: Text(
-                "Homescreen",
-                style: TextStyle(fontSize: 20),
-              ),
+              child: EnrolledAttendances(username: widget.username,)
             )),
       ),
       Container(),
@@ -72,15 +67,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         child: ScaleTransition(
             scale: widgetAnimation,
             alignment: Alignment.center,
-            child: StudentAttendanceScreen(username: widget.username, function: () => this._selection(5, context),),
-      )),
-      FadeTransition(
-          opacity: widgetAnimation,
-          child: ScaleTransition(
-            scale: widgetAnimation,
-            alignment: Alignment.center,
-            child: Attendance(username: widget.username,),
-          ))
+            child: StudentAttendanceScreen(username: widget.username, function: () => this._selection(0, context),),
+      ))
     ];
 
     _initializeCameras();
@@ -185,18 +173,26 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         alignment: Alignment.topLeft,
         child: Container(
           margin: EdgeInsets.only(top: 35, left: 15),
-          child: InkWell(
-            onTap: () {
-              setState(() {
-                controllerDrawer.reset();
-                controllerDrawer.forward();
-                _isDrawerVisible = !_isDrawerVisible;
-              });
-            },
-            child: Icon(
-              Icons.menu,
-              size: 35,
-              color: _getDrawerButtonColor(_selectedItem),
+          height: 35,
+          width: 35,
+          child: Material(
+            color: Colors.transparent,
+            elevation: 20,
+            child: Container(
+              child: InkWell(
+                onTap: () {
+                  setState(() {
+                    controllerDrawer.reset();
+                    controllerDrawer.forward();
+                    _isDrawerVisible = !_isDrawerVisible;
+                  });
+                },
+                child: Icon(
+                  Icons.menu,
+                  size: 35,
+                  color: _getDrawerButtonColor(_selectedItem),
+                ),
+              ),
             ),
           ),
         ));

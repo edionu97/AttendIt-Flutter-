@@ -19,6 +19,9 @@ class _LoadingState extends State<Loading> {
     super.initState();
     _displayed = Center(child: Loader(),);
     widget.future.then((value){
+      if(!this.mounted){
+        return;
+      }
       setState(() {
         _displayed = widget.completed(value);
       });
