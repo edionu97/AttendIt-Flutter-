@@ -1,12 +1,11 @@
-import 'package:attend_it/attendance/component.dart';
 import 'package:attend_it/service/attendance_service.dart';
 import 'package:attend_it/service/models/course.dart';
 import 'package:attend_it/service/models/profile.dart';
-import 'package:attend_it/utils/components/animation.dart';
 import 'package:attend_it/utils/components/round_bottom_button.dart';
 import 'package:attend_it/utils/loaders/loader.dart';
 import 'package:attend_it/utils/student_attendance_screen/enroll.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class StudentAttendanceScreen extends StatefulWidget {
   StudentAttendanceScreen({@required this.username, @required this.function});
@@ -19,20 +18,34 @@ class StudentAttendanceScreen extends StatefulWidget {
   final Function function;
 }
 
-class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
+class _StudentAttendanceScreenState extends State<StudentAttendanceScreen>
+    with TickerProviderStateMixin {
+  @override
+  void initState() {
+    super.initState();
+    _getAllCourses();
+  }
+
+  void _getAllCourses() async {
+    try {
+      final List<Course> __courses =
+          await AttendanceService().getAllAvailableCourses();
+
+      setState(() {
+        this._courses = __courses;
+      });
+    } on Exception catch (e) {
+      print(e.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-          child: FutureBuilder<List<Course>>(
-              future: AttendanceService().getAllAvailableCourses(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState != ConnectionState.done) {
-                  return Center(child: Loader());
-                }
-                return _createView(context, snapshot.data);
-              })),
-    );
+        body: Container(
+            child: _courses.isEmpty
+                ? Center(child: Loader())
+                : _createView(context, _courses)));
   }
 
   void _openInfoDialog(final BuildContext cont, final Course course) {
@@ -70,35 +83,31 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
       children: <Widget>[
         Container(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  height: 250,
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width,
-                  child: Material(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              height: 250,
+              width: MediaQuery.of(context).size.width,
+              child: Material(
+                borderRadius: radius,
+                elevation: 2,
+                child: Container(
+                  decoration: BoxDecoration(
                     borderRadius: radius,
-                    elevation: 2,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: radius,
-                        image: DecorationImage(
-                          image: AssetImage("course.jpg"),
-                          fit: BoxFit.fill,
-                        ),
-                      ),
+                    image: DecorationImage(
+                      image: AssetImage("course.jpg"),
+                      fit: BoxFit.fill,
                     ),
                   ),
                 ),
-                Expanded(
-                  child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: _buildList(courses)),
-                ),
-              ],
-            )),
+              ),
+            ),
+            Expanded(
+              child: Align(
+                  alignment: Alignment.centerLeft, child: _buildList(courses)),
+            ),
+          ],
+        )),
         RoundBorderButton(
           onTap: widget.function,
           splashColor: Colors.blueAccent,
@@ -112,8 +121,6 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
 
   Widget _buildList(final List<Course> courses) {
     return ListView.builder(
-//        separatorBuilder: (context, index) =>
-//            Divider(color: Colors.grey, height: 5),
         itemCount: courses.length,
         itemBuilder: (context, index) =>
             _buildListItem(context, courses[index]));
@@ -124,21 +131,24 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
       elevation: 5,
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 5),
-        child: ListTile(
-          contentPadding: EdgeInsets.all(2),
-          trailing: Text(
-            course.type,
-            style: TextStyle(
-              fontSize: 10,
+        height: _tileHeight,
+        child: Center(
+          child: ListTile(
+            contentPadding: EdgeInsets.all(10),
+            trailing: Text(
+              course.type,
+              style: TextStyle(
+                fontSize: 10,
+              ),
             ),
+            title: Text(
+              course.name,
+              style: TextStyle(
+                  fontWeight: FontWeight.w300, fontFamily: "times new roman"),
+            ),
+            leading: _buildListLeading(context, course),
+            subtitle: _getSubtitle(course),
           ),
-          title: Text(
-            course.name,
-            style: TextStyle(
-                fontWeight: FontWeight.w300, fontFamily: "times new roman"),
-          ),
-          leading: _buildListLeading(context, course),
-          subtitle: _getSubtitle(course),
         ),
       ),
     );
@@ -171,4 +181,7 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
 
     return profile.image.image;
   }
+
+  double _tileHeight = 90;
+  List<Course> _courses = [];
 }
