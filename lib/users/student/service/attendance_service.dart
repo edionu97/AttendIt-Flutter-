@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:attend_it/users/student/service/models/attendance.dart';
 import 'package:attend_it/users/student/service/models/course.dart';
 import 'package:attend_it/utils/constants/constants.dart';
 import 'package:http/http.dart' as http;
@@ -30,7 +31,6 @@ class AttendanceService {
   }
 
   Future<List<Course>> getAllAvailableCourses() async {
-
     final Response response = await http.get(
         Constants.SERVER_ADDRESS + Constants.GET_ALL_AVAILABLE_COURSES,
         headers: {"Content-Type": "application/json"});
@@ -43,6 +43,31 @@ class AttendanceService {
     }
 
     return courses;
+  }
+
+  Future<List<Attendance>> getAttendancesForAt(
+      final String username,
+      final String teacherName,
+      final String courseName,
+      final String courseType) async {
+    final Response response = await http.post(
+        Constants.SERVER_ADDRESS + Constants.GET_ATTENDANCES_FOR_AT,
+        headers: {"Content-Type": "application/json"},
+        body: json.encode({
+          "student": username,
+          "teacher": teacherName,
+          "courseName": courseName,
+          "courseType": courseType
+        }));
+
+    final dynamic result = json.decode(response.body);
+
+    final List<Attendance> attendances = [];
+    for (var element in result["attendances"]) {
+      attendances.add(Attendance.fromJson(element));
+    }
+
+    return attendances;
   }
 
   factory AttendanceService() {
