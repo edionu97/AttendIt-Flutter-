@@ -160,7 +160,7 @@ class _EnrollState extends State<Enroll> with SingleTickerProviderStateMixin {
                     ),
                   ),
                 ),
-                Container(
+                _isEnrolled != null ? Container(
                   margin: EdgeInsets.only(right: 10),
                   height: 100,
                   child: Column(
@@ -217,7 +217,7 @@ class _EnrollState extends State<Enroll> with SingleTickerProviderStateMixin {
                       ),
                     ],
                   ),
-                )
+                ) : Container()
               ],
             ),
             Divider(
@@ -370,7 +370,7 @@ class _EnrollState extends State<Enroll> with SingleTickerProviderStateMixin {
     }
   }
 
-  bool _isEnrolled = false;
+  bool _isEnrolled;
   AnimationController _animationController;
   Animation<Offset> _animation2;
   Animation<double> _animation1;
