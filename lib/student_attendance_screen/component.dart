@@ -18,8 +18,7 @@ class StudentAttendanceScreen extends StatefulWidget {
   final Function function;
 }
 
-class _StudentAttendanceScreenState extends State<StudentAttendanceScreen>
-    with TickerProviderStateMixin {
+class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
   @override
   void initState() {
     super.initState();
