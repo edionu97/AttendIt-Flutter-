@@ -59,6 +59,11 @@ class _EnrolledAttendancesState extends State<EnrolledAttendances> {
       final BuildContext context, final List<Enrollment> courses) {
     final BorderRadius radius = BorderRadius.all(Radius.circular(0));
 
+    if (courses.isEmpty) {
+      return Center(
+        child: Text("No data to be displayed"),
+      );
+    }
     return Stack(
       children: <Widget>[
         Container(

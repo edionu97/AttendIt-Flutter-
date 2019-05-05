@@ -73,6 +73,10 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
   Widget _createView(final BuildContext context, final List<Course> courses) {
     final BorderRadius radius = BorderRadius.all(Radius.circular(0));
 
+    if(courses.isEmpty){
+      return Center(child: Text("No data to be displayed"),);
+    }
+
     return Stack(
       children: <Widget>[
         Container(

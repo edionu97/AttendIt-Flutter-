@@ -70,7 +70,7 @@ class _AttendancesState extends State<Attendances>
                 borderRadius: BorderRadius.all(Radius.circular(30)),
                 child: Container(
                   padding: EdgeInsets.symmetric(vertical: 1),
-                  height: MediaQuery.of(context).size.height / 1.25,
+                  height: MediaQuery.of(context).size.height / 1.75,
                   width: MediaQuery.of(context).size.width,
                   decoration: Decorator.getDialogDecoration(),
                   child: Column(
