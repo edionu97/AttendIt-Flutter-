@@ -3,6 +3,7 @@ import 'package:attend_it/users/student/service/models/course.dart';
 import 'package:attend_it/users/student/service/models/profile.dart';
 import 'package:attend_it/utils/components/loading.dart';
 import 'package:attend_it/utils/components/round_bottom_button.dart';
+import 'package:attend_it/utils/gui/gui.dart';
 import 'package:attend_it/utils/loaders/loader.dart';
 import 'package:attend_it/utils/student_attendance_screen/enroll.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,11 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
     return Scaffold(
         body: Container(
       child: Loading(
-        future: AttendanceService().getAllAvailableCourses(),
+        future: AttendanceService().getAllAvailableCourses().catchError(
+            (error) => Future.delayed(
+                Duration.zero,
+                () => GUI.openDialog(
+                    context: context, message: error.toString()))),
         completed: (final List<Course> courses) =>
             _createView(context, courses),
       ),

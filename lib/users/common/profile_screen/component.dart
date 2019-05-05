@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:attend_it/users/student/service/profile_service.dart';
 import 'package:attend_it/utils/components/round_bottom_button.dart';
 import 'package:attend_it/utils/gui/gui.dart';
+import 'package:attend_it/utils/loaders/loader.dart';
 import 'package:attend_it/utils/profile/bottom.dart';
 import 'package:attend_it/utils/profile/header_part.dart';
 import 'package:attend_it/utils/profile/middle.dart';
@@ -32,7 +33,7 @@ class _Profile extends State<Profile> {
       child: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        child: Stack(
+        child: _isLoading ? Center(child: Loader(),) : Stack(
           //mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Align(
@@ -166,6 +167,7 @@ class _Profile extends State<Profile> {
     try {
       dynamic response = await _service.getProfile(widget.username);
       setState(() {
+        _isLoading = false;
         firstName.text = response['first'];
         lastName.text = response['last'];
         email.text = response['email'];
@@ -192,5 +194,5 @@ class _Profile extends State<Profile> {
 
   Image image;
   File imageFile;
-
+  bool _isLoading = true;
 }
