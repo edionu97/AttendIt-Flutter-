@@ -1,4 +1,3 @@
-import 'package:attend_it/users/common/register_screen/component.dart';
 import 'package:flutter/cupertino.dart';
 
 class SecondPageRoute extends CupertinoPageRoute {

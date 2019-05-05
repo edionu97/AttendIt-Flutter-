@@ -1,6 +1,7 @@
 import 'package:attend_it/users/student/service/attendance_service.dart';
 import 'package:attend_it/users/student/service/models/course.dart';
 import 'package:attend_it/users/student/service/models/profile.dart';
+import 'package:attend_it/utils/components/loading.dart';
 import 'package:attend_it/utils/components/round_bottom_button.dart';
 import 'package:attend_it/utils/loaders/loader.dart';
 import 'package:attend_it/utils/student_attendance_screen/enroll.dart';
@@ -22,29 +23,18 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
   @override
   void initState() {
     super.initState();
-    _getAllCourses();
-  }
-
-  void _getAllCourses() async {
-    try {
-      final List<Course> __courses =
-          await AttendanceService().getAllAvailableCourses();
-
-      setState(() {
-        this._courses = __courses;
-      });
-    } on Exception catch (e) {
-      print(e.toString());
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-            child: _courses.isEmpty
-                ? Center(child: Loader())
-                : _createView(context, _courses)));
+      child: Loading(
+        future: AttendanceService().getAllAvailableCourses(),
+        completed: (final List<Course> courses) =>
+            _createView(context, courses),
+      ),
+    ));
   }
 
   void _openInfoDialog(final BuildContext cont, final Course course) {
@@ -182,5 +172,4 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
   }
 
   double _tileHeight = 90;
-  List<Course> _courses = [];
 }
