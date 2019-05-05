@@ -7,7 +7,7 @@ class Constants{
   static double PROFILE_PICTURE_HEIGHT = 150;
 
   // ignore: non_constant_identifier_names
-  static String SERVER_ADDRESS="http://192.168.43.155:8080";
+  static String SERVER_ADDRESS="http://172.16.10.103:8080";
 
   // ignore: non_constant_identifier_names
   static String WEB_SOCKET = SERVER_ADDRESS.replaceAll("http", "ws") + "/topic";
@@ -58,6 +58,15 @@ class Constants{
   static String GET_ATTENDANCES_FOR_AT ="/attendance/for-at";
 
   // ignore: non_constant_identifier_names
+  static String GET_USER_INFO = "/auth/info";
+
+  // ignore: non_constant_identifier_names
+  static String GET_ALL_USERS ="/auth/users";
+
+  // ignore: non_constant_identifier_names
+  static String SET_ROLE = "/auth/user/set-role";
+
+  // ignore: non_constant_identifier_names
   static String TILT_HEAD_LEFT_RIGHT ="You should move your head from left to right and back slowly";
 
   // ignore: non_constant_identifier_names
@@ -68,4 +77,7 @@ class Constants{
 
   // ignore: non_constant_identifier_names
   static String TMP_UP_DOWN =  "/up.mp4";
+
+  // ignore: non_constant_identifier_names
+  static String ADMIN = "admin";
 }

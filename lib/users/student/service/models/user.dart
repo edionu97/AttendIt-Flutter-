@@ -27,7 +27,7 @@ class User {
     };
   }
 
-  final String role;
+  String role;
   final Profile profile;
   final String username;
 

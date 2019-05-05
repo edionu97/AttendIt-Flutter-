@@ -1,3 +1,4 @@
+import 'package:attend_it/users/common/role_chooser/role_chooser.dart';
 import 'package:attend_it/users/student/home_screen/home_screen.dart';
 import 'package:attend_it/users/common/notifications/notificator.dart';
 import 'package:attend_it/users/common/register_screen/component.dart';
@@ -68,9 +69,7 @@ class _LoginScreen extends State<LoginScreen> {
       await _loginService.login(
           controllerUsername.text, controllerPassword.text);
       Navigator.of(context).push(SecondPageRoute(
-          toPage: () => HomeScreen(
-                username: controllerUsername.text
-              )));
+          toPage: () => RoleChooser(username: controllerUsername.text)));
       new Notificator().setUsername(controllerUsername.text);
     } on Exception catch (e) {
       final String message = e.toString().split(":")[1];
