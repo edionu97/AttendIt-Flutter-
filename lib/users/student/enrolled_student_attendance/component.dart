@@ -71,15 +71,12 @@ class _EnrolledAttendancesState extends State<EnrolledAttendances> {
               child: Material(
                 borderRadius: radius,
                 elevation: 5,
-                child: Opacity(
-                  opacity: .9,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: radius,
-                      image: DecorationImage(
-                        image: AssetImage("attendance.jpg"),
-                        fit: BoxFit.fill,
-                      ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: radius,
+                    image: DecorationImage(
+                      image: AssetImage("attendance.jpg"),
+                      fit: BoxFit.fill,
                     ),
                   ),
                 ),
@@ -171,18 +168,22 @@ class _EnrolledAttendancesState extends State<EnrolledAttendances> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           _createBottom(enrollment, "CRS",
-              enrolled: enrollment.atCourse, context: context),
+              enrolled: enrollment.atCourse, context: context, type: "COURSE"),
           _createBottom(enrollment, "LAB",
-              enrolled: enrollment.atLaboratory, context: context),
+              enrolled: enrollment.atLaboratory,
+              context: context,
+              type: "LABORATORY"),
           _createBottom(enrollment, "SEM",
-              enrolled: enrollment.atSeminary, context: context),
+              enrolled: enrollment.atSeminary,
+              context: context,
+              type: "SEMINAR"),
         ],
       ),
     );
   }
 
-  void _getAttendances(final Enrollment enrollment, final BuildContext cont, final String type) {
-
+  void _getAttendances(
+      final Enrollment enrollment, final BuildContext cont, final String type) {
     showDialog(
         context: cont,
         builder: (context) {
@@ -191,7 +192,6 @@ class _EnrolledAttendancesState extends State<EnrolledAttendances> {
             child: InkWell(
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
-              //onTap: () => Navigator.of(context).pop(),
               child: Container(
                   color: Colors.transparent,
                   margin: EdgeInsets.symmetric(horizontal: 10),
@@ -199,8 +199,9 @@ class _EnrolledAttendancesState extends State<EnrolledAttendances> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Attendances(
-                          username: widget.username, enrollment:  enrollment, type: type
-                        ),
+                            username: widget.username,
+                            enrollment: enrollment,
+                            type: type),
                         Divider(
                           height: 5,
                         )
@@ -211,9 +212,9 @@ class _EnrolledAttendancesState extends State<EnrolledAttendances> {
   }
 
   Widget _createBottom(final Enrollment enrollment, final String text,
-      {final BuildContext context, bool enrolled = true}) {
+      {final BuildContext context, bool enrolled = true, final String type}) {
     return InkWell(
-      onTap: () => _getAttendances(enrollment, context, text),
+      onTap: enrolled ? () => _getAttendances(enrollment, context, type) : null,
       borderRadius: BorderRadius.all(Radius.circular(20)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
