@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:attend_it/service/profile_service.dart';
+import 'package:attend_it/users/student/service/profile_service.dart';
 import 'package:attend_it/utils/components/round_bottom_button.dart';
 import 'package:attend_it/utils/gui/gui.dart';
 import 'package:attend_it/utils/profile/bottom.dart';

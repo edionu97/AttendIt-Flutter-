@@ -1,16 +1,16 @@
 import 'dart:io';
 import 'dart:math';
 
-import 'package:attend_it/attendance/component.dart';
-import 'package:attend_it/login_screen/component.dart';
+import 'package:attend_it/users/student/attendance/component.dart';
+import 'package:attend_it/users/common/login_screen/component.dart';
 import 'package:attend_it/main.dart';
-import 'package:attend_it/navigation_drawer/component.dart';
-import 'package:attend_it/notifications/notificator.dart';
-import 'package:attend_it/profile_screen/component.dart';
-import 'package:attend_it/service/attendance_service.dart';
-import 'package:attend_it/service/profile_service.dart';
-import 'package:attend_it/student_attendance_screen/component.dart';
-import 'package:attend_it/upload_video_screen/component.dart';
+import 'package:attend_it/users/common/navigation_drawer/component.dart';
+import 'package:attend_it/users/common/notifications/notificator.dart';
+import 'package:attend_it/users/common/profile_screen/component.dart';
+import 'package:attend_it/users/student/service/attendance_service.dart';
+import 'package:attend_it/users/student/service/profile_service.dart';
+import 'package:attend_it/users/student/upload_video_screen/component.dart';
+import 'package:attend_it/users/student/student_attendance_screen/component.dart';
 import 'package:attend_it/utils/components/animation.dart';
 import 'package:attend_it/utils/constants/constants.dart';
 import 'package:attend_it/utils/gui/gui.dart';

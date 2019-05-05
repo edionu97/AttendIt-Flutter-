@@ -1,4 +1,4 @@
-import 'package:attend_it/service/models/user.dart';
+import 'package:attend_it/users/student/service/models/user.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 @JsonSerializable()

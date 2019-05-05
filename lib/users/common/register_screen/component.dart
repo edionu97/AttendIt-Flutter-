@@ -1,4 +1,4 @@
-import 'package:attend_it/service/login_service.dart';
+import 'package:attend_it/users/student/service/login_service.dart';
 import 'package:attend_it/utils/components/form.dart';
 import 'package:attend_it/utils/components/animated_button.dart';
 import 'package:attend_it/utils/gui/gui.dart';

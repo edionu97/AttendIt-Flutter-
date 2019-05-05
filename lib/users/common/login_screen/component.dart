@@ -1,7 +1,7 @@
-import 'package:attend_it/home_screen/home_screen.dart';
-import 'package:attend_it/notifications/notificator.dart';
-import 'package:attend_it/register_screen/component.dart';
-import 'package:attend_it/service/login_service.dart';
+import 'package:attend_it/users/student/home_screen/home_screen.dart';
+import 'package:attend_it/users/common/notifications/notificator.dart';
+import 'package:attend_it/users/common/register_screen/component.dart';
+import 'package:attend_it/users/student/service/login_service.dart';
 import 'package:attend_it/utils/components/animated_button.dart';
 import 'package:attend_it/utils/components/animation.dart';
 import 'package:attend_it/utils/components/form.dart';

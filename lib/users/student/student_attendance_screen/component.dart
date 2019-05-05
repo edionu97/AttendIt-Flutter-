@@ -1,6 +1,6 @@
-import 'package:attend_it/service/attendance_service.dart';
-import 'package:attend_it/service/models/course.dart';
-import 'package:attend_it/service/models/profile.dart';
+import 'package:attend_it/users/student/service/attendance_service.dart';
+import 'package:attend_it/users/student/service/models/course.dart';
+import 'package:attend_it/users/student/service/models/profile.dart';
 import 'package:attend_it/utils/components/round_bottom_button.dart';
 import 'package:attend_it/utils/loaders/loader.dart';
 import 'package:attend_it/utils/student_attendance_screen/enroll.dart';
