@@ -55,7 +55,7 @@ class Constants{
   static String GET_ENROLLMENT_TYPE_AT ="/enrollment/at-types";
 
   // ignore: non_constant_identifier_names
-  static String GET_ATTENDANCES_FOR_AT ="/attendance/for";
+  static String GET_ATTENDANCES_FOR_AT ="/attendance/for-at";
 
   // ignore: non_constant_identifier_names
   static String TILT_HEAD_LEFT_RIGHT ="You should move your head from left to right and back slowly";
