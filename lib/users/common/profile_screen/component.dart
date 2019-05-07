@@ -213,7 +213,7 @@ class _Profile extends State<Profile> {
     _oldFieldValues.putIfAbsent("lastName", () => response['last']);
     _oldFieldValues.putIfAbsent("email", () => response['email']);
     _oldFieldValues.putIfAbsent("phone", () => response['phone']);
-    _oldFieldValues.putIfAbsent("password", ()=> "");
+    _oldFieldValues.putIfAbsent("password", ()=> password.text);
 
     firstName
         .addListener(() => _createTextFieldListener(firstName, "firstName"));
