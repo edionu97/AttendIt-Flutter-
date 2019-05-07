@@ -12,9 +12,20 @@ class Attendances extends StatefulWidget {
   @override
   _AttendancesState createState() => _AttendancesState();
 
+  void hide(){
+    if (list.isEmpty) {
+      return;
+    }
+
+    final _AttendancesState _attendancesState = list[0];
+    _attendancesState.hide();
+  }
+
   final String username;
   final Enrollment enrollment;
   final String type;
+
+  final List<_AttendancesState> list = [];
 }
 
 class _AttendancesState extends State<Attendances>
@@ -23,6 +34,7 @@ class _AttendancesState extends State<Attendances>
   void initState() {
     super.initState();
 
+    widget.list.add(this);
     _animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 500));
 
@@ -247,6 +259,12 @@ class _AttendancesState extends State<Attendances>
       Future.delayed(Duration.zero,
           () => GUI.openDialog(context: context, message: e.toString()));
     }
+  }
+
+  void hide(){
+    _animationController
+        .reverse()
+        .then((_) => Navigator.of(context).pop());
   }
 
   AnimationController _animationController;

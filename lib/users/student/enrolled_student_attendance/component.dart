@@ -189,12 +189,16 @@ class _EnrolledAttendancesState extends State<EnrolledAttendances> {
 
   void _getAttendances(
       final Enrollment enrollment, final BuildContext cont, final String type) {
+    final Attendances attendances = Attendances(
+        username: widget.username, enrollment: enrollment, type: type);
+
     showDialog(
         context: cont,
         builder: (context) {
           return Material(
             color: Colors.transparent,
             child: InkWell(
+              onTap: () => attendances.hide(),
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
               child: Container(
@@ -203,10 +207,7 @@ class _EnrolledAttendancesState extends State<EnrolledAttendances> {
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Attendances(
-                            username: widget.username,
-                            enrollment: enrollment,
-                            type: type),
+                        attendances,
                         Divider(
                           height: 5,
                         )
