@@ -68,11 +68,11 @@ class _Profile extends State<Profile> {
               ),
             ),
             RoundBorderButton(
-              buttonIcon: Icons.edit,
+              buttonIcon: Icons.check,
               iconColor: Colors.white,
-              splashColor: Colors.blueGrey[500],
+              splashColor: Colors.green[900],
               onTap: () => this._editPressed(context),
-              buttonColor: Colors.blueGrey[400],
+              buttonColor: Colors.green[600],
             ),]
         ),
       ),

@@ -43,6 +43,12 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
   }
 
   void _openInfoDialog(final BuildContext cont, final Course course) {
+
+    final Enroll enroll = Enroll(
+      course: course,
+      username: widget.username,
+    );
+
     showDialog(
         context: cont,
         builder: (context) {
@@ -51,16 +57,13 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
             child: InkWell(
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
-              //onTap: () => Navigator.of(context).pop(),
+              onTap: () => enroll.hide(),
               child: Container(
                   color: Colors.transparent,
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
-                        Enroll(
-                          course: course,
-                          username: widget.username,
-                        ),
+                        enroll,
                         Divider(
                           height: 5,
                         )
