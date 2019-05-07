@@ -20,7 +20,6 @@ class EnrollmentService {
               "courseType": course.type,
             }),
             headers: {"Content-Type": "application/json"})
-        .timeout(const Duration(seconds: 5))
         .catchError((error) {
           throw new Exception(error.toString());
         });
