@@ -128,27 +128,33 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
   }
 
   Widget _buildListItem(final BuildContext context, final Course course) {
-    return Card(
-      elevation: 5,
-      child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 5),
-        height: _tileHeight,
-        child: Center(
-          child: ListTile(
-            contentPadding: EdgeInsets.all(10),
-            trailing: Text(
-              course.type,
-              style: TextStyle(
-                fontSize: 10,
+
+    final double _tileHeight = 90.0;
+
+    return InkWell(
+      onTap: () => _openInfoDialog(context, course),
+      child: Card(
+        elevation: 5,
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 5),
+          height: _tileHeight,
+          child: Center(
+            child: ListTile(
+              contentPadding: EdgeInsets.all(10),
+              trailing: Text(
+                course.type,
+                style: TextStyle(
+                  fontSize: 10,
+                ),
               ),
+              title: Text(
+                course.name,
+                style: TextStyle(
+                    fontWeight: FontWeight.w300, fontFamily: "times new roman"),
+              ),
+              leading: _buildListLeading(context, course),
+              subtitle: _getSubtitle(course),
             ),
-            title: Text(
-              course.name,
-              style: TextStyle(
-                  fontWeight: FontWeight.w300, fontFamily: "times new roman"),
-            ),
-            leading: _buildListLeading(context, course),
-            subtitle: _getSubtitle(course),
           ),
         ),
       ),
@@ -156,10 +162,7 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
   }
 
   Widget _buildListLeading(final BuildContext context, final Course course) {
-    return InkWell(
-        borderRadius: BorderRadius.all(Radius.circular(20)),
-        onTap: () => _openInfoDialog(context, course),
-        child: CircleAvatar(backgroundImage: _getListImage(course)));
+    return CircleAvatar(backgroundImage: _getListImage(course));
   }
 
   Widget _getSubtitle(final Course course) {
@@ -182,6 +185,4 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
 
     return profile.image.image;
   }
-
-  double _tileHeight = 90;
 }
