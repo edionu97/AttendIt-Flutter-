@@ -66,13 +66,9 @@ class _LoaderState extends State<Loader> with SingleTickerProviderStateMixin {
         child: Stack(
           children: <Widget>[
             Center(
-              child: Opacity(
-                opacity: .82,
-                child: Dot(
-                  radius: max(_radius - _dotRadius - 2, 0),
-                  color: Colors.blueGrey[400],
-                  hasImage: true,
-                ),
+              child: Dot(
+                radius: 10,
+                color: Colors.blueGrey[400],
               ),
             ),
             RotationTransition(
