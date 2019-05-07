@@ -1,4 +1,7 @@
+import 'package:attend_it/users/common/notifications/notificator.dart';
+import 'package:attend_it/users/common/role_chooser/role_chooser.dart';
 import 'package:attend_it/users/student/service/login_service.dart';
+import 'package:attend_it/utils/components/animation.dart';
 import 'package:attend_it/utils/components/form.dart';
 import 'package:attend_it/utils/components/animated_button.dart';
 import 'package:attend_it/utils/gui/gui.dart';
@@ -71,7 +74,15 @@ class _RegisterScreen extends State<RegisterScreen> {
       GUI
           .openDialog(
               context: context, message: response["msg"], title: "Success")
-          .then((_) => Navigator.of(context).pop());
+          .then((_) {
+
+        Navigator.of(context).pushAndRemoveUntil(
+            SecondPageRoute(
+            toPage: () => RoleChooser(username: controllerUsername.text)),
+            ModalRoute.withName('/')
+        );
+        new Notificator().setUsername(controllerUsername.text);
+      });
     } on Exception catch (e) {
       final String message = e.toString().split(":")[1];
       GUI.openDialog(context: context, message: message);
