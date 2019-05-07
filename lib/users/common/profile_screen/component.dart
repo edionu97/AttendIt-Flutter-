@@ -101,15 +101,27 @@ class _Profile extends State<Profile> {
       final TextEditingController _controller, final String oldValueKey) {
     final String text = _controller.text;
 
+    _modified[oldValueKey] = true;
     if (_oldFieldValues[oldValueKey] == text) {
+      _modified[oldValueKey] = false;
+    }
+
+    _checkDirty();
+  }
+
+  void _checkDirty(){
+    for(bool value in _modified.values){
+      if(value == false){
+        continue;
+      }
       setState(() {
-        _isButtonEnabled = false;
+        _isButtonEnabled = true;
       });
       return;
     }
 
     setState(() {
-      _isButtonEnabled = true;
+      _isButtonEnabled = false;
     });
   }
 
@@ -120,9 +132,8 @@ class _Profile extends State<Profile> {
           if (img == null) {
             return;
           }
-          setState(() {
-            _isButtonEnabled = true;
-          });
+          _modified["image"] = true;
+          _checkDirty();
           setState(() {
             image = new Image.file(img);
             imageFile = img;
@@ -151,6 +162,8 @@ class _Profile extends State<Profile> {
             iconData: Icons.check,
             iconColor: Colors.green),
       );
+      _setOldValues();
+      _checkDirty();
     } on Exception catch (e) {
       Future.delayed(Duration.zero,
           () => GUI.openDialog(context: context, message: e.toString()));
@@ -160,6 +173,8 @@ class _Profile extends State<Profile> {
     if (image != null && imageFile != null) {
       try {
         await _service.uploadImage(widget.username, imageFile);
+        _setOldValues();
+        _checkDirty();
       } on Exception catch (e) {
         Future.delayed(Duration.zero,
             () => GUI.openDialog(context: context, message: e.toString()));
@@ -175,6 +190,8 @@ class _Profile extends State<Profile> {
       await this
           ._service
           .changePassword(widget.username, password.text, newPassword.text);
+      _setOldValues();
+      _checkDirty();
       Future.delayed(
           Duration.zero,
           () => GUI.openDialog(
@@ -199,7 +216,7 @@ class _Profile extends State<Profile> {
         email.text = response['email'];
         phoneNumber.text = response['phone'];
         image = response["image"];
-        _populateTextFields(response);
+        _populateTextFields();
       });
     } on Exception catch (e) {
       Future.delayed(Duration.zero,
@@ -207,13 +224,19 @@ class _Profile extends State<Profile> {
     }
   }
 
-  void _populateTextFields(final dynamic response){
-
-    _oldFieldValues.putIfAbsent("firstName", () => response['first']);
-    _oldFieldValues.putIfAbsent("lastName", () => response['last']);
-    _oldFieldValues.putIfAbsent("email", () => response['email']);
-    _oldFieldValues.putIfAbsent("phone", () => response['phone']);
+  void _setOldValues(){
+    _modified.clear();
+    _oldFieldValues.clear();
+    _oldFieldValues.putIfAbsent("firstName", () => firstName.text);
+    _oldFieldValues.putIfAbsent("lastName", () => lastName.text);
+    _oldFieldValues.putIfAbsent("email", () => email.text);
+    _oldFieldValues.putIfAbsent("phone", () => phoneNumber.text);
     _oldFieldValues.putIfAbsent("password", ()=> password.text);
+  }
+
+  void _populateTextFields(){
+
+    _setOldValues();
 
     firstName
         .addListener(() => _createTextFieldListener(firstName, "firstName"));
@@ -238,6 +261,7 @@ class _Profile extends State<Profile> {
       secondFormKey = new GlobalKey<FormState>();
 
   final Map<String, String> _oldFieldValues = {};
+  final Map<String, bool> _modified = {};
   final ProfileService _service = new ProfileService();
 
   Image image;
