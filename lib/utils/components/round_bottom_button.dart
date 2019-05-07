@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 
 class RoundBorderButton extends StatelessWidget {
-
   RoundBorderButton(
       {@required this.onTap,
-        @required this.splashColor,
-        @required this.buttonColor,
-        @required this.iconColor,
-        @required this.buttonIcon});
+      @required this.splashColor,
+      @required this.buttonColor,
+      @required this.iconColor,
+      @required this.buttonIcon,
+      this.height = 60,
+      this.weight = 60,
+      this.iconSize = 20});
 
   @override
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.bottomRight,
       child: Container(
-        height: 60,
-        width: 60,
+        height: this.height,
+        width: this.weight,
         margin: EdgeInsets.only(right: 20, bottom: 18),
         child: Material(
           color: buttonColor,
@@ -33,7 +35,7 @@ class RoundBorderButton extends StatelessWidget {
                   child: Icon(
                     buttonIcon,
                     color: iconColor,
-                    size: 20,
+                    size: iconSize,
                   ),
                 ),
               ),
@@ -44,9 +46,11 @@ class RoundBorderButton extends StatelessWidget {
     );
   }
 
+  final double height, weight, iconSize;
   final Function onTap;
   final Color splashColor;
   final Color buttonColor;
   final Color iconColor;
   final IconData buttonIcon;
+
 }

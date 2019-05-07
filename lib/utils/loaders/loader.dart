@@ -69,7 +69,7 @@ class _LoaderState extends State<Loader> with SingleTickerProviderStateMixin {
               child: Opacity(
                 opacity: .82,
                 child: Dot(
-                  radius: max(_radius - _dotRadius, 0),
+                  radius: max(_radius - _dotRadius - 1, 0),
                   color: Colors.blueGrey[400],
                   hasImage: true,
                 ),

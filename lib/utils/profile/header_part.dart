@@ -24,22 +24,22 @@ class Header extends StatelessWidget {
             width: 140,
             margin: EdgeInsets.only(bottom: 40),
             alignment: Alignment.center,
-            child: Material(
-              elevation: 20,
-              shape: StadiumBorder(),
-              child: Container(
-                  decoration: this.image == null
-                      ? Decorator.getDefaultImageDecoration()
-                      : Decorator.getImageDecoration(image),
-                  child: InkWell(
-                    child: AssetRoundImage(imageName: "photo-camera.png"),
-                    onTap: () {
-                      if (this.onPress == null) {
-                        return;
-                      }
-                      this.onPress();
-                    },
-                  )),
+            child: InkWell(
+              onTap: () {
+                if (this.onPress == null) {
+                  return;
+                }
+                this.onPress();
+              },
+              child: Material(
+                elevation: 20,
+                shape: StadiumBorder(),
+                child: Container(
+                    decoration: this.image == null
+                        ? Decorator.getDefaultImageDecoration()
+                        : Decorator.getImageDecoration(image),
+                    child: AssetRoundImage(imageName: "photo-camera.png")),
+              ),
             ),
           )
         ],
