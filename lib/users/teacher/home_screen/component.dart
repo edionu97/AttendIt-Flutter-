@@ -6,18 +6,16 @@ import 'package:attend_it/utils/drawer/navigation.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreenTeacher extends StatefulWidget {
-
   HomeScreenTeacher({this.username});
 
   @override
   _HomeScreenTeacherState createState() => _HomeScreenTeacherState();
 
-
   final String username;
 }
 
-class _HomeScreenTeacherState extends State<HomeScreenTeacher> with TickerProviderStateMixin {
-
+class _HomeScreenTeacherState extends State<HomeScreenTeacher>
+    with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
@@ -35,13 +33,19 @@ class _HomeScreenTeacherState extends State<HomeScreenTeacher> with TickerProvid
 
     widgets = [
       FadeTransition(
-        opacity: widgetAnimation,
-        child: ScaleTransition(
+          opacity: widgetAnimation,
+          child: ScaleTransition(
             scale: widgetAnimation,
             alignment: Alignment.center,
-            child: Center(child: Text("HomeScreenTeacher")),
-      )),
-      Container(),
+            child: Center(child: Text("Attendances result")),
+          )),
+      FadeTransition(
+          opacity: widgetAnimation,
+          child: ScaleTransition(
+            scale: widgetAnimation,
+            alignment: Alignment.center,
+            child: Center(child: Text("Make presence")),
+          )),
       Container(),
       FadeTransition(
         opacity: widgetAnimation,
@@ -50,9 +54,21 @@ class _HomeScreenTeacherState extends State<HomeScreenTeacher> with TickerProvid
             alignment: Alignment.center,
             child: Profile(username: widget.username)),
       ),
-      Container()
+      FadeTransition(
+          opacity: widgetAnimation,
+          child: ScaleTransition(
+            scale: widgetAnimation,
+            alignment: Alignment.center,
+            child: Center(child: Text("Add course")),
+          )),
+      FadeTransition(
+          opacity: widgetAnimation,
+          child: ScaleTransition(
+            scale: widgetAnimation,
+            alignment: Alignment.center,
+            child: Center(child: Text("My courses")),
+          )),
     ];
-
 
     widgetController.forward();
     Notificator().setOnDone(() => _restartApp());
@@ -62,20 +78,20 @@ class _HomeScreenTeacherState extends State<HomeScreenTeacher> with TickerProvid
   Widget build(BuildContext context) {
     return Scaffold(
         body: Stack(
-          children: <Widget>[
-            InkWell(
-                onTap: () {
-                  if (!_isDrawerVisible) {
-                    return;
-                  }
-                  controllerDrawer.reverse().then((f) => setState(() {
+      children: <Widget>[
+        InkWell(
+            onTap: () {
+              if (!_isDrawerVisible) {
+                return;
+              }
+              controllerDrawer.reverse().then((f) => setState(() {
                     _isDrawerVisible = false;
                   }));
-                },
-                child: widgets[_selectedItem]),
-            _isDrawerVisible ? _getNavigationDrawer() : _getNavigationDrawerButton()
-          ],
-        ));
+            },
+            child: widgets[_selectedItem]),
+        _isDrawerVisible ? _getNavigationDrawer() : _getNavigationDrawerButton()
+      ],
+    ));
   }
 
   Widget _getNavigationDrawer() {
@@ -91,7 +107,7 @@ class _HomeScreenTeacherState extends State<HomeScreenTeacher> with TickerProvid
                 .reverse()
                 .then((f) => _selection(idx, context)),
             onClose: () => controllerDrawer.reverse().then(
-                    (f) => setState(() => _isDrawerVisible = !_isDrawerVisible))),
+                (f) => setState(() => _isDrawerVisible = !_isDrawerVisible))),
       ),
     );
   }
@@ -126,14 +142,13 @@ class _HomeScreenTeacherState extends State<HomeScreenTeacher> with TickerProvid
         ));
   }
 
-  Color _getDrawerButtonColor(final int _item){
-
+  Color _getDrawerButtonColor(final int _item) {
     return Colors.black;
   }
 
   void _selection(final int index, final BuildContext context) {
     switch (index) {
-      case 2 :
+      case 2:
         _logoutAction(context);
         break;
       default:
