@@ -9,7 +9,9 @@ class NavigationDrawer extends StatefulWidget {
       {this.selected = 0,
       @required this.onClose,
       @required this.selectionHandler,
-      this.username});
+      this.username,
+        @required this.options
+      });
 
   @override
   State<StatefulWidget> createState() {
@@ -20,6 +22,7 @@ class NavigationDrawer extends StatefulWidget {
   final Function selectionHandler;
   final int selected;
   final String username;
+  List<NavigationModel> options;
 }
 
 class _NavigationDrawer extends State<NavigationDrawer>
@@ -112,8 +115,8 @@ class _NavigationDrawer extends State<NavigationDrawer>
                         widget.selectionHandler(counter);
                       },
                       child: CollapsingListTitle(
-                        title: navigationOptions[counter].title,
-                        icon: navigationOptions[counter].icon,
+                        title: widget.options[counter].title,
+                        icon: widget.options[counter].icon,
                         animationController: _animationController,
                         minWidth: openWidth,
                         maxWidth: closedWidth,
@@ -121,7 +124,7 @@ class _NavigationDrawer extends State<NavigationDrawer>
                       ),
                     );
                   },
-                  itemCount: navigationOptions.length,
+                  itemCount: widget.options.length,
                   separatorBuilder: (BuildContext context, int index) {
                     return Divider(
                       height: 40,

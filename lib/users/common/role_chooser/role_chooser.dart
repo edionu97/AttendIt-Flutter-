@@ -3,6 +3,7 @@ import 'package:attend_it/users/admin/home_screen/component.dart';
 import 'package:attend_it/users/common/notifications/notificator.dart';
 import 'package:attend_it/users/student/home_screen/home_screen.dart';
 import 'package:attend_it/users/common/service/login_service.dart';
+import 'package:attend_it/users/teacher/home_screen/component.dart';
 import 'package:attend_it/utils/constants/constants.dart';
 import 'package:attend_it/utils/enums/notifications.dart';
 import 'package:attend_it/utils/gui/gui.dart';
@@ -27,7 +28,7 @@ class _RoleChooserState extends State<RoleChooser> {
       "STUDENT": HomeScreen(
         username: widget.username,
       ),
-      "TEACHER": HomeScreen(username: widget.username),
+      "TEACHER": HomeScreenTeacher(username: widget.username),
       "OPENED": Center(
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

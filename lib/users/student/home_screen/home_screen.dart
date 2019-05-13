@@ -11,6 +11,7 @@ import 'package:attend_it/users/common/service/profile_service.dart';
 import 'package:attend_it/users/student/upload_video_screen/component.dart';
 import 'package:attend_it/users/student/student_attendance_screen/component.dart';
 import 'package:attend_it/utils/constants/constants.dart';
+import 'package:attend_it/utils/drawer/navigation.dart';
 import 'package:attend_it/utils/gui/gui.dart';
 import 'package:attend_it/utils/video_screen/component.dart';
 import 'package:flutter/material.dart';
@@ -204,6 +205,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       child: SlideTransition(
         position: drawerAnimation,
         child: NavigationDrawer(
+            options:  navigationOptionsStudent,
             username: widget.username,
             selected: _selectedItem,
             selectionHandler: (idx) => controllerDrawer
