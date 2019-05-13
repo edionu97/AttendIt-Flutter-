@@ -34,7 +34,7 @@ class CourseService {
     final dynamic _courses = (json.decode(response.body))["courses"];
 
     _courses.forEach(
-        (dynamic courseJson) => courses.add(Course.fromJson(courseJson)));
+        (dynamic courseJson){courses.add(Course.fromJson(courseJson)); });
 
     return courses;
   }
