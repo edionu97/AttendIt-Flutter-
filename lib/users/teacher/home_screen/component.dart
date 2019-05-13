@@ -67,7 +67,7 @@ class _HomeScreenTeacherState extends State<HomeScreenTeacher>
           child: ScaleTransition(
             scale: widgetAnimation,
             alignment: Alignment.center,
-            child: MyCourses(username: widget.username,),
+            child: MyCourses(username: widget.username, function: ()=>_selection(4, context)),
           )),
     ];
 
@@ -144,6 +144,12 @@ class _HomeScreenTeacherState extends State<HomeScreenTeacher>
   }
 
   Color _getDrawerButtonColor(final int _item) {
+
+    switch(_item){
+      case 5:
+        return Colors.white70;
+    }
+
     return Colors.black;
   }
 

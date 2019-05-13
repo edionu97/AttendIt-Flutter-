@@ -7,12 +7,13 @@ import 'package:attend_it/utils/loaders/loader.dart';
 import 'package:flutter/material.dart';
 
 class MyCourses extends StatefulWidget {
-  const MyCourses({Key key, this.username}) : super(key: key);
+  const MyCourses({Key key, this.username, this.function}) : super(key: key);
 
   @override
   _MyCoursesState createState() => _MyCoursesState();
 
   final String username;
+  final Function function;
 }
 
 class _MyCoursesState extends State<MyCourses> {
@@ -43,8 +44,10 @@ class _MyCoursesState extends State<MyCourses> {
         scrollDirection: Axis.vertical,
         slivers: <Widget>[
           SliverAppBar(
+              elevation: 5,
+              pinned: true,
               centerTitle: true,
-              backgroundColor: Colors.blueGrey[600],
+              backgroundColor: Colors.brown,
               floating: true,
               primary: true,
               forceElevated: true,
@@ -54,21 +57,25 @@ class _MyCoursesState extends State<MyCourses> {
                 background: Image.asset(
                   "courses.jpg",
                   fit: BoxFit.fill,
+                  filterQuality: FilterQuality.high,
                 ),
               )),
           SliverFixedExtentList(
               delegate: SliverChildBuilderDelegate(
                   (builder, index) => _createListItem(context, _courses[index]),
                   childCount: _courses.length),
-              itemExtent: 90),
+              itemExtent: 95),
         ],
       ),
-      RoundBorderButton(
-        onTap: () => print("Tapped"),
-        splashColor: Colors.blueAccent,
-        buttonColor: Colors.blue,
-        iconColor: Colors.white,
-        buttonIcon: Icons.add,
+      Transform.translate(
+        offset: Offset(0,5),
+        child: RoundBorderButton(
+          onTap: widget.function,
+          splashColor: Colors.brown[700],
+          buttonColor: Colors.brown[500],
+          iconColor: Colors.white,
+          buttonIcon: Icons.add,
+        ),
       )
     ]);
   }
@@ -77,7 +84,7 @@ class _MyCoursesState extends State<MyCourses> {
     final double _tileHeight = 90.0;
 
     return Card(
-      elevation: 5,
+      elevation: 6,
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 5),
         height: _tileHeight,
