@@ -1,8 +1,8 @@
 import 'package:attend_it/main.dart';
 import 'package:attend_it/users/common/notifications/notificator.dart';
-import 'package:attend_it/users/student/service/login_service.dart';
-import 'package:attend_it/users/student/service/models/profile.dart';
-import 'package:attend_it/users/student/service/models/user.dart';
+import 'package:attend_it/users/common/service/login_service.dart';
+import 'package:attend_it/users/common/models/profile.dart';
+import 'package:attend_it/users/common/models/user.dart';
 import 'package:attend_it/utils/constants/constants.dart';
 import 'package:attend_it/utils/enums/notifications.dart';
 import 'package:attend_it/utils/gui/gui.dart';

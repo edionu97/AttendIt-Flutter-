@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:attend_it/users/student/service/models/course.dart';
-import 'package:attend_it/users/student/service/models/enrollment.dart';
+import 'package:attend_it/users/common/models/course.dart';
+import 'package:attend_it/users/common/models/enrollment.dart';
 import 'package:attend_it/utils/constants/constants.dart';
 
 import 'package:http/http.dart' as http;

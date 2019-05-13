@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:attend_it/users/common/notifications/notificator.dart';
 import 'package:attend_it/users/student/service/enrollment_service.dart';
-import 'package:attend_it/users/student/service/models/course.dart';
-import 'package:attend_it/users/student/service/models/profile.dart';
+import 'package:attend_it/users/common/models/course.dart';
+import 'package:attend_it/users/common/models/profile.dart';
 import 'package:attend_it/utils/components/decoration_form.dart';
 import 'package:attend_it/utils/gui/gui.dart';
 import 'package:flutter/material.dart';

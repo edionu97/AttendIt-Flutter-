@@ -1,6 +1,6 @@
 import 'package:attend_it/users/common/notifications/notificator.dart';
 import 'package:attend_it/users/common/role_chooser/role_chooser.dart';
-import 'package:attend_it/users/student/service/login_service.dart';
+import 'package:attend_it/users/common/service/login_service.dart';
 import 'package:attend_it/utils/components/animation.dart';
 import 'package:attend_it/utils/components/form.dart';
 import 'package:attend_it/utils/components/animated_button.dart';

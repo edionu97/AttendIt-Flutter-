@@ -1,4 +1,4 @@
-import 'package:attend_it/users/student/service/models/profile.dart';
+import 'package:attend_it/users/common/models/profile.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 @JsonSerializable()

@@ -1,4 +1,4 @@
-import 'package:attend_it/users/student/service/profile_service.dart';
+import 'package:attend_it/users/common/service/profile_service.dart';
 import 'package:attend_it/utils/components/decoration_form.dart';
 import 'package:attend_it/utils/drawer/collapsing.dart';
 import 'package:attend_it/utils/drawer/navigation.dart';

@@ -1,6 +1,6 @@
 import 'package:attend_it/users/student/service/attendance_service.dart';
-import 'package:attend_it/users/student/service/models/attendance.dart';
-import 'package:attend_it/users/student/service/models/enrollment.dart';
+import 'package:attend_it/users/common/models/attendance.dart';
+import 'package:attend_it/users/common/models/enrollment.dart';
 import 'package:attend_it/utils/components/decoration_form.dart';
 import 'package:attend_it/utils/gui/gui.dart';
 import 'package:attend_it/utils/loaders/loader.dart';
