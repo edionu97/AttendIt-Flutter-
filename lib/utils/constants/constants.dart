@@ -67,6 +67,9 @@ class Constants{
   static String SET_ROLE = "/auth/user/set-role";
 
   // ignore: non_constant_identifier_names
+  static String GET_MY_COURSES = "/courses/posted-by";
+
+  // ignore: non_constant_identifier_names
   static String TILT_HEAD_LEFT_RIGHT ="You should move your head from left to right and back slowly";
 
   // ignore: non_constant_identifier_names

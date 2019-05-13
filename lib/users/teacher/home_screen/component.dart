@@ -2,6 +2,7 @@ import 'package:attend_it/main.dart';
 import 'package:attend_it/users/common/navigation_drawer/component.dart';
 import 'package:attend_it/users/common/notifications/notificator.dart';
 import 'package:attend_it/users/common/profile_screen/component.dart';
+import 'package:attend_it/users/teacher/my_courses/component.dart';
 import 'package:attend_it/utils/drawer/navigation.dart';
 import 'package:flutter/material.dart';
 
@@ -66,7 +67,7 @@ class _HomeScreenTeacherState extends State<HomeScreenTeacher>
           child: ScaleTransition(
             scale: widgetAnimation,
             alignment: Alignment.center,
-            child: Center(child: Text("My courses")),
+            child: MyCourses(username: widget.username,),
           )),
     ];
 
