@@ -22,7 +22,7 @@ class NavigationDrawer extends StatefulWidget {
   final Function selectionHandler;
   final int selected;
   final String username;
-  List<NavigationModel> options;
+  final List<NavigationModel> options;
 }
 
 class _NavigationDrawer extends State<NavigationDrawer>

@@ -2,6 +2,7 @@ import 'package:attend_it/main.dart';
 import 'package:attend_it/users/common/navigation_drawer/component.dart';
 import 'package:attend_it/users/common/notifications/notificator.dart';
 import 'package:attend_it/users/common/profile_screen/component.dart';
+import 'package:attend_it/users/teacher/add_course/component.dart';
 import 'package:attend_it/users/teacher/my_courses/component.dart';
 import 'package:attend_it/utils/drawer/navigation.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +61,7 @@ class _HomeScreenTeacherState extends State<HomeScreenTeacher>
           child: ScaleTransition(
             scale: widgetAnimation,
             alignment: Alignment.center,
-            child: Center(child: Text("Add course")),
+            child: AddCourse(username: widget.username,),
           )),
       FadeTransition(
           opacity: widgetAnimation,
@@ -146,6 +147,8 @@ class _HomeScreenTeacherState extends State<HomeScreenTeacher>
   Color _getDrawerButtonColor(final int _item) {
 
     switch(_item){
+      case 4:
+        return Colors.white70;
       case 5:
         return Colors.white70;
     }

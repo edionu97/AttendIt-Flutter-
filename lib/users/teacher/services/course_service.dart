@@ -39,5 +39,31 @@ class CourseService {
     return courses;
   }
 
+  Future<dynamic> addCourse(
+      final String teacherName,
+      final String courseName,
+      final String courseType,
+      final String courseAbr) async {
+
+    return http
+        .post(Constants.SERVER_ADDRESS + Constants.ADD_COURSE,
+            body: json.encode({
+              "teacher": teacherName,
+              "courseName" : courseName,
+              "courseType": courseType.toUpperCase(),
+              "abr": courseAbr
+            }),
+            headers: {"Content-Type": "application/json"})
+        .timeout(const Duration(minutes: 2))
+        .catchError((error) =>
+            throw new Exception("Could not get any response from server"))
+        .then((Response response) {
+          if (response.statusCode != 200) {
+            throw new Exception(json.decode(response.body)["msg"]);
+          }
+          return response;
+        });
+  }
+
   static final CourseService _instance = CourseService._();
 }

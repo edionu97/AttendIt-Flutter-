@@ -1,7 +1,11 @@
 import 'package:attend_it/users/common/models/course.dart';
 import 'package:attend_it/users/common/models/profile.dart';
+import 'package:attend_it/users/common/models/user.dart';
+import 'package:attend_it/users/common/notifications/notificator.dart';
+import 'package:attend_it/users/teacher/add_course/component.dart';
 import 'package:attend_it/users/teacher/services/course_service.dart';
 import 'package:attend_it/utils/components/round_bottom_button.dart';
+import 'package:attend_it/utils/enums/notifications.dart';
 import 'package:attend_it/utils/gui/gui.dart';
 import 'package:attend_it/utils/loaders/loader.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +26,13 @@ class _MyCoursesState extends State<MyCourses> {
     super.initState();
 
     this._getCourses();
+    Notificator().addObserver(_listener);
+  }
+
+  @override
+  void dispose() {
+    Notificator().removeObserver(_listener);
+    super.dispose();
   }
 
   @override
@@ -67,16 +78,15 @@ class _MyCoursesState extends State<MyCourses> {
               itemExtent: 95),
         ],
       ),
-      Transform.translate(
-        offset: Offset(0,5),
-        child: RoundBorderButton(
-          onTap: widget.function,
-          splashColor: Colors.brown[700],
-          buttonColor: Colors.brown[500],
-          iconColor: Colors.white,
-          buttonIcon: Icons.add,
-        ),
-      )
+      !_isAddActive
+          ? RoundBorderButton(
+              onTap: () => this._buttonAddClicked(context),
+              splashColor: Colors.brown[700],
+              buttonColor: Colors.brown[500],
+              iconColor: Colors.white,
+              buttonIcon: Icons.add,
+            )
+          : Container()
     ]);
   }
 
@@ -122,7 +132,7 @@ class _MyCoursesState extends State<MyCourses> {
     }
 
     return Text(
-        "Added by ${course.user.profile.first} ${course.user.profile.last}");
+        "Added by you, ${course.user.profile.first} ${course.user.profile.last}");
   }
 
   ImageProvider _getListImage(final Course course) {
@@ -133,6 +143,44 @@ class _MyCoursesState extends State<MyCourses> {
     }
 
     return profile.image.image;
+  }
+
+  void _buttonAddClicked(final BuildContext cont) async {
+    final AddCourse addCourse = new AddCourse(
+      username: widget.username,
+    );
+
+    setState(() {
+      _isAddActive = true;
+    });
+
+    await showDialog(
+        context: cont,
+        builder: (context) {
+          return Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () => addCourse.hide(),
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              child: Container(
+                  color: Colors.transparent,
+                  margin: EdgeInsets.symmetric(horizontal: 10),
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        addCourse,
+                        Divider(
+                          height: 5,
+                        )
+                      ])),
+            ),
+          );
+        });
+
+    setState(() {
+      _isAddActive = false;
+    });
   }
 
   void _getCourses() async {
@@ -154,6 +202,23 @@ class _MyCoursesState extends State<MyCourses> {
     }
   }
 
+  void _listener(final dynamic notification) {
+    final NotificationType type =
+        getNotificationTypeFromString(notification["type"]);
+
+    if (type == NotificationType.COURSE_ADDED_REFRESH) {
+
+      final dynamic courseData = notification["data"]["course"];
+      final User user = _courses.isEmpty ? null : _courses[0].user;
+      _courses.add(new Course(
+          name: courseData["name"], type: courseData["type"], user: user));
+      setState(() {
+        this._courses = _courses;
+      });
+    }
+  }
+
   bool _isLoading = true;
+  bool _isAddActive = false;
   List<Course> _courses = [];
 }

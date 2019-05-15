@@ -101,8 +101,6 @@ class _RoleChooserState extends State<RoleChooser> {
     final NotificationType type =
         getNotificationTypeFromString(notification["type"]);
 
-    print(notification);
-
     if (type == NotificationType.ACCOUNT_CONFIRMED) {
       final String userRole = notification["data"]["role"];
       setState(() {

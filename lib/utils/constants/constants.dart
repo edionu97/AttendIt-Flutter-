@@ -7,7 +7,7 @@ class Constants{
   static double PROFILE_PICTURE_HEIGHT = 150;
 
   // ignore: non_constant_identifier_names
-  static String SERVER_ADDRESS="http://172.16.10.103:8080";
+  static String SERVER_ADDRESS="http://172.16.10.100:8080";
 
   // ignore: non_constant_identifier_names
   static String WEB_SOCKET = SERVER_ADDRESS.replaceAll("http", "ws") + "/topic";
@@ -68,6 +68,9 @@ class Constants{
 
   // ignore: non_constant_identifier_names
   static String GET_MY_COURSES = "/courses/posted-by";
+
+  // ignore: non_constant_identifier_names
+  static String ADD_COURSE = "/courses/add";
 
   // ignore: non_constant_identifier_names
   static String TILT_HEAD_LEFT_RIGHT ="You should move your head from left to right and back slowly";
