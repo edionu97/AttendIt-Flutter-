@@ -1,8 +1,11 @@
+import 'package:attend_it/users/common/notifications/notificator.dart';
 import 'package:attend_it/users/student/service/attendance_service.dart';
 import 'package:attend_it/users/common/models/course.dart';
 import 'package:attend_it/users/common/models/profile.dart';
+import 'package:attend_it/users/teacher/services/course_service.dart';
 import 'package:attend_it/utils/components/loading.dart';
 import 'package:attend_it/utils/components/round_bottom_button.dart';
+import 'package:attend_it/utils/enums/notifications.dart';
 import 'package:attend_it/utils/gui/gui.dart';
 import 'package:attend_it/utils/loaders/loader.dart';
 import 'package:attend_it/utils/student_attendance_screen/enroll.dart';
@@ -24,26 +27,25 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
   @override
   void initState() {
     super.initState();
+    this._getAvailableCourses(context);
+    Notificator().addObserver(_listener);
+  }
+
+  @override
+  void dispose() {
+    Notificator().removeObserver(_listener);
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-      child: Loading(
-        future: AttendanceService().getAllAvailableCourses().catchError(
-            (error) => Future.delayed(
-                Duration.zero,
-                () => GUI.openDialog(
-                    context: context, message: error.toString()))),
-        completed: (final List<Course> courses) =>
-            _createView(context, courses),
-      ),
-    ));
+        body: _isLoading
+            ? Center(child: Loader())
+            : Container(child: _createView(context, courses)));
   }
 
   void _openInfoDialog(final BuildContext cont, final Course course) {
-
     final Enroll enroll = Enroll(
       course: course,
       username: widget.username,
@@ -76,8 +78,10 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
   Widget _createView(final BuildContext context, final List<Course> courses) {
     final BorderRadius radius = BorderRadius.all(Radius.circular(0));
 
-    if(courses.isEmpty){
-      return Center(child: Text("No data to be displayed"),);
+    if (courses.isEmpty) {
+      return Center(
+        child: Text("No data to be displayed"),
+      );
     }
 
     return Stack(
@@ -128,7 +132,6 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
   }
 
   Widget _buildListItem(final BuildContext context, final Course course) {
-
     final double _tileHeight = 90.0;
 
     return InkWell(
@@ -176,6 +179,43 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
         "Added by ${course.user.profile.first} ${course.user.profile.last}");
   }
 
+
+  void _getAvailableCourses(final BuildContext context) async {
+    try{
+      courses = await AttendanceService().getAllAvailableCourses();
+      setState(() {
+        _isLoading = false;
+      });
+    }on Exception catch(error){
+      Future.delayed(
+          Duration.zero,
+              () => GUI.openDialog(
+              context: context, message: error.toString()));
+    }
+  }
+
+  void _listener(final dynamic notification) {
+    final NotificationType type =
+        getNotificationTypeFromString(notification["type"]);
+
+    if (type == NotificationType.COURSE_ADDED) {
+      __getCourseInfo(notification["data"]["course"]);
+    }
+  }
+
+  void __getCourseInfo(final dynamic data) async {
+    final String courseName = data["name"];
+    final String teacher = data["teacher"];
+    final String courseType = data["type"];
+
+    try {
+      final Course course =
+          await CourseService().findCourse(teacher, courseName, courseType);
+      courses.add(course);
+      setState(() {});
+    } on Exception {}
+  }
+
   ImageProvider _getListImage(final Course course) {
     final Profile profile = course.user.profile;
 
@@ -185,4 +225,7 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
 
     return profile.image.image;
   }
+
+  List<Course> courses = [];
+  bool _isLoading = true;
 }

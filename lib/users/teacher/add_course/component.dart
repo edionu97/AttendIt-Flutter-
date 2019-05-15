@@ -1,6 +1,4 @@
-import 'package:attend_it/users/common/models/course.dart';
 import 'package:attend_it/users/common/notifications/notificator.dart';
-import 'package:attend_it/users/common/service/profile_service.dart';
 import 'package:attend_it/users/teacher/services/course_service.dart';
 import 'package:attend_it/utils/components/decoration_form.dart';
 import 'package:attend_it/utils/enums/notifications.dart';
