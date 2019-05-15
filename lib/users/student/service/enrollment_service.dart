@@ -38,7 +38,7 @@ class EnrollmentService {
               "courseType": course.type,
             }),
             headers: {"Content-Type": "application/json"})
-        .timeout(const Duration(seconds: 5))
+        .timeout(const Duration(minutes: 5))
         .catchError((error) =>
             throw new Exception("Could not get any response from server"))
         .then((Response response) {
@@ -61,7 +61,7 @@ class EnrollmentService {
               "group": group
             }),
             headers: {"Content-Type": "application/json"})
-        .timeout(const Duration(seconds: 5))
+        .timeout(const Duration(minutes: 5))
         .catchError((error) =>
             throw new Exception("Could not get any response from server"))
         .then((Response response) {
@@ -81,7 +81,7 @@ class EnrollmentService {
               "student": username,
             }),
             headers: {"Content-Type": "application/json"})
-        .timeout(const Duration(seconds: 5))
+        .timeout(const Duration(minutes: 5))
         .catchError((error) =>
             throw new Exception("Could not get any response from server"))
         .then((Response response) {

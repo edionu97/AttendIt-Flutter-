@@ -20,7 +20,7 @@ class ProfileService {
         .post(Constants.SERVER_ADDRESS + Constants.GET_PROFILE_API,
             body: json.encode({"usern": username}),
             headers: {"Content-Type": "application/json"})
-        .timeout(const Duration(seconds: 5))
+        .timeout(const Duration(minutes: 5))
         .catchError((error) =>
             throw new Exception("Could not get any response from server"))
         .then((http.Response resp) {
@@ -52,7 +52,7 @@ class ProfileService {
               "email": email
             }),
             headers: {"Content-Type": "application/json"})
-        .timeout(const Duration(seconds: 5))
+        .timeout(const Duration(minutes: 5))
         .catchError((error) =>
             throw new Exception("Could not get any response from server"))
         .then((http.Response resp) {
@@ -69,7 +69,7 @@ class ProfileService {
             body: json.encode(
                 {"usern": username, "passwd": password, "new": newPassword}),
             headers: {"Content-Type": "application/json"})
-        .timeout(const Duration(seconds: 5))
+        .timeout(const Duration(minutes: 5))
         .catchError((error) =>
             throw new Exception("Could not get any response from server"))
         .then((http.Response resp) {
@@ -91,7 +91,7 @@ class ProfileService {
         .post(Constants.SERVER_ADDRESS + Constants.UPLOAD_PICTURE_API,
             body: json.encode({"usern": username, "image": encodedImage}),
             headers: {"Content-Type": "application/json"})
-        .timeout(const Duration(seconds: 5))
+        .timeout(const Duration(minutes: 5))
         .catchError((error) =>
             throw new Exception("Could not get any response from server"))
         .then((http.Response resp) {
@@ -123,7 +123,7 @@ class ProfileService {
               "fileUpDown": UploadFileInfo(fileTmpUpDown, Constants.TMP_UP_DOWN.substring(1)),
               "user": username
             }))
-        .timeout(const Duration(seconds: 30))
+        .timeout(const Duration(minutes: 5))
         .catchError((err) => throw new Exception("Cannot send file to server"))
         .then((onValue) {
       if (onValue.statusCode != 200) {
