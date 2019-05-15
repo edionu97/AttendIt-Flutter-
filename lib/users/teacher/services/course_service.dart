@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:attend_it/users/common/models/course.dart';
+import 'package:attend_it/users/common/models/enrollment.dart';
+import 'package:attend_it/users/common/models/user.dart';
 import 'package:attend_it/utils/constants/constants.dart';
 
 import 'package:http/http.dart' as http;
@@ -83,6 +85,38 @@ class CourseService {
 
     final dynamic courseJson = json.decode(response.body);
     return Course.fromJson(courseJson["course"]);
+  }
+
+  Future<List<User>> getEnrollmentsAtCourse(final String teacher,
+      final String courseName, final String courseType) async {
+    final List<User> list = [];
+
+    final Response response = await http
+        .post(Constants.SERVER_ADDRESS + Constants.GET_COURSE_ENROLLMENTS,
+            body: json.encode({
+              "teacher": teacher,
+              "courseName": courseName,
+              "courseType": courseType.toUpperCase()
+            }),
+            headers: {"Content-Type": "application/json"})
+        .timeout(const Duration(minutes: 5))
+        .catchError((error) =>
+            throw new Exception("Could not get any response from server"))
+        .then((Response response) {
+          if (response.statusCode != 200) {
+            final dynamic body = json.decode(response.body);
+            throw new Exception(body["msg"]);
+          }
+
+          return response;
+        });
+
+    final dynamic enrollments = (json.decode(response.body))["enrollments"];
+    enrollments.forEach((enrollment) {
+      list.add(User.fromJson(enrollment["user"]));
+    });
+
+    return list;
   }
 
   static final CourseService _instance = CourseService._();

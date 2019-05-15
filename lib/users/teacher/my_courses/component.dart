@@ -3,6 +3,7 @@ import 'package:attend_it/users/common/models/profile.dart';
 import 'package:attend_it/users/common/models/user.dart';
 import 'package:attend_it/users/common/notifications/notificator.dart';
 import 'package:attend_it/users/teacher/add_course/component.dart';
+import 'package:attend_it/users/teacher/enrolled/component.dart';
 import 'package:attend_it/users/teacher/services/course_service.dart';
 import 'package:attend_it/utils/components/round_bottom_button.dart';
 import 'package:attend_it/utils/enums/notifications.dart';
@@ -11,13 +12,12 @@ import 'package:attend_it/utils/loaders/loader.dart';
 import 'package:flutter/material.dart';
 
 class MyCourses extends StatefulWidget {
-  const MyCourses({Key key, this.username, this.function}) : super(key: key);
+  const MyCourses({Key key, this.username}) : super(key: key);
 
   @override
   _MyCoursesState createState() => _MyCoursesState();
 
   final String username;
-  final Function function;
 }
 
 class _MyCoursesState extends State<MyCourses> {
@@ -93,27 +93,30 @@ class _MyCoursesState extends State<MyCourses> {
   Widget _createListItem(final BuildContext context, final Course course) {
     final double _tileHeight = 90.0;
 
-    return Card(
-      elevation: 6,
-      child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 5),
-        height: _tileHeight,
-        child: Center(
-          child: ListTile(
-            contentPadding: EdgeInsets.all(10),
-            trailing: Text(
-              course.type,
-              style: TextStyle(
-                fontSize: 10,
+    return InkWell(
+      onTap: () => _itemClicked(context, course),
+      child: Card(
+        elevation: 6,
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 5),
+          height: _tileHeight,
+          child: Center(
+            child: ListTile(
+              contentPadding: EdgeInsets.all(10),
+              trailing: Text(
+                course.type,
+                style: TextStyle(
+                  fontSize: 10,
+                ),
               ),
+              title: Text(
+                course.name,
+                style: TextStyle(
+                    fontWeight: FontWeight.w300, fontFamily: "times new roman"),
+              ),
+              leading: _buildListLeading(context, course),
+              subtitle: _getSubtitle(course),
             ),
-            title: Text(
-              course.name,
-              style: TextStyle(
-                  fontWeight: FontWeight.w300, fontFamily: "times new roman"),
-            ),
-            leading: _buildListLeading(context, course),
-            subtitle: _getSubtitle(course),
           ),
         ),
       ),
@@ -122,6 +125,36 @@ class _MyCoursesState extends State<MyCourses> {
 
   Widget _buildListLeading(final BuildContext context, final Course course) {
     return CircleAvatar(backgroundImage: _getListImage(course));
+  }
+
+  void _itemClicked(final BuildContext cont, final Course course) async {
+    final Enrolled enrolled = new Enrolled(
+      course: course,
+    );
+
+    showDialog(
+        context: cont,
+        builder: (context) {
+          return Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () => enrolled.hide(),
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              child: Container(
+                  color: Colors.transparent,
+                  margin: EdgeInsets.symmetric(horizontal: 10),
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        enrolled,
+                        Divider(
+                          height: 5,
+                        )
+                      ])),
+            ),
+          );
+        });
   }
 
   Widget _getSubtitle(final Course course) {
@@ -207,7 +240,6 @@ class _MyCoursesState extends State<MyCourses> {
         getNotificationTypeFromString(notification["type"]);
 
     if (type == NotificationType.COURSE_ADDED_REFRESH) {
-
       final dynamic courseData = notification["data"]["course"];
       final User user = _courses.isEmpty ? null : _courses[0].user;
       _courses.add(new Course(
