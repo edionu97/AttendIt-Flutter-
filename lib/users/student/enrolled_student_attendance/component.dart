@@ -38,6 +38,10 @@ class _EnrolledAttendancesState extends State<EnrolledAttendances> {
       List<Enrollment> __enrollments = await EnrollmentService()
           .getEnrollmentsFor(username: widget.username);
 
+      if(!this.mounted){
+        return;
+      }
+
       setState(() {
         _isLoading = false;
         this._enrollments = __enrollments;
@@ -46,6 +50,9 @@ class _EnrolledAttendancesState extends State<EnrolledAttendances> {
       __enrollments = await EnrollmentService()
           .completeEnrollments(__enrollments, widget.username);
 
+      if(!this.mounted){
+        return;
+      }
       setState(() {
         this._enrollments = __enrollments;
       });

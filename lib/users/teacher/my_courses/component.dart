@@ -71,11 +71,16 @@ class _MyCoursesState extends State<MyCourses> {
                   filterQuality: FilterQuality.high,
                 ),
               )),
-          SliverFixedExtentList(
-              delegate: SliverChildBuilderDelegate(
-                  (builder, index) => _createListItem(context, _courses[index]),
-                  childCount: _courses.length),
-              itemExtent: 95),
+          _courses.isNotEmpty
+              ? SliverFixedExtentList(
+                  delegate: SliverChildBuilderDelegate(
+                      (builder, index) =>
+                          _createListItem(context, _courses[index]),
+                      childCount: _courses.length),
+                  itemExtent: 95)
+              : SliverFillRemaining(
+                  child: Center(child: Text("No data found")),
+                ),
         ],
       ),
       !_isAddActive
@@ -169,6 +174,11 @@ class _MyCoursesState extends State<MyCourses> {
   }
 
   ImageProvider _getListImage(final Course course) {
+
+    if(course.user == null) {
+      return AssetImage("user.png");
+    }
+
     final Profile profile = course.user.profile;
 
     if (profile == null) {

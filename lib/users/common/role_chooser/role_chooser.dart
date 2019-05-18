@@ -65,6 +65,11 @@ class _RoleChooserState extends State<RoleChooser> {
     try {
       final dynamic response =
           await LoginService().getUserDetails(widget.username);
+
+      if(!this.mounted){
+        return;
+      }
+
       setState(() {
         _screenName = response["role"];
       });
