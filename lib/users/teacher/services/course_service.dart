@@ -119,5 +119,30 @@ class CourseService {
     return list;
   }
 
+
+  Future<List<String>> getDistinctClasses(
+      final String teacherName) async {
+    final List<String> classes = [];
+
+    final Response response = await http
+        .post(Constants.SERVER_ADDRESS + Constants.GET_GROUPS_ENROLLED,
+        body: json.encode({"usern": teacherName}),
+        headers: {"Content-Type": "application/json"})
+        .timeout(const Duration(minutes: 2))
+        .catchError((error) =>
+    throw new Exception("Could not get any response from server"))
+        .then((Response response) {
+      if (response.statusCode != 200) {
+        throw new Exception(json.decode(response.body)["msg"]);
+      }
+      return response;
+    });
+
+    final dynamic _classes = (json.decode(response.body))["classes"];
+    _classes.forEach((final dynamic cls) => classes.add(cls));
+
+    return classes;
+  }
+
   static final CourseService _instance = CourseService._();
 }

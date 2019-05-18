@@ -2,7 +2,7 @@ import 'package:attend_it/users/common/models/course.dart';
 import 'package:attend_it/users/common/models/profile.dart';
 import 'package:attend_it/users/common/models/user.dart';
 import 'package:attend_it/users/common/notifications/notificator.dart';
-import 'package:attend_it/users/teacher/add_course/component.dart';
+import 'package:attend_it/users/teacher/utils/add_course/component.dart';
 import 'package:attend_it/users/teacher/enrolled/component.dart';
 import 'package:attend_it/users/teacher/services/course_service.dart';
 import 'package:attend_it/utils/components/round_bottom_button.dart';

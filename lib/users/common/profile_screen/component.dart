@@ -209,6 +209,9 @@ class _Profile extends State<Profile> {
   Future<void> _getInfo(final BuildContext context) async {
     try {
       dynamic response = await _service.getProfile(widget.username);
+      if(!this.mounted){
+        return;
+      }
       setState(() {
         _isLoading = false;
         firstName.text = response['first'];
