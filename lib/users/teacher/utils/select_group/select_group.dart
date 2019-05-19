@@ -88,6 +88,7 @@ class _SelectGroupState extends State<SelectGroup> {
   Widget build(BuildContext context) {
     final BorderRadius radius = BorderRadius.all(Radius.circular(20));
     return Material(
+      borderRadius: radius,
       child: Center(
         child: Container(
             height: 250,

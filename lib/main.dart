@@ -1,5 +1,6 @@
 import 'package:attend_it/users/common/login_screen/component.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class RestartWidget extends StatefulWidget {
   final Widget child;
@@ -36,6 +37,10 @@ class _RestartWidgetState extends State<RestartWidget> {
 
 class AppScreen extends StatelessWidget {
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return Scaffold(body: LoginScreen());
   }
 }
