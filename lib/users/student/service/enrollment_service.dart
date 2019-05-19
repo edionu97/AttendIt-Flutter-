@@ -19,10 +19,9 @@ class EnrollmentService {
               "courseName": course.name,
               "courseType": course.type,
             }),
-            headers: {"Content-Type": "application/json"})
-        .catchError((error) {
-          throw new Exception(error.toString());
-        });
+            headers: {"Content-Type": "application/json"}).catchError((error) {
+      throw new Exception(error.toString());
+    });
 
     return response.statusCode == 302;
   }
@@ -105,29 +104,47 @@ class EnrollmentService {
       final List<Enrollment> enrollments, final String username) async {
     for (Enrollment enrollment in enrollments) {
       try {
-        final Response response = await http
-            .post(Constants.SERVER_ADDRESS + Constants.GET_ENROLLMENT_TYPE_AT,
-                body: json.encode({
-                  "student": username,
-                  "teacher": enrollment.teacherName,
-                  "courseName": enrollment.courseName
-                }),
-                headers: {"Content-Type": "application/json"})
-            .catchError((err) =>
-                throw new Exception("Could not get any response from server"));
+        final Response response = await http.post(
+            Constants.SERVER_ADDRESS + Constants.GET_ENROLLMENT_TYPE_AT,
+            body: json.encode({
+              "student": username,
+              "teacher": enrollment.teacherName,
+              "courseName": enrollment.courseName
+            }),
+            headers: {
+              "Content-Type": "application/json"
+            }).catchError((err) =>
+            throw new Exception("Could not get any response from server"));
 
         final dynamic rez = json.decode(response.body);
 
         enrollment.atCourse = rez["atCourse"];
         enrollment.atLaboratory = rez["atLaboratory"];
         enrollment.atSeminary = rez["atSeminar"];
-
       } on Exception {
         print('Exception');
       }
     }
 
     return enrollments;
+  }
+
+  Future<int> getNoCourseGroup({final Course course, final String cls}) async {
+    if (cls == null || course == null) {
+      return 0;
+    }
+
+    final Response response = await http
+        .post(Constants.SERVER_ADDRESS + Constants.GET_ENROLLED_AT_COURSE_GROUP,
+            body: json.encode({
+              "teacher": course.user.username,
+              "courseName": course.name,
+              "courseType": course.type.toString(),
+              "cls": cls
+            }),
+            headers: {"Content-Type": "application/json"});
+
+    return json.decode(response.body)["number"];
   }
 
   factory EnrollmentService() {

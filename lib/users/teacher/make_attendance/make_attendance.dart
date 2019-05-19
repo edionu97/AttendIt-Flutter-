@@ -1,4 +1,5 @@
 import 'package:attend_it/users/common/models/course.dart';
+import 'package:attend_it/users/student/service/enrollment_service.dart';
 import 'package:attend_it/users/teacher/utils/select_course/select_course.dart';
 import 'package:attend_it/users/teacher/utils/select_group/select_group.dart';
 import 'package:attend_it/users/teacher/utils/upload_video_attendance/upload_video_attendance.dart';
@@ -38,29 +39,33 @@ class _MakeAttendanceState extends State<MakeAttendance> {
             children: <Widget>[
               SelectCourse(
                 username: widget.username,
-                courseSelected: (final Course crs) {
+                courseSelected: (final Course crs) async {
                   if(!this.mounted){
                     return;
                   }
+                  int resp = await EnrollmentService().getNoCourseGroup(course: crs, cls: selectedClass);
                   setState(() {
                     selectedCourse = crs;
+                    enrolled = resp;
                   });
                 },
               ),
               SelectGroup(
                 username: widget.username,
-                classClicked: (final String cls){
+                classClicked: (final String cls) async {
                   if(!this.mounted){
                     return;
                   }
+                  int resp = await EnrollmentService().getNoCourseGroup(course: selectedCourse, cls: cls);
                   setState(() {
                     selectedClass = cls;
+                    enrolled = resp;
                   });
                 },
               )
             ],
           ),
-          UploadVideoAttendance(course: selectedCourse, cls: selectedClass)
+          UploadVideoAttendance(course: selectedCourse, cls: selectedClass, enrolled: enrolled,)
         ],
       ),
     ));
@@ -68,4 +73,5 @@ class _MakeAttendanceState extends State<MakeAttendance> {
 
   Course selectedCourse;
   String selectedClass;
+  int enrolled;
 }

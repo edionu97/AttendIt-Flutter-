@@ -82,6 +82,12 @@ class Constants{
   static String GET_GROUPS_ENROLLED = "/enrollment/get-grups";
 
   // ignore: non_constant_identifier_names
+  static String GET_ENROLLED_AT_COURSE_GROUP = "/enrollment/no-course-grup";
+
+  // ignore: non_constant_identifier_names
+  static String UPLOAD_ATTENDANCE_VIDEO = "/attendance/video";
+
+  // ignore: non_constant_identifier_names
   static String TILT_HEAD_LEFT_RIGHT ="You should move your head from left to right and back slowly";
 
   // ignore: non_constant_identifier_names

@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:attend_it/users/common/models/attendance.dart';
 import 'package:attend_it/users/common/models/course.dart';
 import 'package:attend_it/utils/constants/constants.dart';
+import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 
@@ -23,7 +25,7 @@ class AttendanceService {
         .catchError((error) {
           throw new Exception("Could not get any response from server");
         })
-        .then((Response resp) {
+        .then((http.Response resp) {
           if (resp.statusCode == 404) {
             throw new Exception("You must upload your face");
           }
@@ -31,7 +33,7 @@ class AttendanceService {
   }
 
   Future<List<Course>> getAllAvailableCourses() async {
-    final Response response = await http.get(
+    final http.Response response = await http.get(
         Constants.SERVER_ADDRESS + Constants.GET_ALL_AVAILABLE_COURSES,
         headers: {"Content-Type": "application/json"});
 
@@ -50,7 +52,7 @@ class AttendanceService {
       final String teacherName,
       final String courseName,
       final String courseType) async {
-    final Response response = await http.post(
+    final http.Response response = await http.post(
         Constants.SERVER_ADDRESS + Constants.GET_ATTENDANCES_FOR_AT,
         headers: {"Content-Type": "application/json"},
         body: json.encode({
@@ -68,6 +70,24 @@ class AttendanceService {
     }
 
     return attendances;
+  }
+
+  Future<void> uploadAttendanceVideo(
+      {final File file, final String teacher, final String cls}) async {
+    return Dio()
+        .post(Constants.SERVER_ADDRESS + Constants.UPLOAD_ATTENDANCE_VIDEO,
+            data: FormData.from({
+              "video":
+                  UploadFileInfo(file, Constants.TMP_ATTENDANCE.substring(1)),
+              "data": {"teacher": teacher, "cls": cls}
+            }))
+        .timeout(const Duration(minutes: 5))
+        .catchError((err) => throw new Exception("Cannot send file to server"))
+        .then((onValue) {
+      if (onValue.statusCode != 200) {
+        throw new Exception(onValue.statusCode);
+      }
+    });
   }
 
   factory AttendanceService() {

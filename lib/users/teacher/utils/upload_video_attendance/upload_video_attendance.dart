@@ -1,14 +1,18 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:attend_it/users/common/models/course.dart';
+import 'package:attend_it/users/student/service/attendance_service.dart';
 import 'package:attend_it/utils/constants/constants.dart';
 import 'package:attend_it/utils/gui/gui.dart';
 import 'package:attend_it/utils/video_screen/component.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 
 class UploadVideoAttendance extends StatefulWidget {
-  UploadVideoAttendance({@required this.course, @required this.cls, this.enrolled = 0});
+  UploadVideoAttendance(
+      {@required this.course, @required this.cls, this.enrolled = 0});
 
   @override
   _UploadVideoAttendanceState createState() => _UploadVideoAttendanceState();
@@ -35,6 +39,14 @@ class _UploadVideoAttendanceState extends State<UploadVideoAttendance> {
   }
 
   Future<void> _initializeCameras() async {
+    final Directory directory = await getTemporaryDirectory();
+    final File fileAttendance = new File(
+        directory.path + Constants.TMP_ATTENDANCE);
+
+    if (fileAttendance.existsSync()) {
+      fileAttendance.deleteSync();
+    }
+
     cameras = await availableCameras();
   }
 
@@ -66,7 +78,7 @@ class _UploadVideoAttendanceState extends State<UploadVideoAttendance> {
                   elevation: 5,
                   borderRadius: BorderRadius.all(Radius.circular(20)),
                   child: InkWell(
-                    onTap: () => print("da da"),
+                    onTap: () => this._uploadVideo(context),
                     borderRadius: BorderRadius.all(Radius.circular(20)),
                     child: Container(
                       height: 40,
@@ -144,7 +156,7 @@ class _UploadVideoAttendanceState extends State<UploadVideoAttendance> {
               widget.enrolled.toString(),
               textAlign: TextAlign.left,
               style: TextStyle(
-                color: widget.enrolled != 0 ? Colors.black : Colors.red
+                  color: widget.enrolled != 0 ? Colors.black : Colors.red
               ),
             )
           ],
@@ -213,7 +225,8 @@ class _UploadVideoAttendanceState extends State<UploadVideoAttendance> {
 
           showDialog(
               context: cont,
-              builder: (context) => Container(
+              builder: (context) =>
+                  Container(
                     color: Colors.transparent,
                     child: VideoScreen(
                       controllerCamera: cameraController,
@@ -223,12 +236,46 @@ class _UploadVideoAttendanceState extends State<UploadVideoAttendance> {
                           Navigator.of(cont).pop();
                         }
                         Future.delayed(
-                                Duration.zero, () => cameraController.dispose())
+                            Duration.zero, () => cameraController.dispose())
                             .then((_) => print('done'));
                       },
                     ),
                   ));
         });
+  }
+
+  void _uploadVideo(final BuildContext context) async {
+    // check if the class is set
+    if (widget.enrolled == 0) {
+      GUI.openDialog(
+        context: context,
+        message: "There are no students enrolled at course",
+      );
+      return;
+    }
+
+    final Directory directory = await getTemporaryDirectory();
+    final File fileAttendance = new File(
+        directory.path + Constants.TMP_ATTENDANCE);
+
+    if (!fileAttendance.existsSync()) {
+      GUI.openDialog(
+        context: context,
+        message: "You must upload a video with class",
+      );
+      return;
+    }
+
+    try {
+      await AttendanceService().uploadAttendanceVideo(file: fileAttendance,
+          teacher: widget.course.user.username,
+          cls: widget.cls);
+    } on Exception catch (e) {
+      GUI.openDialog(
+        context: context,
+        message: e.toString(),
+      );
+    }
   }
 
   List<CameraDescription> cameras;
