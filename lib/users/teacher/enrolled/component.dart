@@ -2,6 +2,7 @@ import 'package:attend_it/users/common/models/course.dart';
 import 'package:attend_it/users/common/models/profile.dart';
 import 'package:attend_it/users/common/models/user.dart';
 import 'package:attend_it/users/common/notifications/notificator.dart';
+import 'package:attend_it/users/common/service/profile_service.dart';
 import 'package:attend_it/users/teacher/services/course_service.dart';
 import 'package:attend_it/utils/components/decoration_form.dart';
 import 'package:attend_it/utils/enums/notifications.dart';
@@ -136,9 +137,7 @@ class _EnrolledState extends State<Enrolled> with TickerProviderStateMixin {
                   child: Center(
                     child: Text(
                       "${widget.course.name}",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold
-                      ),
+                      style: TextStyle(fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -149,10 +148,14 @@ class _EnrolledState extends State<Enrolled> with TickerProviderStateMixin {
               child: Align(
                   alignment: Alignment.centerLeft, child: _buildList(users)),
             ),
-            Divider(height: 1,),
+            Divider(
+              height: 1,
+            ),
             Material(
               elevation: 2,
-              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(30),
+                  bottomRight: Radius.circular(30)),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
@@ -160,10 +163,8 @@ class _EnrolledState extends State<Enrolled> with TickerProviderStateMixin {
                   width: MediaQuery.of(context).size.width,
                   child: Center(
                     child: Text(
-                      "You have ${_users.length} enrolled ${(_users.length > 1 ? "students" : "student")}"  ,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold
-                      ),
+                      "You have ${_users.length} enrolled ${(_users.length > 1 ? "students" : "student")}",
+                      style: TextStyle(fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -268,27 +269,69 @@ class _EnrolledState extends State<Enrolled> with TickerProviderStateMixin {
   }
 
   void _notified(final dynamic notification) {
-
     final NotificationType type =
-    getNotificationTypeFromString(notification["type"]);
-
-
-    print(type);
+        getNotificationTypeFromString(notification["type"]);
 
     switch (type) {
       case NotificationType.STUDENT_ENROLLED:
-        if (!this.mounted) {
+        final Course course = Course.fromJson(notification["data"]["course"]);
+
+        if (course.type != widget.course.type ||
+            course.name != widget.course.name) {
           return;
         }
 
+        __addNewEnrolledStudent(notification["data"]["usern"], "STUDENT");
+
         break;
-      case NotificationType.STUDENT_ENROLLED:
-        if (!this.mounted) {
+      case NotificationType.STUDENT_ENROLL_CANCELED:
+        final Course course = Course.fromJson(notification["data"]["course"]);
+
+        if (course.type != widget.course.type ||
+            course.name != widget.course.name) {
           return;
         }
+
+        final int index = _users
+            .indexWhere((usr) => usr.username == notification["data"]["usern"]);
+
+        if (index == -1) {
+          return;
+        }
+
+        _users.removeAt(index);
+
+        setState(() {});
         break;
+        
       default:
         break;
+    }
+  }
+
+  void __addNewEnrolledStudent(final String username, final String role) async {
+    try {
+      print(username);
+      final dynamic response = await ProfileService().getProfile(username);
+
+      final User user = new User(
+          role: role,
+          username: username,
+          profile: new Profile(
+              email: response["email"],
+              first: response["first"],
+              last: response["last"],
+              phone: response["phone"],
+              image: response["image"]));
+
+      _users.add(user);
+      if (!this.mounted) {
+        return;
+      }
+
+      setState(() {});
+    } on Exception catch (e) {
+      print(e.toString());
     }
   }
 
