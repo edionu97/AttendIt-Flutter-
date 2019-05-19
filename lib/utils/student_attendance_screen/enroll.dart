@@ -362,7 +362,7 @@ class _EnrollState extends State<Enroll> with SingleTickerProviderStateMixin {
   void _notified(final dynamic notification) {
     final NotificationType type =
         getNotificationTypeFromString(notification["type"]);
-    
+
     switch (type) {
       case NotificationType.STUDENT_ENROLLED:
         if (!this.mounted) {
@@ -372,12 +372,12 @@ class _EnrollState extends State<Enroll> with SingleTickerProviderStateMixin {
           _isEnrolled = true;
         });
         break;
-      case NotificationType.STUDENT_ENROLLED:
+      case NotificationType.STUDENT_ENROLL_CANCELED:
         if (!this.mounted) {
           return;
         }
         setState(() {
-          _isEnrolled = true;
+          _isEnrolled = false;
         });
         break;
       default:

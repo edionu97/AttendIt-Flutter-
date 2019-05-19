@@ -1,8 +1,10 @@
 import 'package:attend_it/users/common/models/course.dart';
 import 'package:attend_it/users/common/models/profile.dart';
 import 'package:attend_it/users/common/models/user.dart';
+import 'package:attend_it/users/common/notifications/notificator.dart';
 import 'package:attend_it/users/teacher/services/course_service.dart';
 import 'package:attend_it/utils/components/decoration_form.dart';
+import 'package:attend_it/utils/enums/notifications.dart';
 import 'package:attend_it/utils/gui/gui.dart';
 import 'package:attend_it/utils/loaders/loader.dart';
 import 'package:flutter/material.dart';
@@ -43,11 +45,14 @@ class _EnrolledState extends State<Enrolled> with TickerProviderStateMixin {
     _animationController.forward();
 
     _getEnrolledStudents();
+
+    Notificator().addObserver(this._notified);
   }
 
   @override
   void dispose() {
     _animationController.dispose();
+    Notificator().removeObserver(this._notified);
     super.dispose();
   }
 
@@ -260,6 +265,31 @@ class _EnrolledState extends State<Enrolled> with TickerProviderStateMixin {
 
   void hide() {
     _animationController.reverse().then((_) => Navigator.of(context).pop());
+  }
+
+  void _notified(final dynamic notification) {
+
+    final NotificationType type =
+    getNotificationTypeFromString(notification["type"]);
+
+
+    print(type);
+
+    switch (type) {
+      case NotificationType.STUDENT_ENROLLED:
+        if (!this.mounted) {
+          return;
+        }
+
+        break;
+      case NotificationType.STUDENT_ENROLLED:
+        if (!this.mounted) {
+          return;
+        }
+        break;
+      default:
+        break;
+    }
   }
 
   AnimationController _animationController;
