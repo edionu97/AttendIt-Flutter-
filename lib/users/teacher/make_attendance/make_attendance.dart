@@ -1,3 +1,4 @@
+import 'package:attend_it/users/common/models/course.dart';
 import 'package:attend_it/users/teacher/utils/select_course/select_course.dart';
 import 'package:attend_it/users/teacher/utils/select_group/select_group.dart';
 import 'package:attend_it/users/teacher/utils/upload_video_attendance/upload_video_attendance.dart';
@@ -30,22 +31,41 @@ class _MakeAttendanceState extends State<MakeAttendance> {
               ).image,
               fit: BoxFit.fill)),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               SelectCourse(
                 username: widget.username,
+                courseSelected: (final Course crs) {
+                  if(!this.mounted){
+                    return;
+                  }
+                  setState(() {
+                    selectedCourse = crs;
+                  });
+                },
               ),
               SelectGroup(
                 username: widget.username,
+                classClicked: (final String cls){
+                  if(!this.mounted){
+                    return;
+                  }
+                  setState(() {
+                    selectedClass = cls;
+                  });
+                },
               )
             ],
           ),
-          UploadVideoAttendance()
+          UploadVideoAttendance(course: selectedCourse, cls: selectedClass)
         ],
       ),
     ));
   }
+
+  Course selectedCourse;
+  String selectedClass;
 }

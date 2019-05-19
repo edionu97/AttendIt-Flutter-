@@ -7,12 +7,13 @@ import 'package:attend_it/utils/loaders/loader.dart';
 import 'package:flutter/material.dart';
 
 class SelectCourse extends StatefulWidget {
-  SelectCourse({this.username});
+  SelectCourse({@required this.username, @required this.courseSelected});
 
   @override
   _SelectCourseState createState() => _SelectCourseState();
 
   final String username;
+  final Function courseSelected;
 }
 
 class _SelectCourseState extends State<SelectCourse> {
@@ -71,9 +72,10 @@ class _SelectCourseState extends State<SelectCourse> {
       _selected.putIfAbsent(
           "${course.abbreviation}_${course.name}_${course.type}", () => 0);
 
-      if(_selectedCourse == null){
+      if (_selectedCourse == null) {
         _selectedCourse = course;
         _selected["${course.abbreviation}_${course.name}_${course.type}"] = 6;
+        widget.courseSelected(course);
       }
 
       colors.putIfAbsent(course.abbreviation,
@@ -170,7 +172,7 @@ class _SelectCourseState extends State<SelectCourse> {
           dense: true,
           trailing: Text(
             course.type.toUpperCase(),
-            style: TextStyle(color: Colors.black38, fontSize: 12),
+            style: TextStyle(color: Colors.black87, fontSize: 12),
           ),
           leading: _buildListLeading(context, course),
         ),
@@ -211,6 +213,8 @@ class _SelectCourseState extends State<SelectCourse> {
     _selectedCourse = course;
 
     _selected["${course.abbreviation}_${course.name}_${course.type}"] = 6;
+
+    widget.courseSelected(course);
     setState(() {});
   }
 

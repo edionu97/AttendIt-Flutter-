@@ -6,7 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
 class VideoScreen extends StatefulWidget {
-  VideoScreen({this.controllerCamera, this.onFinish, this.tmpFileName, this.stopTime = 11 * 1000});
+  VideoScreen(
+      {this.controllerCamera,
+      this.onFinish,
+      this.tmpFileName,
+      this.stopTime = 11 * 1000});
 
   @override
   _VideoScreenState createState() => _VideoScreenState();
@@ -77,13 +81,14 @@ class _VideoScreenState extends State<VideoScreen>
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Text(
-                              _timerClocks != null ? "00:${(_timerClocks.tick ~/ 10)}${_timerClocks.tick % 10}" : "00:00",
+                              _timerClocks != null
+                                  ? "00:${(_timerClocks.tick ~/ 10)}${_timerClocks.tick % 10}"
+                                  : "00:00",
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 17
-                              ),
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 17),
                             ),
                           ],
                         ),
@@ -130,24 +135,22 @@ class _VideoScreenState extends State<VideoScreen>
     await widget.controllerCamera.startVideoRecording(tmpFile.path);
     _controller.forward();
 
-    _timer = Timer(Duration(milliseconds: widget.stopTime), (){
+    _timer = Timer(Duration(milliseconds: widget.stopTime), () {
       _finishRecording();
     });
 
-    _timerClocks = Timer.periodic(const Duration(milliseconds: 1000), (timer){
-      setState(() {
-      });
+    _timerClocks = Timer.periodic(const Duration(milliseconds: 1000), (timer) {
+      setState(() {});
     });
     setState(() {});
   }
 
   Future<void> _finishRecording() async {
-
-    if(_timer.isActive){
+    if (_timer.isActive) {
       _timer.cancel();
     }
 
-    if(_timerClocks.isActive){
+    if (_timerClocks.isActive) {
       _timerClocks.cancel();
     }
 

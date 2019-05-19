@@ -8,12 +8,13 @@ import 'package:attend_it/utils/loaders/loader.dart';
 import 'package:flutter/material.dart';
 
 class SelectGroup extends StatefulWidget {
-  SelectGroup({this.username});
+  SelectGroup({@required this.username, @required this.classClicked});
 
   @override
   _SelectGroupState createState() => _SelectGroupState();
 
   final String username;
+  final Function classClicked;
 }
 
 class _SelectGroupState extends State<SelectGroup> {
@@ -74,6 +75,7 @@ class _SelectGroupState extends State<SelectGroup> {
 
       if(_selectedGroup == null){
         _selectedGroup = _class;
+        widget.classClicked(_class);
         _selected[_class] = 6;
       }
 
@@ -177,7 +179,7 @@ class _SelectGroupState extends State<SelectGroup> {
           dense: true,
           trailing: Text(
             "CLS NO.",
-            style: TextStyle(color: Colors.black38, fontSize: 12),
+            style: TextStyle(color: Colors.black87, fontSize: 12),
           ),
           leading: _buildListLeading(context, group),
         ),
@@ -215,6 +217,7 @@ class _SelectGroupState extends State<SelectGroup> {
     }
 
     _selectedGroup = grup;
+    widget.classClicked(grup);
     _selected[grup] = 6;
 
     setState(() {});

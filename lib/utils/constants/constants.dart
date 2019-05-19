@@ -94,5 +94,8 @@ class Constants{
   static String TMP_UP_DOWN =  "/up.mp4";
 
   // ignore: non_constant_identifier_names
+  static String TMP_ATTENDANCE = "/attendance.mp4";
+
+  // ignore: non_constant_identifier_names
   static String ADMIN = "admin";
 }
