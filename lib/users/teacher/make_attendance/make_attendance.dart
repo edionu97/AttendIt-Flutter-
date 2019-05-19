@@ -1,5 +1,6 @@
 import 'package:attend_it/users/teacher/utils/select_course/select_course.dart';
 import 'package:attend_it/users/teacher/utils/select_group/select_group.dart';
+import 'package:attend_it/users/teacher/utils/upload_video_attendance/upload_video_attendance.dart';
 import 'package:flutter/material.dart';
 
 class MakeAttendance extends StatefulWidget {
@@ -27,9 +28,9 @@ class _MakeAttendanceState extends State<MakeAttendance> {
                 "user.jpg",
                 filterQuality: FilterQuality.high,
               ).image,
-              fit: BoxFit.cover)),
+              fit: BoxFit.fill)),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -42,30 +43,7 @@ class _MakeAttendanceState extends State<MakeAttendance> {
               )
             ],
           ),
-          Transform.translate(
-            offset: Offset(0, 80),
-            child: Container(
-              height: 250,
-              width: 250,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-              ),
-              child: Transform.translate(
-                offset: Offset(0, -125),
-                child: Center(
-                  child: Container(
-                    height: 100,
-                    width: 100,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(image: AssetImage("user.png"))
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
+          UploadVideoAttendance()
         ],
       ),
     ));

@@ -142,6 +142,8 @@ class _HomeScreenTeacherState extends State<HomeScreenTeacher>
     switch(_item){
       case 4:
         return Colors.white70;
+      case 1:
+        return Colors.white70;
     }
 
     return Colors.black;
