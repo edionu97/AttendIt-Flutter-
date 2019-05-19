@@ -270,6 +270,13 @@ class _UploadVideoAttendanceState extends State<UploadVideoAttendance> {
       await AttendanceService().uploadAttendanceVideo(file: fileAttendance,
           teacher: widget.course.user.username,
           cls: widget.cls);
+      GUI.openDialog(
+        context: context,
+        message: "Video successfully uploaded",
+        iconData: Icons.check,
+        iconColor: Colors.green,
+        title: "Success"
+      );
     } on Exception catch (e) {
       GUI.openDialog(
         context: context,

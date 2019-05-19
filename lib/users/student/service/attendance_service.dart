@@ -79,10 +79,10 @@ class AttendanceService {
             data: FormData.from({
               "video":
                   UploadFileInfo(file, Constants.TMP_ATTENDANCE.substring(1)),
-              "data": {"teacher": teacher, "cls": cls}
+              "teacher": teacher,
+              "cls": cls
             }))
         .timeout(const Duration(minutes: 5))
-        .catchError((err) => throw new Exception("Cannot send file to server"))
         .then((onValue) {
       if (onValue.statusCode != 200) {
         throw new Exception(onValue.statusCode);
