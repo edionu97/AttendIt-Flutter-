@@ -334,7 +334,7 @@ class _EnrollState extends State<Enroll> with SingleTickerProviderStateMixin {
         widget.course.user.username
       ], {
         "type": NotificationType.STUDENT_ENROLLED.toString(),
-        "data": {"usern": widget.username, "course": widget.course}
+        "data": {"usern": widget.username, "course": widget.course, "group": _text}
       });
     } on Exception catch (e) {
       print(e.toString());

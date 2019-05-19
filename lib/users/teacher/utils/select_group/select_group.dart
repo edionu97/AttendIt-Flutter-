@@ -1,6 +1,8 @@
 import 'dart:math';
 
+import 'package:attend_it/users/common/notifications/notificator.dart';
 import 'package:attend_it/users/teacher/services/course_service.dart';
+import 'package:attend_it/utils/enums/notifications.dart';
 import 'package:attend_it/utils/gui/gui.dart';
 import 'package:attend_it/utils/loaders/loader.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +22,14 @@ class _SelectGroupState extends State<SelectGroup> {
     super.initState();
 
     this._getClasses();
+
+    Notificator().addObserver(this._notified);
+  }
+
+  @override
+  void dispose(){
+    Notificator().removeObserver(this._notified);
+    super.dispose();
   }
 
   void _getClasses() async {
@@ -207,6 +217,29 @@ class _SelectGroupState extends State<SelectGroup> {
     _selected[grup] = 6;
 
     setState(() {});
+  }
+
+
+  void _notified(final dynamic notification) {
+    final NotificationType type =
+    getNotificationTypeFromString(notification["type"]);
+
+    switch (type) {
+      case NotificationType.STUDENT_ENROLLED:
+        this._getClasses();
+        setState(() {
+          _isLoading = true;
+        });
+        break;
+      case NotificationType.STUDENT_ENROLL_CANCELED:
+        setState(() {
+          _isLoading = true;
+        });
+        this._getClasses();
+        break;
+      default:
+        break;
+    }
   }
 
   List<String> _classes = [];

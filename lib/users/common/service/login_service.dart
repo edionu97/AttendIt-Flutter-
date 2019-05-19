@@ -52,7 +52,7 @@ class LoginService {
         .catchError((error) {
           throw new Exception("Please connect to the internet");
         })
-        .timeout(const Duration(seconds: 5))
+        .timeout(const Duration(minutes: 5))
         .catchError((error) =>
             throw new Exception("Could not get any response from server"))
         .then((Response response) {
