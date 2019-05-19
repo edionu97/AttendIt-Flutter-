@@ -6,7 +6,11 @@ enum NotificationType {
   ACCOUNT_CONFIRMED_REFRESH,
   //emitted when teacher adds new course
   COURSE_ADDED,
-  COURSE_ADDED_REFRESH
+  COURSE_ADDED_REFRESH,
+  //emitted when student enrolled
+  STUDENT_ENROLLED,
+  //emitted when student cancel enrollment
+  STUDENT_ENROLL_CANCELED
 }
 
 NotificationType getNotificationTypeFromString(final String status) {

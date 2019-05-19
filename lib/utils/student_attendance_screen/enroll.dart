@@ -5,6 +5,7 @@ import 'package:attend_it/users/student/service/enrollment_service.dart';
 import 'package:attend_it/users/common/models/course.dart';
 import 'package:attend_it/users/common/models/profile.dart';
 import 'package:attend_it/utils/components/decoration_form.dart';
+import 'package:attend_it/utils/enums/notifications.dart';
 import 'package:attend_it/utils/gui/gui.dart';
 import 'package:flutter/material.dart';
 
@@ -332,7 +333,8 @@ class _EnrollState extends State<Enroll> with SingleTickerProviderStateMixin {
         widget.username,
         widget.course.user.username
       ], {
-        "operation": "Enrolled",
+        "type": NotificationType.STUDENT_ENROLLED.toString(),
+        "data": {"usern": widget.username, "course": widget.course}
       });
     } on Exception catch (e) {
       print(e.toString());
@@ -349,33 +351,37 @@ class _EnrollState extends State<Enroll> with SingleTickerProviderStateMixin {
         widget.username,
         widget.course.user.username
       ], {
-        "operation": "EnrollmentCanceled",
+        "type": NotificationType.STUDENT_ENROLL_CANCELED.toString(),
+        "data": {"usern": widget.username, "course": widget.course}
       });
     } on Exception catch (e) {
       GUI.openDialog(context: context, message: e.toString());
     }
   }
 
-  void _notified(dynamic json) {
-    final String operationType = json["operation"];
-
-    if (!this.mounted) {
-      return;
-    }
-
-    switch (operationType) {
-      case "EnrollmentCanceled":
+  void _notified(final dynamic notification) {
+    final NotificationType type =
+        getNotificationTypeFromString(notification["type"]);
+    
+    switch (type) {
+      case NotificationType.STUDENT_ENROLLED:
+        if (!this.mounted) {
+          return;
+        }
         setState(() {
-          _isEnrolled = false;
+          _isEnrolled = true;
         });
         break;
-      case "Enrolled":
-        {
-          setState(() {
-            _isEnrolled = true;
-          });
-          break;
+      case NotificationType.STUDENT_ENROLLED:
+        if (!this.mounted) {
+          return;
         }
+        setState(() {
+          _isEnrolled = true;
+        });
+        break;
+      default:
+        break;
     }
   }
 
