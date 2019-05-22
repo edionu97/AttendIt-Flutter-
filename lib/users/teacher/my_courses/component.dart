@@ -163,6 +163,11 @@ class _MyCoursesState extends State<MyCourses> {
   }
 
   Widget _getSubtitle(final Course course) {
+
+    if(course.user == null) {
+      return Text("Added by you");
+    }
+
     final Profile profile = course.user.profile;
 
     if (profile == null) {
@@ -245,13 +250,19 @@ class _MyCoursesState extends State<MyCourses> {
     }
   }
 
-  void _listener(final dynamic notification) {
+  void _listener(final dynamic notification) async {
     final NotificationType type =
         getNotificationTypeFromString(notification["type"]);
 
     if (type == NotificationType.COURSE_ADDED_REFRESH) {
       final dynamic courseData = notification["data"]["course"];
       final User user = _courses.isEmpty ? null : _courses[0].user;
+
+      if(user == null){
+        this._getCourses();
+        return;
+      }
+      
       _courses.add(new Course(
           name: courseData["name"], type: courseData["type"], user: user));
       setState(() {
