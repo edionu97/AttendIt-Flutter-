@@ -23,7 +23,7 @@ class User {
     return {
       "role": role,
       "usern": username,
-      "profile": profile.toJson()
+      "profile": profile !=  null ? profile.toJson() : null
     };
   }
 

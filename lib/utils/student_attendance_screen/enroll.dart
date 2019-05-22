@@ -340,7 +340,6 @@ class _EnrollState extends State<Enroll> with SingleTickerProviderStateMixin {
       print(e.toString());
       GUI.openDialog(context: context, message: e.toString());
     }
-    //print(widget.course);
   }
 
   void _cancelEnroll(final BuildContext context) async {
