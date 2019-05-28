@@ -40,8 +40,8 @@ class _UploadVideoAttendanceState extends State<UploadVideoAttendance> {
 
   Future<void> _initializeCameras() async {
     final Directory directory = await getTemporaryDirectory();
-    final File fileAttendance = new File(
-        directory.path + Constants.TMP_ATTENDANCE);
+    final File fileAttendance =
+        new File(directory.path + Constants.TMP_ATTENDANCE);
 
     if (fileAttendance.existsSync()) {
       fileAttendance.deleteSync();
@@ -143,7 +143,9 @@ class _UploadVideoAttendanceState extends State<UploadVideoAttendance> {
             style: TextStyle(color: Colors.black45),
           ),
         ),
-        Divider(height: 1,),
+        Divider(
+          height: 1,
+        ),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -156,8 +158,7 @@ class _UploadVideoAttendanceState extends State<UploadVideoAttendance> {
               widget.enrolled.toString(),
               textAlign: TextAlign.left,
               style: TextStyle(
-                  color: widget.enrolled != 0 ? Colors.black : Colors.red
-              ),
+                  color: widget.enrolled != 0 ? Colors.black : Colors.red),
             )
           ],
         ),
@@ -225,8 +226,7 @@ class _UploadVideoAttendanceState extends State<UploadVideoAttendance> {
 
           showDialog(
               context: cont,
-              builder: (context) =>
-                  Container(
+              builder: (context) => Container(
                     color: Colors.transparent,
                     child: VideoScreen(
                       controllerCamera: cameraController,
@@ -236,7 +236,7 @@ class _UploadVideoAttendanceState extends State<UploadVideoAttendance> {
                           Navigator.of(cont).pop();
                         }
                         Future.delayed(
-                            Duration.zero, () => cameraController.dispose())
+                                Duration.zero, () => cameraController.dispose())
                             .then((_) => print('done'));
                       },
                     ),
@@ -255,8 +255,8 @@ class _UploadVideoAttendanceState extends State<UploadVideoAttendance> {
     }
 
     final Directory directory = await getTemporaryDirectory();
-    final File fileAttendance = new File(
-        directory.path + Constants.TMP_ATTENDANCE);
+    final File fileAttendance =
+        new File(directory.path + Constants.TMP_ATTENDANCE);
 
     if (!fileAttendance.existsSync()) {
       GUI.openDialog(
@@ -267,16 +267,18 @@ class _UploadVideoAttendanceState extends State<UploadVideoAttendance> {
     }
 
     try {
-      await AttendanceService().uploadAttendanceVideo(file: fileAttendance,
+      await AttendanceService().uploadAttendanceVideo(
+          file: fileAttendance,
           teacher: widget.course.user.username,
-          cls: widget.cls);
+          cls: widget.cls,
+          courseName: widget.course.name,
+          courseType: widget.course.type);
       GUI.openDialog(
-        context: context,
-        message: "Video successfully uploaded",
-        iconData: Icons.check,
-        iconColor: Colors.green,
-        title: "Success"
-      );
+          context: context,
+          message: "Video successfully uploaded",
+          iconData: Icons.check,
+          iconColor: Colors.green,
+          title: "Success");
     } on Exception catch (e) {
       GUI.openDialog(
         context: context,

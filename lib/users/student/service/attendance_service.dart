@@ -73,14 +73,20 @@ class AttendanceService {
   }
 
   Future<void> uploadAttendanceVideo(
-      {final File file, final String teacher, final String cls}) async {
+      {final File file,
+      final String teacher,
+      final String cls,
+      final String courseName,
+      final String courseType}) async {
     return Dio()
         .post(Constants.SERVER_ADDRESS + Constants.UPLOAD_ATTENDANCE_VIDEO,
             data: FormData.from({
               "video":
                   UploadFileInfo(file, Constants.TMP_ATTENDANCE.substring(1)),
               "teacher": teacher,
-              "cls": cls
+              "cls": cls,
+              "courseName": courseName,
+              "courseType": courseType
             }))
         .timeout(const Duration(minutes: 5))
         .then((onValue) {

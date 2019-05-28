@@ -140,7 +140,7 @@ class EnrollmentService {
               "teacher": course.user.username,
               "courseName": course.name,
               "courseType": course.type.toString(),
-              "cls": cls
+              "cls": cls,
             }),
             headers: {"Content-Type": "application/json"});
 

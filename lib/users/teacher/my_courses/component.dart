@@ -262,7 +262,7 @@ class _MyCoursesState extends State<MyCourses> {
         this._getCourses();
         return;
       }
-      
+
       _courses.add(new Course(
           name: courseData["name"], type: courseData["type"], user: user));
       setState(() {

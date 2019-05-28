@@ -1,7 +1,9 @@
+import 'package:attend_it/users/common/notifications/notificator.dart';
 import 'package:attend_it/users/student/service/attendance_service.dart';
 import 'package:attend_it/users/common/models/attendance.dart';
 import 'package:attend_it/users/common/models/enrollment.dart';
 import 'package:attend_it/utils/components/decoration_form.dart';
+import 'package:attend_it/utils/enums/notifications.dart';
 import 'package:attend_it/utils/gui/gui.dart';
 import 'package:attend_it/utils/loaders/loader.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +14,7 @@ class Attendances extends StatefulWidget {
   @override
   _AttendancesState createState() => _AttendancesState();
 
-  void hide(){
+  void hide() {
     if (list.isEmpty) {
       return;
     }
@@ -46,10 +48,13 @@ class _AttendancesState extends State<Attendances>
     _animationController.forward();
 
     _getAttendances();
+
+    Notificator().addObserver(_listener);
   }
 
   @override
   void dispose() {
+    Notificator().removeObserver(_listener);
     _animationController.dispose();
     super.dispose();
   }
@@ -111,11 +116,8 @@ class _AttendancesState extends State<Attendances>
 
   Widget _createView(
       final BuildContext context, final List<Attendance> attendances) {
-
-    if(attendances.isEmpty){
-      return Center(
-        child: Text("No data to be displayed")
-      );
+    if (attendances.isEmpty) {
+      return Center(child: Text("No data to be displayed"));
     }
 
     final BorderRadius radius = BorderRadius.only(
@@ -261,10 +263,17 @@ class _AttendancesState extends State<Attendances>
     }
   }
 
-  void hide(){
-    _animationController
-        .reverse()
-        .then((_) => Navigator.of(context).pop());
+  void hide() {
+    _animationController.reverse().then((_) => Navigator.of(context).pop());
+  }
+
+  void _listener(dynamic notification) {
+    final NotificationType type =
+        getNotificationTypeFromString(notification["type"]);
+
+    if(type == NotificationType.SERVER_NOTIFICATION){
+      _getAttendances();
+    }
   }
 
   AnimationController _animationController;

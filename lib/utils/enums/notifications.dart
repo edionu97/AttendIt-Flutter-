@@ -1,4 +1,5 @@
 enum NotificationType {
+  SERVER_NOTIFICATION,
   //emitted when new user is created
   NEW_REGISTRATION,
   //emitted when admins confirms an account
