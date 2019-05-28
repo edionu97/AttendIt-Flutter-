@@ -210,7 +210,7 @@ class _EnrolledAttendancesState extends State<EnrolledAttendances> {
               highlightColor: Colors.transparent,
               child: Container(
                   color: Colors.transparent,
-                  margin: EdgeInsets.symmetric(horizontal: 10),
+                  margin: EdgeInsets.symmetric(horizontal: 40),
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[

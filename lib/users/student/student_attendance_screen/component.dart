@@ -61,6 +61,7 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
               highlightColor: Colors.transparent,
               onTap: () => enroll.hide(),
               child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 10),
                   color: Colors.transparent,
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,

@@ -29,6 +29,13 @@ class _State extends State<AddCourse> with TickerProviderStateMixin {
   void initState() {
     super.initState();
 
+    finalFieldFocused.addListener(() {
+      if (!this.mounted) {
+        return;
+      }
+      setState(() {});
+    });
+
     widget.list.add(this);
 
     _animationController = AnimationController(
@@ -44,6 +51,7 @@ class _State extends State<AddCourse> with TickerProviderStateMixin {
 
   @override
   void dispose() {
+    finalFieldFocused.dispose();
     _animationController.dispose();
     courseType.dispose();
     courseAbr.dispose();
@@ -67,22 +75,27 @@ class _State extends State<AddCourse> with TickerProviderStateMixin {
     return InkWell(
       onTap: () {},
       borderRadius: BorderRadius.all(Radius.circular(30)),
-      child: FadeTransition(
-        opacity: _animation1,
-        child: SlideTransition(
-          position: _animation2,
-          child: Opacity(
-            opacity: 0.9,
-            child: Material(
-              borderRadius: BorderRadius.all(Radius.circular(30)),
-              child: Container(
-                padding: EdgeInsets.symmetric(vertical: 1),
-                height: MediaQuery.of(context).size.height / 2,
-                width: 300,
-                decoration: Decorator.getDialogDecoration(),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[Expanded(child: _createFields(context))],
+      child: SingleChildScrollView(
+        padding: finalFieldFocused.hasFocus
+            ? EdgeInsets.only(bottom: 200)
+            : EdgeInsets.only(bottom: 0),
+        child: FadeTransition(
+          opacity: _animation1,
+          child: SlideTransition(
+            position: _animation2,
+            child: Opacity(
+              opacity: 0.9,
+              child: Material(
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 1),
+                  height: MediaQuery.of(context).size.height / 2,
+                  width: 300,
+                  decoration: Decorator.getDialogDecoration(),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[Expanded(child: _createFields(context))],
+                  ),
                 ),
               ),
             ),
@@ -175,6 +188,7 @@ class _State extends State<AddCourse> with TickerProviderStateMixin {
               ),
               TextFormField(
                 controller: courseAbr,
+                focusNode: finalFieldFocused,
                 decoration: InputDecoration(
                     border: InputBorder.none,
                     labelStyle: TextStyle(color: Colors.black),
@@ -227,21 +241,21 @@ class _State extends State<AddCourse> with TickerProviderStateMixin {
   }
 
   void _afterSuccessAdd(final BuildContext context) async {
-
     //close the window
-    await _animationController
-        .reverse();
+    await _animationController.reverse();
     Navigator.of(context).pop();
     await Future.delayed(
         Duration.zero,
-            () => GUI.openDialog(
+        () => GUI.openDialog(
             context: context,
             message: "Course successfully added",
             title: "Success",
             iconColor: Colors.green[900],
             iconData: Icons.check));
 
-    Notificator().sendOnlyTo([widget.username], {
+    Notificator().sendOnlyTo([
+      widget.username
+    ], {
       "type": NotificationType.COURSE_ADDED_REFRESH.toString(),
       "data": {
         "course": {
@@ -267,6 +281,8 @@ class _State extends State<AddCourse> with TickerProviderStateMixin {
   AnimationController _animationController;
   Animation<Offset> _animation2;
   Animation<double> _animation1;
+
+  final FocusNode finalFieldFocused = new FocusNode();
 
   final TextEditingController courseName = new TextEditingController();
   final TextEditingController courseType = new TextEditingController();

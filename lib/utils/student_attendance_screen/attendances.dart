@@ -215,8 +215,8 @@ class _AttendancesState extends State<Attendances>
   Widget _buildListLeading(
       final BuildContext context, final Attendance attendance) {
     return Container(
-      height: 55,
-      width: 55,
+      height: 48,
+      width: 48,
       margin: EdgeInsets.only(right: 5),
       child: Material(
         elevation: 10,
@@ -271,7 +271,7 @@ class _AttendancesState extends State<Attendances>
     final NotificationType type =
         getNotificationTypeFromString(notification["type"]);
 
-    if(type == NotificationType.SERVER_NOTIFICATION){
+    if (type == NotificationType.SERVER_NOTIFICATION) {
       _getAttendances();
     }
   }
