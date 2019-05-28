@@ -81,8 +81,9 @@ class _EnrollState extends State<Enroll> with SingleTickerProviderStateMixin {
 
   Widget _getWidget(final BuildContext context, final Widget wid) {
     return SingleChildScrollView(
-      padding: focusNode.hasFocus ? EdgeInsets.only(bottom: 280) : EdgeInsets
-          .only(bottom: 0),
+      padding: focusNode.hasFocus
+          ? EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom)
+          : EdgeInsets.only(bottom: 0),
       child: FadeTransition(
         opacity: _animation1,
         child: SlideTransition(
@@ -95,10 +96,7 @@ class _EnrollState extends State<Enroll> with SingleTickerProviderStateMixin {
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 1),
                 height: 200,
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width,
+                width: MediaQuery.of(context).size.width,
                 decoration: Decorator.getDialogDecoration(),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -120,10 +118,7 @@ class _EnrollState extends State<Enroll> with SingleTickerProviderStateMixin {
     return Align(
       alignment: Alignment.topLeft,
       child: Container(
-        width: MediaQuery
-            .of(context)
-            .size
-            .width,
+        width: MediaQuery.of(context).size.width,
         child: Column(
           children: <Widget>[
             Row(
@@ -156,7 +151,7 @@ class _EnrollState extends State<Enroll> with SingleTickerProviderStateMixin {
                     margin: EdgeInsets.only(left: 30, right: 10),
                     decoration: BoxDecoration(
                       borderRadius:
-                      BorderRadius.only(topRight: Radius.circular(30)),
+                          BorderRadius.only(topRight: Radius.circular(30)),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -170,14 +165,14 @@ class _EnrollState extends State<Enroll> with SingleTickerProviderStateMixin {
                           ),
                           widget.course.user.profile != null
                               ? _getLabelTextPair(
-                              "Phone", widget.course.user.profile.phone)
+                                  "Phone", widget.course.user.profile.phone)
                               : Container(),
                           Divider(
                             height: 5,
                           ),
                           widget.course.user.profile != null
                               ? _getLabelTextPair(
-                              "Email", widget.course.user.profile.email)
+                                  "Email", widget.course.user.profile.email)
                               : Container(),
                         ],
                       ),
@@ -186,67 +181,67 @@ class _EnrollState extends State<Enroll> with SingleTickerProviderStateMixin {
                 ),
                 _isEnrolled != null
                     ? Container(
-                  margin: EdgeInsets.only(right: 10),
-                  height: 100,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      InkWell(
-                        onTap: !_isEnrolled
-                            ? () {}
-                            : () => this._cancelEnroll(context),
-                        child: Image(
-                          image: AssetImage("remove.png"),
-                          color: !_isEnrolled ? Colors.grey : Colors.red,
-                          height: 20,
-                          width: 20,
+                        margin: EdgeInsets.only(right: 10),
+                        height: 100,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            InkWell(
+                              onTap: !_isEnrolled
+                                  ? () {}
+                                  : () => this._cancelEnroll(context),
+                              child: Image(
+                                image: AssetImage("remove.png"),
+                                color: !_isEnrolled ? Colors.grey : Colors.red,
+                                height: 20,
+                                width: 20,
+                              ),
+                            ),
+                            Divider(
+                              height: 10,
+                            ),
+                            Container(
+                              child: InkWell(
+                                onTap: _isEnrolled
+                                    ? () {}
+                                    : () => this._enroll(context),
+                                child: Image(
+                                  image: AssetImage("add.png"),
+                                  color:
+                                      _isEnrolled ? Colors.grey : Colors.green,
+                                  height: 20,
+                                  width: 20,
+                                ),
+                              ),
+                            ),
+                            Form(
+                              key: _key,
+                              child: _isEnrolled
+                                  ? Container()
+                                  : Container(
+                                      width: 80,
+                                      height: 40,
+                                      child: TextFormField(
+                                        focusNode: focusNode,
+                                        controller: _editingController,
+                                        validator: (val) {
+                                          if (val.isEmpty || val == " ") {
+                                            return "";
+                                          }
+                                        },
+                                        decoration: new InputDecoration(
+                                            labelText: "Enter group",
+                                            fillColor: Colors.white,
+                                            border: InputBorder.none),
+                                        keyboardType: TextInputType.text,
+                                        style: new TextStyle(
+                                            fontFamily: "Poppins",
+                                            fontSize: 15),
+                                      )),
+                            ),
+                          ],
                         ),
-                      ),
-                      Divider(
-                        height: 10,
-                      ),
-                      Container(
-                        child: InkWell(
-                          onTap: _isEnrolled
-                              ? () {}
-                              : () => this._enroll(context),
-                          child: Image(
-                            image: AssetImage("add.png"),
-                            color:
-                            _isEnrolled ? Colors.grey : Colors.green,
-                            height: 20,
-                            width: 20,
-                          ),
-                        ),
-                      ),
-                      Form(
-                        key: _key,
-                        child: _isEnrolled
-                            ? Container()
-                            : Container(
-                            width: 80,
-                            height: 40,
-                            child: TextFormField(
-                              focusNode: focusNode,
-                              controller: _editingController,
-                              validator: (val) {
-                                if (val.isEmpty || val == " ") {
-                                  return "";
-                                }
-                              },
-                              decoration: new InputDecoration(
-                                  labelText: "Enter group",
-                                  fillColor: Colors.white,
-                                  border: InputBorder.none),
-                              keyboardType: TextInputType.text,
-                              style: new TextStyle(
-                                  fontFamily: "Poppins",
-                                  fontSize: 15),
-                            )),
-                      ),
-                    ],
-                  ),
-                )
+                      )
                     : Container()
               ],
             ),
@@ -323,7 +318,7 @@ class _EnrollState extends State<Enroll> with SingleTickerProviderStateMixin {
     bool _isEnrolled = false;
     try {
       _isEnrolled =
-      await EnrollmentService().isEnrolled(widget.course, widget.username);
+          await EnrollmentService().isEnrolled(widget.course, widget.username);
     } on Exception catch (e) {
       print(e.toString());
     }
@@ -383,7 +378,7 @@ class _EnrollState extends State<Enroll> with SingleTickerProviderStateMixin {
 
   void _notified(final dynamic notification) {
     final NotificationType type =
-    getNotificationTypeFromString(notification["type"]);
+        getNotificationTypeFromString(notification["type"]);
 
     switch (type) {
       case NotificationType.STUDENT_ENROLLED:
@@ -414,6 +409,6 @@ class _EnrollState extends State<Enroll> with SingleTickerProviderStateMixin {
 
   final FocusNode focusNode = new FocusNode();
   final TextEditingController _editingController =
-  new TextEditingController(text: " ");
+      new TextEditingController(text: " ");
   final GlobalKey<FormState> _key = new GlobalKey<FormState>();
 }

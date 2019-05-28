@@ -77,7 +77,7 @@ class _State extends State<AddCourse> with TickerProviderStateMixin {
       borderRadius: BorderRadius.all(Radius.circular(30)),
       child: SingleChildScrollView(
         padding: finalFieldFocused.hasFocus
-            ? EdgeInsets.only(bottom: 200)
+            ? EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom)
             : EdgeInsets.only(bottom: 0),
         child: FadeTransition(
           opacity: _animation1,
