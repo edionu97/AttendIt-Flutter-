@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:attend_it/users/common/models/course.dart';
-import 'package:attend_it/users/common/models/enrollment.dart';
 import 'package:attend_it/users/common/models/user.dart';
 import 'package:attend_it/utils/constants/constants.dart';
 

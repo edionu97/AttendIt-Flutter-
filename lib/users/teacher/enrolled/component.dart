@@ -197,7 +197,7 @@ class _EnrolledState extends State<Enrolled> with TickerProviderStateMixin {
           ),
           title: Padding(
             padding: const EdgeInsets.only(bottom: 8),
-            child: user.profile != null ? _getTitle(user) : "Unspecified",
+            child: user.profile != null ? _getTitle(user) : Text("Unspecified"),
           ),
           leading: _buildListLeading(context, user),
           subtitle: _getSubtitle(user, context),
