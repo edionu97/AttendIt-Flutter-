@@ -230,7 +230,12 @@ class _AttendanceInfoState extends State<AttendanceInfo>
   }
 
   void hide() {
-    _animationController.reverse().then((_) => Navigator.of(context).pop());
+    _animationController.reverse().then((_) {
+      if(!Navigator.of(context).canPop()){
+        return;
+      }
+      Navigator.of(context).pop();
+    });
   }
 
   void _buttonVisiblePressed(final BuildContext context) {

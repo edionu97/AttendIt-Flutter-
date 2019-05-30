@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:attend_it/users/common/models/profile.dart';
 import 'package:attend_it/users/teacher/models/history.dart';
 import 'package:attend_it/users/teacher/models/history_info.dart';
 import 'package:attend_it/utils/constants/constants.dart';
@@ -35,9 +36,10 @@ class HistoryService {
     });
 
     for (final History hist in historyList) {
-      final List<HistoryInfo> _historyInfo = await getHistoryInfoFor(hist.teacherName, hist.historyId);
+      final List<HistoryInfo> _historyInfo =
+          await getHistoryInfoFor(hist.teacherName, hist.historyId);
 
-      if(_historyInfo.isEmpty){
+      if (_historyInfo.isEmpty) {
         continue;
       }
 
@@ -97,6 +99,49 @@ class HistoryService {
 
     history.forEach((hst) {
       list.add(HistoryInfo.fromJson(hst));
+    });
+
+    return list;
+  }
+
+  Future<List<HistoryInfo>> getHistoryAbsents(
+      final HistoryInfo historyInfo) async {
+    final List<HistoryInfo> list = [];
+
+    final Response response = await http
+        .post(Constants.SERVER_ADDRESS + Constants.ATTENDANCE_HISTORY_ABSENTS,
+            body: json.encode({
+              "teacherName": historyInfo.teacherName,
+              "courseName": historyInfo.courseName,
+              "courseType": historyInfo.courseType,
+              "grupa": historyInfo.group,
+              "historyId": historyInfo.historyId
+            }),
+            headers: {"Content-Type": "application/json"})
+        .timeout(const Duration(minutes: 5))
+        .catchError((error) =>
+            throw new Exception("Could not get any response from server"))
+        .then((Response response) {
+          if (response.statusCode != 200) {
+            final dynamic body = json.decode(response.body);
+            throw new Exception(body["msg"]);
+          }
+          return response;
+        });
+
+    final dynamic absents = (json.decode(response.body))["absents"];
+    absents.forEach((hst) {
+      list.add(new HistoryInfo(
+          historyId: historyInfo.historyId,
+          group: historyInfo.group,
+          teacherName: historyInfo.teacherName,
+          attendanceDate: historyInfo.attendanceDate,
+          courseName: historyInfo.courseName,
+          courseType: historyInfo.courseType,
+          courseAbr: historyInfo.courseAbr,
+          studentName: hst["usern"],
+          role: hst["role"],
+          studentProfile: Profile.fromJson(hst["profile"])));
     });
 
     return list;

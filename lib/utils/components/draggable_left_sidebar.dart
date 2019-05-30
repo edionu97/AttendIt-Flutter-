@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class DraggableLeftSideBar extends StatefulWidget {
-
   DraggableLeftSideBar({@required this.draggedInside});
 
   @override
@@ -23,10 +22,7 @@ class _DraggableLeftSideBarState extends State<DraggableLeftSideBar> {
               topRight: Radius.circular(30), bottomRight: Radius.circular(30)),
           child: Container(
             margin: EdgeInsets.all(1.5),
-            height: MediaQuery
-                .of(context)
-                .size
-                .height / 2 - 70,
+            height: MediaQuery.of(context).size.height / 2 - 70,
             width: 15,
             decoration: BoxDecoration(
                 color: _color,
@@ -35,35 +31,18 @@ class _DraggableLeftSideBarState extends State<DraggableLeftSideBar> {
                     bottomRight: Radius.circular(30))),
             child: DragTarget(
               builder: (context, List<String> candidate, rejected) {
-                if (rejected.isEmpty) {
-                  return Center(
-                    child: Container(
-                        child: RotatedBox(
-                          quarterTurns: 1,
-                          child: Text(
-                            "Drag element here to make present",
-                            style: TextStyle(fontSize: 12),
-                          ),
-                        )),
-                  );
+                if (rejected.isNotEmpty && !rejected[0].toString().contains("Present")) {
+                  widget.draggedInside(rejected[0]);
                 }
-
-                if (rejected[0].toString().contains("Present")) {
-                  return Center(
-                    child: Icon(
-                      Icons.clear,
-                      size: 15,
-                      color: Colors.black,
-                    ),
-                  );
-                }
-                widget.draggedInside(rejected[0]);
                 return Center(
-                  child: Icon(
-                    Icons.check,
-                    size: 15,
-                    color: Colors.black,
-                  ),
+                  child: Container(
+                      child: RotatedBox(
+                        quarterTurns: 1,
+                        child: Text(
+                          "Drag element here to make present",
+                          style: TextStyle(fontSize: 12),
+                        ),
+                      )),
                 );
               },
               onWillAccept: (data) {

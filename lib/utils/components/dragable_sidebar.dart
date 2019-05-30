@@ -34,34 +34,19 @@ class _DraggableSideBarState extends State<DraggableSideBar> {
                   bottomLeft: Radius.circular(45))),
           child: DragTarget(
             builder: (context, List<String> candidate, rejected) {
-              if (rejected.isEmpty) {
-                return Center(
-                  child: Container(
-                      child: RotatedBox(
-                    quarterTurns: 1,
-                    child: Text(
-                      "Drag element here to make absent",
-                      style: TextStyle(fontSize: 12),
-                    ),
-                  )),
-                );
+              if(rejected.isNotEmpty && !rejected[0].toString().contains("Absent")) {
+                widget.draggableInfo(rejected[0]);
               }
-
-              if (rejected[0].toString().contains("Absent")) {
-                return Center(
-                    child: Icon(
-                  Icons.clear,
-                  size: 17,
-                  color: Colors.black,
-                ));
-              }
-              widget.draggableInfo(rejected[0]);
               return Center(
-                  child: Icon(
-                Icons.check,
-                size: 17,
-                color: Colors.black,
-              ));
+                child: Container(
+                    child: RotatedBox(
+                      quarterTurns: 1,
+                      child: Text(
+                        "Drag element here to make absent",
+                        style: TextStyle(fontSize: 12),
+                      ),
+                    )),
+              );
             },
             onWillAccept: (data) {
               setState(() {});

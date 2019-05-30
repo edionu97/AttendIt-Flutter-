@@ -39,8 +39,10 @@ class _AttendantStudentsState extends State<AttendantStudents> {
 
   void _getPresentStudents() async {
     try {
-      _attendanceInfo = await HistoryService()
-          .getHistoryInfoFor(widget.username, widget.historyInfo.historyId);
+      _attendanceInfo = !widget.isAbsent
+          ? await HistoryService()
+              .getHistoryInfoFor(widget.username, widget.historyInfo.historyId)
+          : await HistoryService().getHistoryAbsents(widget.historyInfo);
 
       _isLoading = false;
       setState(() {});
@@ -57,7 +59,7 @@ class _AttendantStudentsState extends State<AttendantStudents> {
     _attendanceInfo.removeWhere((x) => x.studentName == username);
     //reload in next frame
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      if(!this.mounted){
+      if (!this.mounted) {
         return;
       }
       setState(() {});
