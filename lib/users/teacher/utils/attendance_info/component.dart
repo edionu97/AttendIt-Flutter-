@@ -1,5 +1,6 @@
 import 'package:attend_it/users/teacher/models/history_info.dart';
 import 'package:attend_it/utils/components/decoration_form.dart';
+import 'package:attend_it/utils/components/round_bottom_button.dart';
 import 'package:attend_it/utils/loaders/loader.dart';
 import 'package:flutter/material.dart';
 
@@ -58,9 +59,7 @@ class _AttendanceInfoState extends State<AttendanceInfo>
   Widget _getWidget(final BuildContext context, final Widget wid) {
     return GestureDetector(
       onDoubleTap: () {
-        _animationController
-            .reverse()
-            .then((_) => Navigator.of(context).pop());
+        _animationController.reverse().then((_) => Navigator.of(context).pop());
       },
       child: FadeTransition(
         opacity: _animation1,
@@ -74,11 +73,8 @@ class _AttendanceInfoState extends State<AttendanceInfo>
                 elevation: 5,
                 borderRadius: BorderRadius.all(Radius.circular(30)),
                 child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 1),
-                  height: MediaQuery
-                      .of(context)
-                      .size
-                      .height / 2,
+                  //padding: EdgeInsets.symmetric(vertical: 1),
+                  height: MediaQuery.of(context).size.height / 2,
                   width: 300,
                   decoration: Decorator.getDialogDecoration(),
                   child: Column(
@@ -100,8 +96,8 @@ class _AttendanceInfoState extends State<AttendanceInfo>
     return Expanded(
         child: _isLoading
             ? Center(
-          child: Loader(),
-        )
+                child: Loader(),
+              )
             : _createView(context));
   }
 
@@ -112,15 +108,36 @@ class _AttendanceInfoState extends State<AttendanceInfo>
 
     return Column(
       children: <Widget>[
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: 1),
-          height: 100,
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: widget.historyInfo.attendanceImage.image,
-                  fit: BoxFit.fill
-              ),
-              borderRadius: borderRadius
+        Expanded(
+          child: Container(
+            decoration:
+                BoxDecoration(borderRadius: borderRadius, color: Colors.grey),
+            child: Stack(
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.all(1),
+                  decoration: BoxDecoration(
+                      color: Colors.black87,
+                      image: !_isVisible
+                          ? DecorationImage(
+                              image: widget.historyInfo.attendanceImage.image,
+                              fit: BoxFit.fill)
+                          : null,
+                      borderRadius: borderRadius),
+                ),
+                RoundBorderButton(
+                  onTap: () => this._buttonVisiblePressed(context),
+                  buttonColor: !_isVisible ? Colors.grey : Colors.white,
+                  iconColor: Colors.black87,
+                  splashColor: !_isVisible ? Colors.white : Colors.grey,
+                  iconSize: 20,
+                  height: 30,
+                  weight: 30,
+                  buttonIcon:
+                      !_isVisible ? Icons.visibility_off : Icons.visibility,
+                )
+              ],
+            ),
           ),
         )
       ],
@@ -131,9 +148,16 @@ class _AttendanceInfoState extends State<AttendanceInfo>
     _animationController.reverse().then((_) => Navigator.of(context).pop());
   }
 
+  void _buttonVisiblePressed(final BuildContext context) {
+    setState(() {
+      _isVisible = !_isVisible;
+    });
+  }
+
   AnimationController _animationController;
   Animation<Offset> _animation2;
   Animation<double> _animation1;
 
   bool _isLoading = false;
+  bool _isVisible = true;
 }
