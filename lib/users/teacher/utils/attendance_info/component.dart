@@ -57,11 +57,11 @@ class _AttendanceInfoState extends State<AttendanceInfo>
 
   Widget _getWidget(final BuildContext context, final Widget wid) {
     return GestureDetector(
-      onDoubleTap: () => {
-            _animationController
-                .reverse()
-                .then((_) => Navigator.of(context).pop())
-          },
+      onDoubleTap: () {
+        _animationController
+            .reverse()
+            .then((_) => Navigator.of(context).pop());
+      },
       child: FadeTransition(
         opacity: _animation1,
         child: ScaleTransition(
@@ -75,7 +75,10 @@ class _AttendanceInfoState extends State<AttendanceInfo>
                 borderRadius: BorderRadius.all(Radius.circular(30)),
                 child: Container(
                   padding: EdgeInsets.symmetric(vertical: 1),
-                  height: MediaQuery.of(context).size.height / 2,
+                  height: MediaQuery
+                      .of(context)
+                      .size
+                      .height / 2,
                   width: 300,
                   decoration: Decorator.getDialogDecoration(),
                   child: Column(
@@ -97,30 +100,29 @@ class _AttendanceInfoState extends State<AttendanceInfo>
     return Expanded(
         child: _isLoading
             ? Center(
-                child: Loader(),
-              )
+          child: Loader(),
+        )
             : _createView(context));
   }
 
   Widget _createView(final BuildContext context) {
-    
     final BorderRadius borderRadius = new BorderRadius.all(
       Radius.circular(30),
     );
-    
+
     return Column(
       children: <Widget>[
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 1),
-            height: 100,
-            decoration: BoxDecoration(
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 1),
+          height: 100,
+          decoration: BoxDecoration(
               image: DecorationImage(
-                image: widget.historyInfo.attendanceImage.image,
-                fit: BoxFit.fill
+                  image: widget.historyInfo.attendanceImage.image,
+                  fit: BoxFit.fill
               ),
               borderRadius: borderRadius
-            ),
-          )
+          ),
+        )
       ],
     );
   }
