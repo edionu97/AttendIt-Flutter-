@@ -102,8 +102,6 @@ class _EnrollState extends State<Enroll> with SingleTickerProviderStateMixin {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     _firstPart(context),
-//              _secondPart(context),
-//              _thirdPart(context)
                   ],
                 ),
               ),
@@ -220,7 +218,7 @@ class _EnrollState extends State<Enroll> with SingleTickerProviderStateMixin {
                                   ? Container()
                                   : Container(
                                       width: 80,
-                                      height: 40,
+                                      height: 50,
                                       child: TextFormField(
                                         focusNode: focusNode,
                                         controller: _editingController,
@@ -231,12 +229,11 @@ class _EnrollState extends State<Enroll> with SingleTickerProviderStateMixin {
                                         },
                                         decoration: new InputDecoration(
                                             labelText: "Enter group",
-                                            fillColor: Colors.white,
-                                            border: InputBorder.none),
+                                            fillColor: Colors.white),
                                         keyboardType: TextInputType.text,
                                         style: new TextStyle(
                                             fontFamily: "Poppins",
-                                            fontSize: 15),
+                                            fontSize: 14),
                                       )),
                             ),
                           ],
