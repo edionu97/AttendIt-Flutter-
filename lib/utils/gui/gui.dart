@@ -100,6 +100,31 @@ class GUI {
         });
   }
 
+  static void yesNoDialog(
+      {@required BuildContext context, Function afterOpen}) {
+    showCupertinoDialog(
+        context: context,
+        builder: (BuildContext builder) {
+          return AlertDialog(
+              title: new Text("Question"),
+              content: new Text("Cancel enrollment?"),
+              actions: <Widget>[
+                // usually buttons at the bottom of the dialog
+                new FlatButton(
+                    child: new Text("Yes"),
+                    onPressed: () async {
+                      Navigator.of(context).pop();
+                      afterOpen();
+                    }),
+                new FlatButton(
+                    child: new Text("No"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    })
+              ]);
+        });
+  }
+
   static void chooseCamera(
       {@required BuildContext context, Function afterOpen}) {
     showCupertinoDialog(
@@ -127,5 +152,4 @@ class GUI {
           );
         });
   }
-
 }

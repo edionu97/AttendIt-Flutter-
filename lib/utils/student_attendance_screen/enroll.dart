@@ -358,19 +358,23 @@ class _EnrollState extends State<Enroll> with SingleTickerProviderStateMixin {
   }
 
   void _cancelEnroll(final BuildContext context) async {
-    try {
-      await EnrollmentService()
-          .cancelEnrollment(widget.username, widget.course);
-      Notificator().sendOnlyTo([
-        widget.username,
-        widget.course.user.username
-      ], {
-        "type": NotificationType.STUDENT_ENROLL_CANCELED.toString(),
-        "data": {"usern": widget.username, "course": widget.course}
-      });
-    } on Exception catch (e) {
-      GUI.openDialog(context: context, message: e.toString());
-    }
+    GUI.yesNoDialog(
+        context: context,
+        afterOpen: () async {
+          try {
+            await EnrollmentService()
+                .cancelEnrollment(widget.username, widget.course);
+            Notificator().sendOnlyTo([
+              widget.username,
+              widget.course.user.username
+            ], {
+              "type": NotificationType.STUDENT_ENROLL_CANCELED.toString(),
+              "data": {"usern": widget.username, "course": widget.course}
+            });
+          } on Exception catch (e) {
+            GUI.openDialog(context: context, message: e.toString());
+          }
+        });
   }
 
   void _notified(final dynamic notification) {
