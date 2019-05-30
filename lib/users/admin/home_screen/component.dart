@@ -115,7 +115,7 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
     final Profile profile = user.profile;
 
     if (profile == null) {
-      return Text("Username ${user.username}");
+      return Text("User ${user.username}", overflow: TextOverflow.ellipsis, );
     }
 
     return Text("${user.profile.first} ${user.profile.last}");
@@ -123,8 +123,8 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
 
   Widget _buildListLeading(final BuildContext context, final User user) {
     return Container(
-      height: 60,
-      width: 60,
+      height: 55,
+      width: 55,
       child: Material(
         elevation: 10,
         color: Colors.blueGrey,
@@ -153,8 +153,8 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
           child: Padding(
             padding: const EdgeInsets.all(2),
             child: Container(
-              height: 20,
-              width: 20,
+              height: 15,
+              width: 15,
               child: Icon(Icons.school, size: 20, color: Colors.blueGrey),
             ),
           ),
@@ -169,8 +169,8 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
           child: Padding(
             padding: const EdgeInsets.all(2),
             child: Container(
-              height: 20,
-              width: 20,
+              height: 15,
+              width: 15,
               child: Icon(Icons.person, size: 20, color: Colors.blueGrey),
             ),
           ),
