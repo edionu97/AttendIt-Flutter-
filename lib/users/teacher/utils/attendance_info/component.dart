@@ -88,7 +88,7 @@ class _AttendanceInfoState extends State<AttendanceInfo>
                 elevation: 5,
                 borderRadius: BorderRadius.all(Radius.circular(30)),
                 child: Container(
-                  height: MediaQuery.of(context).size.height / 2,
+                  height: MediaQuery.of(context).size.height / 1.9,
                   width: 250,
                   decoration: Decorator.getDialogDecoration(),
                   child: Column(
@@ -231,7 +231,7 @@ class _AttendanceInfoState extends State<AttendanceInfo>
 
   void hide() {
     _animationController.reverse().then((_) {
-      if(!Navigator.of(context).canPop()){
+      if (!Navigator.of(context).canPop()) {
         return;
       }
       Navigator.of(context).pop();
@@ -251,7 +251,15 @@ class _AttendanceInfoState extends State<AttendanceInfo>
         SizedBox(
           height: 10,
         ),
+        Padding(
+          padding: const EdgeInsets.only(top: 11),
+          child: Text("Absents", style: TextStyle(fontSize: 10),),
+        ),
         attendantStudentsAbsent,
+        Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: Text("Presents", style: TextStyle(fontSize: 10),),
+        ),
         attendantStudentsPresent
       ],
     );

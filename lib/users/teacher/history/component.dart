@@ -27,7 +27,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
   }
 
   @override
-  void dispose(){
+  void dispose() {
     Notificator().removeObserver(_listener);
     super.dispose();
   }
@@ -59,8 +59,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
   }
 
   Widget _createView(final BuildContext context) {
-
-    if(_presents.isEmpty){
+    if (_presents.isEmpty) {
       return new Container(
         child: Center(
           child: Text("No data available"),
@@ -102,7 +101,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
     );
   }
 
-  Widget _createListItem(final BuildContext context, final HistoryInfo history) {
+  Widget _createListItem(
+      final BuildContext context, final HistoryInfo history) {
     final double _tileHeight = 90.0;
 
     return InkWell(
@@ -124,7 +124,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       fontSize: 10,
                     ),
                   ),
-                  SizedBox(height: 5,),
+                  SizedBox(
+                    height: 5,
+                  ),
                   Text(
                     history.courseType,
                     style: TextStyle(
@@ -147,21 +149,19 @@ class _HistoryScreenState extends State<HistoryScreen> {
     );
   }
 
-  Widget _getSubtitle(final HistoryInfo history){
+  Widget _getSubtitle(final HistoryInfo history) {
     return Padding(
       padding: const EdgeInsets.only(top: 8.0),
-      child: Text(
-        history.attendanceDate.toLocal().toString().split(".")[0]
-      ),
+      child: Text(history.attendanceDate.toLocal().toString().split(".")[0]),
     );
   }
 
-  Widget _buildListLeading(final BuildContext context, final HistoryInfo history) {
+  Widget _buildListLeading(
+      final BuildContext context, final HistoryInfo history) {
     return CircleAvatar(backgroundImage: history.attendanceImage.image);
   }
 
   void _showDialog(final BuildContext cont, final HistoryInfo history) {
-
     final AttendanceInfo attendanceInfo = new AttendanceInfo(
       username: widget.username,
       historyInfo: history,
@@ -194,7 +194,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
   void _listener(dynamic notification) {
     final NotificationType type =
-    getNotificationTypeFromString(notification["type"]);
+        getNotificationTypeFromString(notification["type"]);
 
     if (type == NotificationType.SERVER_NOTIFICATION) {
       _getHistory();
