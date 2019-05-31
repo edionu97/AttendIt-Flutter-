@@ -67,11 +67,9 @@ class _EnrolledState extends State<Enrolled> with TickerProviderStateMixin {
 
   Widget _getWidget(final BuildContext context, final Widget wid) {
     return GestureDetector(
-      onDoubleTap: () => {
-            _animationController
-                .reverse()
-                .then((_) => Navigator.of(context).pop())
-          },
+      onDoubleTap: () {
+        _animationController.reverse().then((_) => Navigator.of(context).pop());
+      },
       child: FadeTransition(
         opacity: _animation1,
         child: ScaleTransition(
@@ -303,7 +301,7 @@ class _EnrolledState extends State<Enrolled> with TickerProviderStateMixin {
 
         setState(() {});
         break;
-        
+
       default:
         break;
     }
@@ -317,12 +315,14 @@ class _EnrolledState extends State<Enrolled> with TickerProviderStateMixin {
       final User user = new User(
           role: role,
           username: username,
-          profile: new Profile(
-              email: response["email"],
-              first: response["first"],
-              last: response["last"],
-              phone: response["phone"],
-              image: response["image"]));
+          profile: response["image"] != null
+              ? new Profile(
+                  email: response["email"],
+                  first: response["first"],
+                  last: response["last"],
+                  phone: response["phone"],
+                  image: response["image"])
+              : null);
 
       _users.add(user);
       if (!this.mounted) {
