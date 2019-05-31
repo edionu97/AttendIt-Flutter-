@@ -145,18 +145,15 @@ class _AttendantStudentsState extends State<AttendantStudents> {
   Widget _createListItem(
       final BuildContext context, final HistoryInfo historyInfo) {
     return Container(
-      height: 56,
       width: 200,
       child: Card(
         elevation: 20,
         child: ListTile(
-          dense: true,
           title: Text(
             historyInfo.studentProfile != null
                 ? "${historyInfo.studentProfile.first} ${historyInfo.studentProfile.last} "
                 : "${historyInfo.studentName}",
             style: TextStyle(fontSize: 10),
-            textAlign: TextAlign.center,
             overflow: TextOverflow.fade,
           ),
           trailing: Column(

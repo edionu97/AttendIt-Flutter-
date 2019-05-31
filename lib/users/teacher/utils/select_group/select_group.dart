@@ -136,7 +136,7 @@ class _SelectGroupState extends State<SelectGroup> {
                 padding: EdgeInsets.symmetric(horizontal: 8.0),
                 child: _buildList(_classes))),
         Container(
-          height: 25,
+          height: 27,
           child: Center(
             child: Padding(
               padding: const EdgeInsets.all(8.0),

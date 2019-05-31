@@ -135,7 +135,7 @@ class _SelectCourseState extends State<SelectCourse> {
                 padding: EdgeInsets.symmetric(horizontal: 8.0),
                 child: _buildList(_courses))),
         Container(
-          height: 25,
+          height: 27,
           child: Center(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
