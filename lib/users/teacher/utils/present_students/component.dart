@@ -48,6 +48,8 @@ class _AttendantStudentsState extends State<AttendantStudents> {
               .getHistoryInfoFor(widget.username, widget.historyInfo.historyId)
           : await HistoryService().getHistoryAbsents(widget.historyInfo);
 
+      _attendanceInfo.removeWhere((x) =>  x.studentName == null);
+
       _isLoading = false;
       setState(() {});
     } on Exception {}
