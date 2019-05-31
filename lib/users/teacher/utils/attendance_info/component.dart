@@ -1,9 +1,11 @@
+import 'package:attend_it/users/student/service/attendance_service.dart';
 import 'package:attend_it/users/teacher/models/history_info.dart';
 import 'package:attend_it/users/teacher/utils/present_students/component.dart';
 import 'package:attend_it/utils/components/decoration_form.dart';
 import 'package:attend_it/utils/components/dragable_sidebar.dart';
 import 'package:attend_it/utils/components/draggable_left_sidebar.dart';
 import 'package:attend_it/utils/components/round_bottom_button.dart';
+import 'package:attend_it/utils/gui/gui.dart';
 import 'package:attend_it/utils/loaders/loader.dart';
 import 'package:flutter/material.dart';
 
@@ -161,6 +163,22 @@ class _AttendanceInfoState extends State<AttendanceInfo>
                   ),
                 ),
                 _isVisible
+                    ? Transform.translate(
+                        offset: Offset(10, 10),
+                        child: RoundBorderButton(
+                          isRight: false,
+                          onTap: () => this._buttonEditPressed(context),
+                          buttonColor: !_isVisible ? Colors.grey : Colors.white,
+                          iconColor: Colors.black87,
+                          splashColor: !_isVisible ? Colors.white : Colors.grey,
+                          iconSize: 12,
+                          height: 20,
+                          weight: 20,
+                          buttonIcon: Icons.edit,
+                        ),
+                      )
+                    : Container(),
+                _isVisible
                     ? DraggableLeftSideBar(draggedInside: _dataDraggedIn)
                     : Container(),
                 _isVisible
@@ -244,6 +262,21 @@ class _AttendanceInfoState extends State<AttendanceInfo>
     });
   }
 
+  void _buttonEditPressed(final BuildContext context) async {
+    final List<HistoryInfo> _info = attendantStudentsPresent.getList();
+    try {
+      await AttendanceService().modifyAttendance(_info, widget.historyInfo);
+      GUI.openDialog(
+          context: context,
+          message: "Attendance modified",
+          title: "Success",
+          iconData: Icons.check,
+          iconColor: Colors.green);
+    } on Exception catch (e) {
+      GUI.openDialog(context: context, message: e.toString());
+    }
+  }
+
   Widget __attendanceResult(final BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -253,14 +286,23 @@ class _AttendanceInfoState extends State<AttendanceInfo>
         ),
         Padding(
           padding: const EdgeInsets.only(top: 11),
-          child: Text("Absents", style: TextStyle(fontSize: 10),),
+          child: Text(
+            "Absents",
+            style: TextStyle(fontSize: 10),
+          ),
         ),
         attendantStudentsAbsent,
         Padding(
           padding: const EdgeInsets.only(top: 10),
-          child: Text("Presents", style: TextStyle(fontSize: 10),),
+          child: Text(
+            "Presents",
+            style: TextStyle(fontSize: 10),
+          ),
         ),
-        attendantStudentsPresent
+        attendantStudentsPresent,
+        SizedBox(
+          height: 5,
+        )
       ],
     );
   }

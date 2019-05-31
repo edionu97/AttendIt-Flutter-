@@ -18,6 +18,10 @@ class AttendantStudents extends StatefulWidget {
     list[0].addInList(historyInfo);
   }
 
+  List<HistoryInfo> getList(){
+    return list[0].getList();
+  }
+
   HistoryInfo getHistoryInfo(final String username) {
     return list[0].getHistoryInfoByUserName(username);
   }
@@ -64,6 +68,10 @@ class _AttendantStudentsState extends State<AttendantStudents> {
       }
       setState(() {});
     });
+  }
+
+  List<HistoryInfo> getList(){
+    return _attendanceInfo;
   }
 
   HistoryInfo getHistoryInfoByUserName(final String username) {

@@ -97,6 +97,9 @@ class Constants{
   static String ATTENDANCE_HISTORY_ABSENTS = "/history/absents-at";
 
   // ignore: non_constant_identifier_names
+  static String ATTENDANCE_MODIFY = "/attendance/modify";
+
+  // ignore: non_constant_identifier_names
   static String TILT_HEAD_LEFT_RIGHT ="You should move your head from left to right and back slowly";
 
   // ignore: non_constant_identifier_names

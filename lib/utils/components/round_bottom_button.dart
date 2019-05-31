@@ -9,12 +9,13 @@ class RoundBorderButton extends StatelessWidget {
       @required this.buttonIcon,
       this.height = 60,
       this.weight = 60,
-      this.iconSize = 20});
+      this.iconSize = 20,
+      this.isRight = true});
 
   @override
   Widget build(BuildContext context) {
     return Align(
-      alignment: Alignment.bottomRight,
+      alignment: isRight ? Alignment.bottomRight : Alignment.bottomLeft,
       child: Container(
         height: this.height,
         width: this.weight,
@@ -52,5 +53,5 @@ class RoundBorderButton extends StatelessWidget {
   final Color buttonColor;
   final Color iconColor;
   final IconData buttonIcon;
-
+  final bool isRight;
 }

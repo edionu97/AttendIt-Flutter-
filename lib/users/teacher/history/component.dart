@@ -1,5 +1,4 @@
 import 'package:attend_it/users/common/notifications/notificator.dart';
-import 'package:attend_it/users/teacher/models/history.dart';
 import 'package:attend_it/users/teacher/models/history_info.dart';
 import 'package:attend_it/users/teacher/services/history_service.dart';
 import 'package:attend_it/users/teacher/utils/attendance_info/component.dart';

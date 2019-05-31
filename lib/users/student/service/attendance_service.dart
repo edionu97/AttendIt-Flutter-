@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:attend_it/users/common/models/attendance.dart';
 import 'package:attend_it/users/common/models/course.dart';
+import 'package:attend_it/users/teacher/models/history_info.dart';
 import 'package:attend_it/utils/constants/constants.dart';
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
@@ -94,6 +95,21 @@ class AttendanceService {
         throw new Exception(onValue.statusCode);
       }
     });
+  }
+
+  Future<bool> modifyAttendance(
+      final List<HistoryInfo> attendances, final HistoryInfo history) async {
+    final http.Response response =
+        await http.post(Constants.SERVER_ADDRESS + Constants.ATTENDANCE_MODIFY,
+            headers: {"Content-Type": "application/json"},
+            body: json.encode({
+              "historyId": history.historyId,
+              "type": history.courseType,
+              "courseName": history.courseName,
+              "teacherName": history.teacherName,
+              "presents": attendances.map((x) => x.studentName).toList()
+            }));
+    return response.statusCode == 200;
   }
 
   factory AttendanceService() {
