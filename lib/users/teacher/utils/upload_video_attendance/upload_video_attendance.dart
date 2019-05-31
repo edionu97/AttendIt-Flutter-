@@ -136,7 +136,7 @@ class _UploadVideoAttendanceState extends State<UploadVideoAttendance> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         Container(
-          height: 10,
+          height: 15,
           child: Text(
             "Attendance overview",
             textAlign: TextAlign.center,
