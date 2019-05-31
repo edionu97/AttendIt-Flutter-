@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 @JsonSerializable()
 class Attendance{
 
-  Attendance({this.attendanceId, this.attendanceDate, this.attendanceTime});
+  Attendance({this.attendanceId, this.attendanceDate});
 
   factory Attendance.fromJson(final Map<String, dynamic> json) {
 
@@ -14,19 +14,17 @@ class Attendance{
 
     return new Attendance(
       attendanceId:  json["attendanceId"],
-      attendanceDate: json["attendanceDate"].toString().split("T")[0],
-      attendanceTime: json["attendanceDate"].toString().split("T")[1].split(".")[0],
+      attendanceDate: DateTime.parse(json["attendanceDate"].toString()).toLocal(),
     );
   }
 
   Map<String, dynamic> toJson(){
     return {
       "attendanceId": attendanceId,
-      "attendanceDate": "${attendanceDate}T$attendanceTime"
+      "attendanceDate": attendanceDate
     };
   }
 
   final int attendanceId;
-  final String attendanceDate;
-  final String attendanceTime;
+  final DateTime attendanceDate;
 }
