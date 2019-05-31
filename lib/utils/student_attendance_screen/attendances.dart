@@ -240,7 +240,7 @@ class _AttendancesState extends State<Attendances>
 
   Widget _getSubtitle(final Attendance attendance, BuildContext context) {
     return Text(
-        "Date and hour ${attendance.attendanceDate}");
+        "Date and hour ${attendance.attendanceDate.toString().split(".")[0]}");
   }
 
   void _getAttendances() async {
